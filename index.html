@@ -1,0 +1,2058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>APTIS Study App</title>
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --accent: #6c63ff;
+      --accent2: #ff6584;
+      --green: #43e97b;
+      --yellow: #f9ca24;
+      --text: #e8eaf6;
+      --muted: #8888aa;
+      --radius: 14px;
+    }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      background: linear-gradient(135deg, #1a1d27 0%, #12152e 100%);
+      border-bottom: 1px solid #2a2d45;
+      padding: 0 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 12px 0;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .logo span { color: var(--accent); }
+    .logo-badge {
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 20px;
+      letter-spacing: 1px;
+    }
+
+    /* ===== NAV TABS ===== */
+    nav { display: flex; gap: 4px; flex-wrap: wrap; }
+    nav button {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    nav button:hover { background: var(--surface2); color: var(--text); }
+    nav button.active {
+      background: var(--accent);
+      color: #fff;
+    }
+    nav button .nav-icon { font-size: 1rem; }
+
+    /* ===== MAIN CONTENT ===== */
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 28px 20px 60px;
+    }
+    .section { display: none; }
+    .section.active { display: block; }
+
+    /* ===== HOME SECTION ===== */
+    .home-hero {
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .home-hero h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #6c63ff, #ff6584);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+    }
+    .home-hero p {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 500px;
+      margin: 0 auto 32px;
+      line-height: 1.7;
+    }
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid #2a2d45;
+      border-radius: var(--radius);
+      padding: 24px 20px;
+      cursor: pointer;
+      transition: all 0.25s;
+      text-align: center;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+      box-shadow: 0 8px 24px rgba(108,99,255,0.2);
+    }
+    .card .card-icon { font-size: 2.2rem; margin-bottom: 12px; }
+    .card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+    .card p { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+    .card .badge {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+    }
+    .badge-blue  { background: rgba(108,99,255,0.2); color: #6c63ff; }
+    .badge-red   { background: rgba(255,101,132,0.2); color: #ff6584; }
+    .badge-green { background: rgba(67,233,123,0.2); color: #43e97b; }
+    .badge-yellow{ background: rgba(249,202,36,0.2); color: #f9ca24; }
+    .badge-purple{ background: rgba(165,94,234,0.2); color: #a55eea; }
+
+    .exam-info {
+      background: var(--surface);
+      border: 1px solid #2a2d45;
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-top: 32px;
+    }
+    .exam-info h2 { font-size: 1rem; font-weight: 700; margin-bottom: 16px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+    .exam-parts { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+    .exam-part {
+      background: var(--surface2);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+    .exam-part .part-label { font-size: 0.7rem; color: var(--muted); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+    .exam-part .part-name { font-size: 0.95rem; font-weight: 700; }
+    .exam-part .part-detail { font-size: 0.78rem; color: var(--muted); margin-top: 4px; line-height: 1.4; }
+
+    /* ===== SECTION HEADER ===== */
+    .sec-header {
+      margin-bottom: 24px;
+    }
+    .sec-header h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .sec-header p { color: var(--muted); font-size: 0.9rem; }
+    .accent { color: var(--accent); }
+
+    /* ===== TABS (inner) ===== */
+    .inner-tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+      background: var(--surface);
+      border-radius: 10px;
+      padding: 6px;
+      border: 1px solid #2a2d45;
+    }
+    .inner-tabs button {
+      flex: 1;
+      min-width: 80px;
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 8px 12px;
+      border-radius: 7px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .inner-tabs button:hover { color: var(--text); background: var(--surface2); }
+    .inner-tabs button.active { background: var(--accent); color: #fff; }
+
+    .inner-section { display: none; }
+    .inner-section.active { display: block; }
+
+    /* ===== FLASHCARD ===== */
+    .flashcard {
+      background: var(--surface);
+      border: 1px solid #2a2d45;
+      border-radius: var(--radius);
+      padding: 18px;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+      min-height: 110px;
+    }
+    .flashcard:hover { border-color: var(--accent); box-shadow: 0 4px 16px rgba(108,99,255,0.15); }
+    .flashcard .fc-q {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+      line-height: 1.5;
+    }
+    .flashcard .fc-vn {
+      font-size: 0.88rem;
+      color: var(--text);
+      font-weight: 600;
+      line-height: 1.5;
+    }
+    .flashcard .fc-ans {
+      display: none;
+      margin-top: 12px;
+      background: var(--surface2);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--green);
+      border-left: 3px solid var(--green);
+    }
+    .flashcard.revealed .fc-ans { display: block; }
+    .flashcard .fc-mark {
+      display: none;
+      position: absolute;
+      top: 10px; right: 12px;
+      font-size: 1.1rem;
+    }
+    .flashcard.correct .fc-mark { display: block; content: '✅'; }
+    .flashcard .fc-btns {
+      display: none;
+      margin-top: 12px;
+      gap: 8px;
+    }
+    .flashcard.revealed .fc-btns { display: flex; }
+    .fc-btn {
+      flex: 1;
+      border: none;
+      border-radius: 8px;
+      padding: 7px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .fc-btn:hover { opacity: 0.85; }
+    .fc-btn.good { background: rgba(67,233,123,0.15); color: var(--green); border: 1px solid rgba(67,233,123,0.3); }
+    .fc-btn.bad  { background: rgba(255,101,132,0.15); color: var(--accent2); border: 1px solid rgba(255,101,132,0.3); }
+
+    /* ===== TOPIC CARD ===== */
+    .topic-card {
+      background: var(--surface);
+      border: 1px solid #2a2d45;
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .topic-card .topic-header {
+      background: linear-gradient(135deg, var(--surface2), #1a1d27);
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+    .topic-card .topic-title { font-size: 0.92rem; font-weight: 700; }
+    .topic-card .topic-body {
+      padding: 0 18px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+    .topic-card.open .topic-body { max-height: 300px; padding: 14px 18px; }
+    .topic-card .topic-body ul { list-style: none; padding: 0; }
+    .topic-card .topic-body li {
+      padding: 5px 0;
+      font-size: 0.85rem;
+      color: var(--text);
+      border-bottom: 1px solid #2a2d45;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      line-height: 1.5;
+    }
+    .topic-card .topic-body li::before { content: '→'; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+    .topic-card .topic-body li:last-child { border-bottom: none; }
+    .topic-chevron { transition: transform 0.3s; color: var(--muted); }
+    .topic-card.open .topic-chevron { transform: rotate(180deg); }
+
+    /* ===== SPEAKING STYLES ===== */
+    .timer-bar {
+      background: var(--surface);
+      border: 1px solid #2a2d45;
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .timer-display {
+      font-size: 2rem;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      color: var(--accent);
+      min-width: 72px;
+    }
+    .timer-display.danger { color: var(--accent2); }
+    .timer-controls { display: flex; gap: 8px; flex-wrap: wrap; }
+    .tbtn {
+      border: none;
+      border-radius: 8px;
+      padding: 7px 16px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .tbtn:hover { opacity: 0.85; }
+    .tbtn.start { background: rgba(67,233,123,0.2); color: var(--green); border: 1px solid rgba(67,233,123,0.3); }
+    .tbtn.stop  { background: rgba(255,101,132,0.15); color: var(--accent2); border: 1px solid rgba(255,101,132,0.3); }
+    .tbtn.reset { background: var(--surface2); color: var(--muted); border: 1px solid #2a2d45; }
+    .timer-ring { width: 44px; height: 44px; margin-left: auto; }
+    .timer-ring svg { width: 100%; height: 100%; }
+
+    .spk-tip {
+      background: rgba(108,99,255,0.08);
+      border: 1px solid rgba(108,99,255,0.2);
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 0.83rem;
+      color: var(--muted);
+      margin-bottom: 18px;
+      line-height: 1.6;
+    }
+    .spk-tip b { color: var(--text); }
+    .spk-tip i { color: var(--accent); font-style: normal; }
+
+    .random-q-card {
+      background: var(--surface);
+      border: 2px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      margin-bottom: 18px;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+    .random-q-card .rq-part { font-size: 0.72rem; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+    .random-q-card .rq-main { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 10px; line-height: 1.5; }
+    .random-q-card .rq-follow { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+    .random-q-card .rq-follow span { display: block; padding: 4px 0; }
+    .random-q-card .rq-follow span::before { content: '→ '; color: var(--accent); }
+
+    .spk-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 10px; }
+    .spk-item {
+      background: var(--surface);
+      border: 1px solid #2a2d45;
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      transition: border-color 0.2s;
+    }
+    .spk-item:hover { border-color: var(--accent); }
+    .spk-item .spk-num { font-size: 0.7rem; color: var(--muted); margin-bottom: 4px; font-weight: 700; }
+    .spk-item.has-follow { border-left: 3px solid var(--accent); }
+    .spk-follow { font-size: 0.78rem; color: var(--muted); margin-top: 6px; padding-top: 6px; border-top: 1px solid #2a2d45; line-height: 1.5; }
+    .spk-follow span { display: block; }
+    .spk-follow span::before { content: '• '; color: var(--accent); }
+
+    /* ===== WRITING STYLES ===== */
+    .wrt-timer-row {
+      background: var(--surface);
+      border: 1px solid #2a2d45;
+      border-radius: var(--radius);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .clubs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px,1fr));
+      gap: 14px;
+    }
+    .club-card {
+      background: var(--surface);
+      border: 1px solid #2a2d45;
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .club-card:hover { border-color: var(--accent); }
+    .club-card .club-header {
+      padding: 14px 16px;
+      background: var(--surface2);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+    .club-card .club-title { font-size: 0.9rem; font-weight: 700; }
+    .club-card .club-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+    }
+    .club-card.open .club-body { max-height: 500px; padding: 16px; }
+    .club-task {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 12px;
+      line-height: 1.6;
+      background: var(--surface2);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .club-messages {}
+    .msg-block {
+      margin-bottom: 10px;
+      border-left: 3px solid var(--accent);
+      padding-left: 12px;
+    }
+    .msg-block .msg-label { font-size: 0.7rem; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; }
+    .msg-block .msg-text { font-size: 0.83rem; line-height: 1.6; color: var(--text); }
+    .msg-block .msg-vocab { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
+    .msg-block .msg-vocab b { color: var(--yellow); }
+    .essay-card {
+      background: var(--surface);
+      border: 1px solid #2a2d45;
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 14px;
+    }
+    .essay-card h3 { font-size: 0.95rem; font-weight: 700; color: var(--accent); margin-bottom: 10px; }
+    .essay-prompt {
+      background: var(--surface2);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      margin-bottom: 14px;
+      border-left: 3px solid var(--yellow);
+    }
+    .essay-structure { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap: 10px; }
+    .essay-part {
+      background: var(--surface2);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .essay-part .ep-label { font-size: 0.7rem; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .essay-part .ep-hint { font-size: 0.8rem; color: var(--text); line-height: 1.5; }
+    .phrases-section {
+      background: var(--surface);
+      border: 1px solid #2a2d45;
+      border-radius: var(--radius);
+      margin-bottom: 14px;
+      overflow: hidden;
+    }
+    .phrases-section .ph-header {
+      background: var(--surface2);
+      padding: 13px 18px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .phrases-section .ph-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+    }
+    .phrases-section.open .ph-body { max-height: 600px; padding: 14px 18px; }
+    .phrase-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .phrase-chip {
+      background: var(--surface2);
+      border: 1px solid #3a3d55;
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 0.8rem;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .phrase-chip:hover { border-color: var(--accent); color: var(--accent); background: rgba(108,99,255,0.08); }
+
+    /* ===== READING STYLES ===== */
+    .quiz-set {
+      background: var(--surface);
+      border: 1px solid #2a2d45;
+      border-radius: var(--radius);
+      padding: 22px;
+      margin-bottom: 18px;
+    }
+    .quiz-set h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      color: var(--accent);
+    }
+    .blank-sentence {
+      font-size: 0.92rem;
+      margin-bottom: 12px;
+      line-height: 2;
+    }
+    .blank-sentence select {
+      background: var(--surface2);
+      border: 1px solid #3a3d55;
+      color: var(--text);
+      border-radius: 6px;
+      padding: 3px 8px;
+      font-size: 0.88rem;
+      cursor: pointer;
+      margin: 0 4px;
+    }
+    .blank-sentence select.correct { border-color: var(--green); color: var(--green); }
+    .blank-sentence select.wrong   { border-color: var(--accent2); color: var(--accent2); }
+    .quiz-actions { display:flex; gap:10px; margin-top:14px; flex-wrap:wrap; }
+    .btn-check {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn-check:hover { opacity: 0.85; }
+    .btn-reset-q {
+      background: var(--surface2);
+      color: var(--muted);
+      border: 1px solid #2a2d45;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .quiz-result {
+      margin-top: 10px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      display: none;
+    }
+
+    /* Passage (Part 2) */
+    .passage-card {
+      background: var(--surface);
+      border: 1px solid #2a2d45;
+      border-radius: var(--radius);
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    .passage-header {
+      padding: 14px 20px;
+      background: var(--surface2);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+    .passage-header h3 { font-size: 0.95rem; font-weight: 700; }
+    .passage-body { padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.4s, padding 0.4s; }
+    .passage-card.open .passage-body { max-height: 600px; padding: 18px 20px; }
+    .sentence-list { list-style: none; counter-reset: sent; }
+    .sentence-list li {
+      counter-increment: sent;
+      padding: 8px 0 8px 32px;
+      position: relative;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      border-bottom: 1px solid #2a2d45;
+    }
+    .sentence-list li:last-child { border-bottom: none; }
+    .sentence-list li::before {
+      content: counter(sent);
+      position: absolute; left: 0;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      top: 10px;
+    }
+    .show-passage-btn {
+      background: var(--surface2);
+      border: 1px solid #3a3d55;
+      color: var(--accent);
+      border-radius: 8px;
+      padding: 5px 14px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    /* Part 3 opinions */
+    .opinions-block {
+      background: var(--surface);
+      border: 1px solid #2a2d45;
+      border-radius: var(--radius);
+      padding: 22px;
+      margin-bottom: 20px;
+    }
+    .opinions-block h3 { font-size: 1rem; font-weight: 700; margin-bottom: 16px; }
+    .opinions-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap:10px; margin-bottom:18px; }
+    .opinion-box {
+      background: var(--surface2);
+      border-radius: 10px;
+      padding: 12px 14px;
+      border-left: 3px solid var(--accent);
+      font-size: 0.82rem;
+      line-height: 1.55;
+    }
+    .opinion-box .op-label { font-weight: 800; font-size: 1rem; color: var(--accent); margin-bottom: 6px; }
+    .opinion-question {
+      margin-bottom: 10px;
+    }
+    .opinion-question p { font-size: 0.88rem; margin-bottom: 8px; font-weight: 600; }
+    .opinion-opts { display: flex; gap: 8px; flex-wrap: wrap; }
+    .op-btn {
+      background: var(--surface2);
+      border: 1px solid #3a3d55;
+      color: var(--text);
+      border-radius: 8px;
+      padding: 5px 16px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      min-width: 44px;
+      text-align: center;
+    }
+    .op-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .op-btn.selected-correct { background: rgba(67,233,123,0.2); border-color: var(--green); color: var(--green); }
+    .op-btn.selected-wrong   { background: rgba(255,101,132,0.2); border-color: var(--accent2); color: var(--accent2); }
+    .op-btn.reveal-correct   { background: rgba(67,233,123,0.1); border-color: var(--green); color: var(--green); }
+
+    /* Part 4 headings */
+    .heading-set {
+      background: var(--surface);
+      border: 1px solid #2a2d45;
+      border-radius: var(--radius);
+      padding: 22px;
+      margin-bottom: 18px;
+    }
+    .heading-set h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; color: var(--accent); }
+    .heading-set .topic-sub { font-size: 0.78rem; color: var(--muted); margin-bottom: 16px; }
+    .heading-item {
+      background: var(--surface2);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      border: 1px solid #2a2d45;
+      transition: border-color 0.2s;
+    }
+    .heading-item:hover { border-color: var(--accent); }
+    .heading-item .para-num { font-size: 0.75rem; color: var(--muted); margin-bottom: 4px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+    .heading-item .para-text { font-size: 0.83rem; line-height: 1.55; color: var(--text); }
+    .heading-item .para-ans { display: none; margin-top: 8px; font-size: 0.85rem; font-weight: 700; color: var(--green); }
+    .heading-item.revealed .para-ans { display: block; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.78rem;
+      padding: 20px;
+      border-top: 1px solid #2a2d45;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+  <div class="header-inner">
+    <a class="logo" href="#" onclick="showSection('home')">
+      🎓 <span>APTIS</span> Study App
+      <span class="logo-badge">B2</span>
+    </a>
+    <nav>
+      <button class="active" onclick="showSection('home')" id="nav-home">
+        <span class="nav-icon">🏠</span> Home
+      </button>
+      <button onclick="showSection('listening')" id="nav-listening">
+        <span class="nav-icon">🎧</span> Listening
+      </button>
+      <button onclick="showSection('reading')" id="nav-reading">
+        <span class="nav-icon">📖</span> Reading
+      </button>
+      <button onclick="showSection('speaking')" id="nav-speaking">
+        <span class="nav-icon">🗣️</span> Speaking
+      </button>
+      <button onclick="showSection('writing')" id="nav-writing">
+        <span class="nav-icon">✍️</span> Writing
+      </button>
+    </nav>
+  </div>
+</header>
+
+<!-- ===== MAIN ===== -->
+<main>
+
+  <!-- ===== HOME ===== -->
+  <section id="home" class="section active">
+    <div class="home-hero">
+      <h1>Luyện thi APTIS B2 🚀</h1>
+      <p>Ôn tập toàn diện 4 kỹ năng: Listening · Reading · Speaking · Writing.<br/>Tài liệu được tổng hợp từ khoá ôn của bạn.</p>
+    </div>
+
+    <div class="cards-grid">
+      <div class="card" onclick="showSection('listening')">
+        <div class="card-icon">🎧</div>
+        <h3>Listening</h3>
+        <p>Flashcard hỏi – đáp Part 1, topics Part 2</p>
+        <span class="badge badge-blue">Flashcard</span>
+      </div>
+      <div class="card" onclick="showSection('reading')">
+        <div class="card-icon">📖</div>
+        <h3>Reading</h3>
+        <p>Passages + quiz Part 1–4</p>
+        <span class="badge badge-red">Quiz</span>
+      </div>
+      <div class="card" onclick="showSection('speaking')">
+        <div class="card-icon">🗣️</div>
+        <h3>Speaking</h3>
+        <p>Question bank + bộ đếm giờ luyện nói</p>
+        <span class="badge badge-green">Timer</span>
+      </div>
+      <div class="card" onclick="showSection('writing')">
+        <div class="card-icon">✍️</div>
+        <h3>Writing</h3>
+        <p>25 club topics + cấu trúc bài viết</p>
+        <span class="badge badge-yellow">Templates</span>
+      </div>
+    </div>
+
+    <div class="exam-info">
+      <h2>📋 Cấu trúc đề thi APTIS</h2>
+      <div class="exam-parts">
+        <div class="exam-part">
+          <div class="part-label">Listening</div>
+          <div class="part-name">4 Parts</div>
+          <div class="part-detail">P1: Short Q&A · P2: Topic talks · P3: Long listening · P4: Lecture</div>
+        </div>
+        <div class="exam-part">
+          <div class="part-label">Reading</div>
+          <div class="part-name">4 Parts</div>
+          <div class="part-detail">P1: Fill in blank · P2: Sentence order · P3: Match opinions · P4: Headings</div>
+        </div>
+        <div class="exam-part">
+          <div class="part-label">Speaking</div>
+          <div class="part-name">4 Parts</div>
+          <div class="part-detail">P1: Describe · P2: Picture + questions · P3: Compare · P4: Debate</div>
+        </div>
+        <div class="exam-part">
+          <div class="part-label">Writing</div>
+          <div class="part-name">2 Parts</div>
+          <div class="part-detail">P1: Short messages (club posts) · P2: Essay / formal email</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== LISTENING ===== -->
+  <section id="listening" class="section">
+    <div class="sec-header">
+      <h2>🎧 <span class="accent">Listening</span></h2>
+      <p>Part 1: Flashcard Q&A · Part 2: Topics &amp; Bullet Points</p>
+    </div>
+
+    <div id="listening-group">
+      <div class="inner-tabs">
+        <button class="active" data-target="lis-p1" onclick="showInner('listening-group','lis-p1')">Part 1 — Flashcards</button>
+        <button data-target="lis-p2" onclick="showInner('listening-group','lis-p2')">Part 2 — Topics</button>
+      </div>
+
+      <!-- PART 1: FLASHCARDS -->
+      <div id="lis-p1" class="inner-section active">
+        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:18px;">
+          <span style="color:var(--muted); font-size:0.85rem;">
+            Click vào card để lật xem đáp án · <span id="lis-score" style="color:var(--green); font-weight:700;">0</span> đúng / <span id="lis-total" style="color:var(--muted);">0</span> đã làm
+          </span>
+          <button onclick="shuffleCards()" style="margin-left:auto; background:var(--surface2); border:1px solid #2a2d45; color:var(--text); padding:6px 14px; border-radius:8px; cursor:pointer; font-size:0.82rem; font-weight:600;">🔀 Shuffle</button>
+          <button onclick="resetScore()" style="background:var(--surface2); border:1px solid #2a2d45; color:var(--muted); padding:6px 14px; border-radius:8px; cursor:pointer; font-size:0.82rem;">↺ Reset</button>
+        </div>
+
+        <div id="flashcard-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap:14px;"></div>
+      </div>
+
+      <!-- PART 2: TOPICS -->
+      <div id="lis-p2" class="inner-section">
+        <div id="topics-grid" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:14px;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== READING ===== -->
+  <section id="reading" class="section">
+    <div class="sec-header">
+      <h2>📖 <span class="accent">Reading</span></h2>
+      <p>Part 1: Fill-in-blank · Part 2: Sentence order · Part 3: Match opinions · Part 4: Headings</p>
+    </div>
+    <div id="reading-group">
+      <div class="inner-tabs">
+        <button class="active" data-target="read-p1" onclick="showInner('reading-group','read-p1')">Part 1 — Fill Blank</button>
+        <button data-target="read-p2" onclick="showInner('reading-group','read-p2')">Part 2 — Passages</button>
+        <button data-target="read-p3" onclick="showInner('reading-group','read-p3')">Part 3 — Opinions</button>
+        <button data-target="read-p4" onclick="showInner('reading-group','read-p4')">Part 4 — Headings</button>
+      </div>
+
+      <!-- PART 1: FILL IN BLANK -->
+      <div id="read-p1" class="inner-section active">
+        <p style="color:var(--muted); font-size:0.85rem; margin-bottom:18px;">Chọn từ đúng để điền vào chỗ trống. Click <b style="color:var(--green)">Check</b> để xem kết quả.</p>
+        <div id="p1-quiz-container"></div>
+      </div>
+
+      <!-- PART 2: PASSAGES -->
+      <div id="read-p2" class="inner-section">
+        <p style="color:var(--muted); font-size:0.85rem; margin-bottom:18px;">Đọc đoạn văn và click <b style="color:var(--accent)">Show Sentences</b> để xem câu hoàn chỉnh theo thứ tự đúng.</p>
+        <div id="p2-passages-container"></div>
+      </div>
+
+      <!-- PART 3: A/B/C/D OPINIONS -->
+      <div id="read-p3" class="inner-section">
+        <p style="color:var(--muted); font-size:0.85rem; margin-bottom:18px;">Đọc ý kiến A/B/C/D rồi trả lời câu hỏi. Click để xem đáp án.</p>
+        <div id="p3-quiz-container"></div>
+      </div>
+
+      <!-- PART 4: HEADINGS -->
+      <div id="read-p4" class="inner-section">
+        <p style="color:var(--muted); font-size:0.85rem; margin-bottom:18px;">Nối heading với đoạn văn tương ứng. Click <b style="color:var(--accent)">Show Answer</b> để xem đáp án.</p>
+        <div id="p4-quiz-container"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SPEAKING ===== -->
+  <section id="speaking" class="section">
+    <div class="sec-header">
+      <h2>🗣️ <span class="accent">Speaking</span></h2>
+      <p>Part 1–4 question bank · Timer luyện nói · Tips &amp; hints</p>
+    </div>
+    <div id="speaking-group">
+      <div class="inner-tabs">
+        <button class="active" data-target="spk-p1" onclick="showInner('speaking-group','spk-p1')">Part 1 — Describe</button>
+        <button data-target="spk-p2" onclick="showInner('speaking-group','spk-p2')">Part 2 — Picture</button>
+        <button data-target="spk-p3" onclick="showInner('speaking-group','spk-p3')">Part 3 — Compare</button>
+        <button data-target="spk-p4" onclick="showInner('speaking-group','spk-p4')">Part 4 — Debate</button>
+      </div>
+
+      <!-- PART 1 -->
+      <div id="spk-p1" class="inner-section active">
+        <div class="timer-bar" id="timer-bar-p1">
+          <div class="timer-display" id="timer-p1">0:45</div>
+          <div class="timer-controls">
+            <button class="tbtn start" onclick="startTimer('p1',45)">▶ Start</button>
+            <button class="tbtn stop"  onclick="stopTimer('p1')">⏹ Stop</button>
+            <button class="tbtn reset" onclick="resetTimer('p1',45)">↺ Reset</button>
+          </div>
+          <div class="timer-ring" id="ring-p1"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="18" fill="none" stroke="#2a2d45" stroke-width="3"/><circle cx="22" cy="22" r="18" fill="none" stroke="var(--accent)" stroke-width="3" stroke-dasharray="113" stroke-dashoffset="0" id="ring-circle-p1" style="transition:stroke-dashoffset 1s linear;transform:rotate(-90deg);transform-origin:center"/></svg></div>
+        </div>
+        <div class="spk-tip">💡 <b>Part 1:</b> Mỗi câu hỏi bạn có <b>45 giây</b> để trả lời. Nói liên tục, dùng present/past tense, thêm ví dụ cụ thể.</div>
+        <div style="display:flex; gap:10px; margin-bottom:18px; flex-wrap:wrap; align-items:center;">
+          <button class="btn-check" onclick="randomSpk('p1')">🎲 Random Question</button>
+          <button class="btn-reset-q" onclick="showAllSpk('p1')">📋 Show All</button>
+          <span style="color:var(--muted); font-size:0.82rem; margin-left:auto;">Total: <b style="color:var(--text)">35</b> questions</span>
+        </div>
+        <div id="spk-p1-random" class="random-q-card" style="display:none;"></div>
+        <div id="spk-p1-all" style="display:none;">
+          <div id="spk-p1-list" class="spk-list"></div>
+        </div>
+      </div>
+
+      <!-- PART 2 -->
+      <div id="spk-p2" class="inner-section">
+        <div class="timer-bar" id="timer-bar-p2">
+          <div class="timer-display" id="timer-p2">1:30</div>
+          <div class="timer-controls">
+            <button class="tbtn start" onclick="startTimer('p2',90)">▶ Start</button>
+            <button class="tbtn stop"  onclick="stopTimer('p2')">⏹ Stop</button>
+            <button class="tbtn reset" onclick="resetTimer('p2',90)">↺ Reset</button>
+          </div>
+          <div class="timer-ring" id="ring-p2"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="18" fill="none" stroke="#2a2d45" stroke-width="3"/><circle cx="22" cy="22" r="18" fill="none" stroke="var(--accent)" stroke-width="3" stroke-dasharray="113" stroke-dashoffset="0" id="ring-circle-p2" style="transition:stroke-dashoffset 1s linear;transform:rotate(-90deg);transform-origin:center"/></svg></div>
+        </div>
+        <div class="spk-tip">💡 <b>Part 2:</b> Mô tả ảnh (what/where/who/doing) → Trả lời 2 follow-up questions. Mỗi phần ~<b>90 giây</b>.</div>
+        <div style="display:flex; gap:10px; margin-bottom:18px; flex-wrap:wrap;">
+          <button class="btn-check" onclick="randomSpk('p2')">🎲 Random Set</button>
+          <button class="btn-reset-q" onclick="showAllSpk('p2')">📋 Show All</button>
+        </div>
+        <div id="spk-p2-random" class="random-q-card" style="display:none;"></div>
+        <div id="spk-p2-all" style="display:none;">
+          <div id="spk-p2-list" class="spk-list"></div>
+        </div>
+      </div>
+
+      <!-- PART 3 -->
+      <div id="spk-p3" class="inner-section">
+        <div class="timer-bar" id="timer-bar-p3">
+          <div class="timer-display" id="timer-p3">2:00</div>
+          <div class="timer-controls">
+            <button class="tbtn start" onclick="startTimer('p3',120)">▶ Start</button>
+            <button class="tbtn stop"  onclick="stopTimer('p3')">⏹ Stop</button>
+            <button class="tbtn reset" onclick="resetTimer('p3',120)">↺ Reset</button>
+          </div>
+          <div class="timer-ring" id="ring-p3"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="18" fill="none" stroke="#2a2d45" stroke-width="3"/><circle cx="22" cy="22" r="18" fill="none" stroke="var(--accent)" stroke-width="3" stroke-dasharray="113" stroke-dashoffset="0" id="ring-circle-p3" style="transition:stroke-dashoffset 1s linear;transform:rotate(-90deg);transform-origin:center"/></svg></div>
+        </div>
+        <div class="spk-tip">💡 <b>Part 3:</b> So sánh 2 ảnh → Trả lời 2 câu hỏi thảo luận. Dùng <i>"In the first picture... whereas in the second..."</i></div>
+        <div style="display:flex; gap:10px; margin-bottom:18px; flex-wrap:wrap;">
+          <button class="btn-check" onclick="randomSpk('p3')">🎲 Random Set</button>
+          <button class="btn-reset-q" onclick="showAllSpk('p3')">📋 Show All</button>
+        </div>
+        <div id="spk-p3-random" class="random-q-card" style="display:none;"></div>
+        <div id="spk-p3-all" style="display:none;">
+          <div id="spk-p3-list" class="spk-list"></div>
+        </div>
+      </div>
+
+      <!-- PART 4 -->
+      <div id="spk-p4" class="inner-section">
+        <div class="timer-bar" id="timer-bar-p4">
+          <div class="timer-display" id="timer-p4">2:00</div>
+          <div class="timer-controls">
+            <button class="tbtn start" onclick="startTimer('p4',120)">▶ Start</button>
+            <button class="tbtn stop"  onclick="stopTimer('p4')">⏹ Stop</button>
+            <button class="tbtn reset" onclick="resetTimer('p4',120)">↺ Reset</button>
+          </div>
+          <div class="timer-ring" id="ring-p4"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="18" fill="none" stroke="#2a2d45" stroke-width="3"/><circle cx="22" cy="22" r="18" fill="none" stroke="var(--accent)" stroke-width="3" stroke-dasharray="113" stroke-dashoffset="0" id="ring-circle-p4" style="transition:stroke-dashoffset 1s linear;transform:rotate(-90deg);transform-origin:center"/></svg></div>
+        </div>
+        <div class="spk-tip">💡 <b>Part 4:</b> Thảo luận tranh luận với examiner ~<b>2 phút</b>. Đưa ra ý kiến, agree/disagree, đưa ví dụ.</div>
+        <div style="display:flex; gap:10px; margin-bottom:18px; flex-wrap:wrap;">
+          <button class="btn-check" onclick="randomSpk('p4')">🎲 Random Topic</button>
+          <button class="btn-reset-q" onclick="showAllSpk('p4')">📋 Show All</button>
+        </div>
+        <div id="spk-p4-random" class="random-q-card" style="display:none;"></div>
+        <div id="spk-p4-all" style="display:none;">
+          <div id="spk-p4-list" class="spk-list"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WRITING ===== -->
+  <section id="writing" class="section">
+    <div class="sec-header">
+      <h2>✍️ <span class="accent">Writing</span></h2>
+      <p>Part 1: 25 Club Topics · Part 2: Essay structure · Timer luyện viết</p>
+    </div>
+    <div id="writing-group">
+      <div class="inner-tabs">
+        <button class="active" data-target="wrt-p1" onclick="showInner('writing-group','wrt-p1')">Part 1 — Club Posts</button>
+        <button data-target="wrt-p2" onclick="showInner('writing-group','wrt-p2')">Part 2 — Essay</button>
+        <button data-target="wrt-tips" onclick="showInner('writing-group','wrt-tips')">📌 Useful Phrases</button>
+      </div>
+
+      <!-- PART 1: CLUB TOPICS -->
+      <div id="wrt-p1" class="inner-section active">
+        <div class="wrt-timer-row">
+          <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+            <span style="color:var(--muted); font-size:0.85rem;">⏱️ Writing timer:</span>
+            <div class="timer-display" id="timer-wrt" style="font-size:1.4rem;">20:00</div>
+            <div class="timer-controls">
+              <button class="tbtn start" onclick="startTimer('wrt',1200)">▶ Start</button>
+              <button class="tbtn stop"  onclick="stopTimer('wrt')">⏹ Stop</button>
+              <button class="tbtn reset" onclick="resetTimer('wrt',1200)">↺ Reset</button>
+            </div>
+          </div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn-check" onclick="randomClub()">🎲 Random Club</button>
+            <button class="btn-reset-q" onclick="showAllClubs()">📋 All Clubs</button>
+          </div>
+        </div>
+        <div class="spk-tip">💡 <b>Part 1:</b> Viết <b>3 short messages</b> (khoảng 30–40 từ mỗi cái) cho một club post trên mạng xã hội hoặc forum. Mỗi message có <b>mục đích khác nhau</b> (giới thiệu, hỏi ý kiến, chia sẻ kinh nghiệm...).</div>
+        <div id="wrt-random-card" class="random-q-card" style="display:none;"></div>
+        <div id="wrt-all-clubs" style="display:none;">
+          <div id="clubs-grid" class="clubs-grid"></div>
+        </div>
+      </div>
+
+      <!-- PART 2: ESSAY -->
+      <div id="wrt-p2" class="inner-section">
+        <div class="spk-tip">💡 <b>Part 2:</b> Viết một bài luận ~<b>120–150 từ</b> về một chủ đề cho sẵn. Dùng cấu trúc: Introduction → Body (2 para) → Conclusion.</div>
+        <div id="essay-topics-grid"></div>
+      </div>
+
+      <!-- USEFUL PHRASES -->
+      <div id="wrt-tips" class="inner-section">
+        <div id="phrases-grid"></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  APTIS Study App · Tổng hợp từ tài liệu khoá ôn B2
+</footer>
+
+<script>
+  function showSection(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    const navBtn = document.getElementById('nav-' + id);
+    if (navBtn) navBtn.classList.add('active');
+  }
+
+  function showInner(tabGroupId, sectionId) {
+    const group = document.getElementById(tabGroupId);
+    if (!group) return;
+    group.querySelectorAll('.inner-section').forEach(s => s.classList.remove('active'));
+    group.querySelectorAll('.inner-tabs button').forEach(b => b.classList.remove('active'));
+    const sec = document.getElementById(sectionId);
+    if (sec) sec.classList.add('active');
+    const btn = group.querySelector(`[data-target="${sectionId}"]`);
+    if (btn) btn.classList.add('active');
+  }
+
+  /* ===== LISTENING DATA ===== */
+  const lisCards = [
+    {q:"What is the teleshop number?", vn:"Số điện thoại cửa hàng là gì?", a:"201030"},
+    {q:"What color top is he going to buy?", vn:"Anh ấy sẽ mua áo màu gì?", a:"Black"},
+    {q:"What is she going to change in their house?", vn:"Cô ấy sẽ thay đổi gì trong nhà?", a:"The window"},
+    {q:"How many clients are Americans?", vn:"Có bao nhiêu khách hàng là người Mỹ?", a:"One"},
+    {q:"Where are they standing?", vn:"Họ đang đứng ở đâu?", a:"Residential area"},
+    {q:"How long does it take to get to the station?", vn:"Mất bao lâu để đến ga?", a:"40 minutes"},
+    {q:"How much does the flight in the morning cost?", vn:"Chuyến bay buổi sáng giá bao nhiêu?", a:"350 pounds"},
+    {q:"How much did she sell it for?", vn:"Cô ấy bán nó bao nhiêu tiền?", a:"50 dollars"},
+    {q:"What is the main reason he gets late?", vn:"Lý do chính anh ấy bị trễ là gì?", a:"Missed the train"},
+    {q:"When is the work due?", vn:"Bài tập hạn nộp khi nào?", a:"On Saturday morning"},
+    {q:"What is the man going to do after work?", vn:"Anh ấy sẽ làm gì sau giờ làm?", a:"Goes running"},
+    {q:"What is the woman's favorite form of entertainment?", vn:"Hình thức giải trí yêu thích của cô ấy?", a:"Going to the theatre"},
+    {q:"What was the woman good at?", vn:"Người phụ nữ giỏi môn gì?", a:"Plays Football"},
+    {q:"Which platform to wait for the train?", vn:"Đợi tàu ở sân ga nào?", a:"Platform 2"},
+    {q:"What will the father do?", vn:"Người cha sẽ làm gì?", a:"Arrange private classes for his son"},
+    {q:"What does the man want to do next?", vn:"Người đàn ông muốn làm gì tiếp theo?", a:"Become a Writer"},
+    {q:"What time will they meet?", vn:"Họ sẽ gặp lúc mấy giờ?", a:"7 PM"},
+    {q:"What shouldn't they do?", vn:"Họ không nên làm gì?", a:"Ask for more money"},
+    {q:"What will it end with?", vn:"Nó sẽ kết thúc bằng gì?", a:"A surprise performance"},
+    {q:"What is her sister like?", vn:"Chị gái cô ấy như thế nào?", a:"They have similar characters"},
+    {q:"Which part of the cabinet is original?", vn:"Phần nào của tủ là nguyên bản?", a:"The drawer"},
+    {q:"How is he going to travel to the city?", vn:"Anh ấy đi thành phố bằng gì?", a:"By train"},
+    {q:"What time is best for children to eat fruit?", vn:"Thời điểm tốt nhất cho trẻ ăn trái cây?", a:"In the morning"},
+    {q:"What does she have for lunch?", vn:"Cô ấy ăn gì trưa nay?", a:"Tea"},
+    {q:"How long did he talk in the speech?", vn:"Anh ấy phát biểu bao lâu?", a:"15 minutes"},
+    {q:"What did they decide to do?", vn:"Họ quyết định làm gì?", a:"Have a meeting without him"},
+    {q:"What is the woman going to do?", vn:"Người phụ nữ sẽ làm gì?", a:"Have coffee"},
+    {q:"What is she talking about?", vn:"Cô ấy đang nói về điều gì?", a:"Her journey to work"},
+    {q:"Where is the library located?", vn:"Thư viện ở đâu?", a:"On the left of the square"},
+    {q:"What advice does she give to save money?", vn:"Lời khuyên để tiết kiệm tiền?", a:"Use public transport"},
+    {q:"What new facility will the school have?", vn:"Trường sẽ có cơ sở mới nào?", a:"A performance space"},
+    {q:"What is she going to do this afternoon?", vn:"Cô ấy sẽ làm gì chiều nay?", a:"Go on a city tour"},
+    {q:"Where will Louis meet Standar?", vn:"Louis sẽ gặp Standar ở đâu?", a:"Outside the station"},
+    {q:"What time are they going to meet?", vn:"Họ sẽ gặp lúc mấy giờ?", a:"5:30"},
+    {q:"Where is he working now?", vn:"Anh ấy đang làm việc ở đâu?", a:"In a bank"},
+    {q:"Where did he find the key?", vn:"Anh ấy tìm thấy chìa khoá ở đâu?", a:"In the front door"},
+    {q:"How long will he be late?", vn:"Anh ấy sẽ trễ bao lâu?", a:"10 minutes"},
+    {q:"What time does the movie begin?", vn:"Phim bắt đầu lúc mấy giờ?", a:"6:40"},
+    {q:"Where should Dan turn right?", vn:"Dan nên rẽ phải ở đâu?", a:"At the traffic lights"},
+    {q:"How much is the cheapest computer in the shop?", vn:"Máy tính rẻ nhất bao nhiêu?", a:"135 pounds"},
+    {q:"What is this building currently used for?", vn:"Tòa nhà hiện được dùng làm gì?", a:"A department store"},
+    {q:"What was his last job?", vn:"Công việc cuối cùng của anh ấy?", a:"An electrician"},
+    {q:"What did she lose?", vn:"Cô ấy mất gì?", a:"A bag"},
+    {q:"Who is his favourite teacher?", vn:"Giáo viên yêu thích của anh ấy?", a:"Miss Brown"},
+    {q:"Why does the woman return the dress?", vn:"Cô ấy trả váy vì sao?", a:"Because of its size"},
+    {q:"What is his opinion about that restaurant?", vn:"Ý kiến của anh ấy về nhà hàng?", a:"The service is slow"},
+    {q:"Where are the students now?", vn:"Học sinh đang ở đâu?", a:"In a townhouse"},
+    {q:"When will Anna meet her friend?", vn:"Anna sẽ gặp bạn khi nào?", a:"9 a.m. on Sunday"},
+    {q:"Which button should the man press to buy a computer?", vn:"Ông ấy nên bấm nút nào để mua máy tính?", a:"Three"},
+    {q:"How many pages of the assignment?", vn:"Bài tập có bao nhiêu trang?", a:"4"},
+    {q:"What is his opinion about sea transport?", vn:"Ý kiến của anh ấy về vận tải biển?", a:"The use of technology will increase"},
+    {q:"What is not working?", vn:"Cái gì không hoạt động?", a:"The computer"},
+    {q:"What did he leave in the yard?", vn:"Anh ấy để gì ngoài sân?", a:"Shoes"},
+    {q:"What did the two people buy?", vn:"Hai người đã mua gì?", a:"Trousers"},
+    {q:"Where does she go shopping?", vn:"Cô ấy đi mua sắm ở đâu?", a:"At a new shopping mall"},
+    {q:"What is her favorite thing to do in her spare time?", vn:"Việc yêu thích khi rảnh rỗi?", a:"Going to the theatre"},
+    {q:"What does he like in Dubai?", vn:"Anh ấy thích gì ở Dubai?", a:"He enjoys his job here"},
+    {q:"What was the man's favorite thing about school?", vn:"Điều mà người đàn ông thích nhất ở trường?", a:"History classes"},
+    {q:"Where does Anna go for a walk every morning?", vn:"Anna đi dạo ở đâu mỗi sáng?", a:"The college"},
+    {q:"When do they want to meet?", vn:"Họ muốn gặp nhau khi nào?", a:"Tuesday"},
+    {q:"In what way are his mother and aunt alike?", vn:"Mẹ và dì của anh ấy giống nhau ở điểm nào?", a:"They were thin"},
+    {q:"What will she do during the holiday?", vn:"Cô ấy sẽ làm gì trong kỳ nghỉ?", a:"Go for a walk"},
+    {q:"What does the brother have to drink?", vn:"Anh trai cô ấy cần uống gì?", a:"Water"},
+  ];
+
+  const lisTopics = [
+    { title:"🛍️ Online Shopping", items:["It saves time","It is cheaper","It is more convenient","It has a wider selection","Can compare prices easily"] },
+    { title:"🏃 Do Exercise", items:["Improve work performance","Feel less tired","Can do with other people","Not everyone is a biggest fan","Boosts mental health"] },
+    { title:"🛒 Shopping Habit", items:["Prefer to shop alone","Like to browse at own pace","Sometimes shops with friends","Compare prices before buying","Tends to make a list first"] },
+    { title:"🌍 Tourism & Travel", items:["Explore new cultures","Meet new people","Try local food","Take beautiful photos","Gain new experiences"] },
+    { title:"📱 Social Media", items:["Stay connected with friends","Share daily moments","Get news and updates","Can be time-consuming","Privacy concerns"] },
+    { title:"🏙️ Living in a City", items:["More job opportunities","Better transportation","More entertainment options","Expensive cost of living","Noisy and crowded"] },
+    { title:"🌿 Environmental Issues", items:["Reduce plastic use","Use public transport","Save energy at home","Recycle and compost","Plant trees"] },
+    { title:"🎓 Education", items:["Prepares for future career","Builds critical thinking","Develops social skills","Can be stressful","Online learning is growing"] },
+    { title:"🍎 Healthy Lifestyle", items:["Eat balanced meals","Exercise regularly","Get enough sleep","Avoid junk food","Stay hydrated"] },
+    { title:"💼 Work & Career", items:["Find a job you love","Work-life balance is important","Continuous learning is key","Networking helps career growth","Remote work is increasing"] },
+    { title:"👨‍👩‍👧 Family Life", items:["Spend quality time together","Support each other","Share household tasks","Keep communication open","Create family traditions"] },
+    { title:"🎭 Arts & Culture", items:["Attend theatre and concerts","Visit museums","Appreciate different art forms","Supports local artists","Enriches community life"] },
+  ];
+
+  let lisScore = 0, lisDone = 0;
+
+  function renderFlashcards(data) {
+    const grid = document.getElementById('flashcard-grid');
+    grid.innerHTML = '';
+    data.forEach((item, i) => {
+      const card = document.createElement('div');
+      card.className = 'flashcard';
+      card.id = 'fc-' + i;
+      card.innerHTML = `
+        <div class="fc-mark">✅</div>
+        <div class="fc-q">${item.q}</div>
+        <div class="fc-vn">${item.vn}</div>
+        <div class="fc-ans">→ ${item.a}</div>
+        <div class="fc-btns">
+          <button class="fc-btn good" onclick="markCard(${i}, true, event)">✓ Nhớ rồi</button>
+          <button class="fc-btn bad"  onclick="markCard(${i}, false, event)">✗ Chưa nhớ</button>
+        </div>`;
+      card.addEventListener('click', () => revealCard(i));
+      grid.appendChild(card);
+    });
+    document.getElementById('lis-total').textContent = '0';
+  }
+
+  function revealCard(i) {
+    document.getElementById('fc-' + i).classList.add('revealed');
+  }
+
+  function markCard(i, correct, e) {
+    e.stopPropagation();
+    const card = document.getElementById('fc-' + i);
+    lisDone++;
+    if (correct) {
+      lisScore++;
+      card.classList.add('correct');
+      card.querySelector('.fc-mark').textContent = '✅';
+    } else {
+      card.querySelector('.fc-mark').textContent = '❌';
+      card.querySelector('.fc-mark').style.display = 'block';
+    }
+    card.querySelector('.fc-btns').style.display = 'none';
+    document.getElementById('lis-score').textContent = lisScore;
+    document.getElementById('lis-total').textContent = lisDone;
+  }
+
+  function shuffleCards() {
+    const shuffled = [...lisCards].sort(() => Math.random() - 0.5);
+    renderFlashcards(shuffled);
+    resetScore();
+  }
+
+  function resetScore() {
+    lisScore = 0; lisDone = 0;
+    document.getElementById('lis-score').textContent = '0';
+    document.getElementById('lis-total').textContent = '0';
+    document.querySelectorAll('.flashcard').forEach(c => {
+      c.classList.remove('revealed','correct');
+      const m = c.querySelector('.fc-mark');
+      if (m) { m.style.display='none'; m.textContent='✅'; }
+    });
+  }
+
+  function renderTopics() {
+    const grid = document.getElementById('topics-grid');
+    grid.innerHTML = '';
+    lisTopics.forEach((topic, i) => {
+      const card = document.createElement('div');
+      card.className = 'topic-card';
+      card.id = 'topic-' + i;
+      card.innerHTML = `
+        <div class="topic-header" onclick="toggleTopic(${i})">
+          <span class="topic-title">${topic.title}</span>
+          <span class="topic-chevron">▼</span>
+        </div>
+        <div class="topic-body">
+          <ul>${topic.items.map(it => `<li>${it}</li>`).join('')}</ul>
+        </div>`;
+      grid.appendChild(card);
+    });
+  }
+
+  function toggleTopic(i) {
+    document.getElementById('topic-' + i).classList.toggle('open');
+  }
+
+  // Init listening on first load
+  renderFlashcards(lisCards);
+  renderTopics();
+
+  /* ========== READING DATA ========== */
+
+  // PART 1 — Fill in the blank
+  const p1Sets = [
+    {
+      title: "Đề 1 — My Town",
+      sentences: [
+        { text: "I live ___ the school.", opts:["far","near","under","behind"], ans:"near" },
+        { text: "I want to ___ to a bigger house next year.", opts:["move","run","stop","stay"], ans:"move" },
+        { text: "My parents ___ me to school every day.", opts:["drive","sing","play","push"], ans:"drive" },
+        { text: "Sometimes I ___ when the weather is nice.", opts:["walk","jump","sleep","fly"], ans:"walk" },
+        { text: "The park in my town is really ___.", opts:["pretty","noisy","dirty","cold"], ans:"pretty" },
+      ]
+    },
+    {
+      title: "Đề 2 — Learning English",
+      sentences: [
+        { text: "I ___ learning English last year.", opts:["started","ended","closed","refused"], ans:"started" },
+        { text: "Every morning I ___ to my class.", opts:["walk","run","sit","swim"], ans:"walk" },
+        { text: "On the ___ day, I met many new friends.", opts:["first","last","next","worst"], ans:"first" },
+        { text: "My teacher can ___ three languages.", opts:["speak","write","jump","draw"], ans:"speak" },
+        { text: "I always feel ___ after a good lesson.", opts:["happy","tired","cold","lost"], ans:"happy" },
+      ]
+    },
+    {
+      title: "Đề 3 — Daily Routine",
+      sentences: [
+        { text: "She ___ up at 7 o'clock every morning.", opts:["wakes","closes","puts","sits"], ans:"wakes" },
+        { text: "He ___ breakfast before going to work.", opts:["eats","buys","loses","drops"], ans:"eats" },
+        { text: "They usually ___ TV in the evening.", opts:["watch","paint","build","clean"], ans:"watch" },
+        { text: "I like to ___ books before bed.", opts:["read","cook","fix","draw"], ans:"read" },
+        { text: "We ___ to the park every Sunday.", opts:["go","fall","stop","give"], ans:"go" },
+      ]
+    }
+  ];
+
+  // PART 2 — Sentence ordering passages
+  const p2Passages = [
+    {
+      topic: "🎬 Movies Then and Now",
+      sentences: [
+        "Movies today are very different from movies in the past.",
+        "In the old days, films were only in black and white, and sometimes even without sound.",
+        "In addition to these technological limits, producers had very low budgets.",
+        "Because of the lack of money, actors also earned little money from acting.",
+        "Nowadays, everything has changed: actors and producers can earn a lot of money from producing films.",
+      ]
+    },
+    {
+      topic: "🍽️ Eating at a Restaurant",
+      sentences: [
+        "I decided to try a new café located at the end of the street.",
+        "The place was quite busy, with a lively atmosphere.",
+        "Even so, a staff member quickly noticed me and brought over the menu.",
+        "I was a bit surprised to see that there were only a few items to choose from.",
+        "In the end, I went for the most expensive salad on the menu.",
+      ]
+    },
+    {
+      topic: "🤖 Artificial Intelligence",
+      sentences: [
+        "Over the past decade, artificial intelligence has reshaped industries around the world.",
+        "Early AI systems were capable of handling only simple pattern recognition tasks.",
+        "In the past, high computational costs slowed down the progress of AI development.",
+        "Today, AI engineers design sophisticated models for applications such as language translation.",
+        "Modern AI tools enable businesses to analyze vast amounts of data and make smarter decisions.",
+      ]
+    },
+    {
+      topic: "🏃 Wellness Fair",
+      sentences: [
+        "The wellness fair took place on Saturday afternoon, encouraging people to adopt healthier lifestyles.",
+        "More than 60 participants joined the event, with Dr. A leading an engaging fitness workshop.",
+        "The fair also included activities like cooking demonstrations, mindfulness sessions, and a fun run.",
+        "After the workshops, prizes were awarded to participants who created the most creative health posters.",
+        "Families enjoyed tasting healthy snacks and discovering practical tips for better overall wellness.",
+      ]
+    },
+    {
+      topic: "⭐ Famous Actor Jay",
+      sentences: [
+        "Jay's family left their home country and moved to live in the United States.",
+        "He started studying at school there and in his free time he did strength exercise.",
+        "Jay was very good at that and he participated in a bodybuilding competition.",
+        "At one of these events, an acting agent saw him and gave him a starring role.",
+        "It was a major action movie and he gained fame from that film.",
+      ]
+    },
+    {
+      topic: "🥔 How to Grow Potatoes",
+      sentences: [
+        "All you need is some earth, an old potato and a big pot.",
+        "An old potato will have little roots, will be a little green, and won't be good for eating.",
+        "This color means it is perfect for growing — put some earth in the pot and dig it deep down.",
+        "When you've done this, you should water it every day and place it in a sunny spot.",
+        "With this care, you should see a potato plant growing after a couple of weeks.",
+      ]
+    }
+  ];
+
+  // PART 3 — Match opinions A/B/C/D
+  const p3Sets = [
+    {
+      title: "🎵 Music Festival",
+      opinions: [
+        { label:"A", text:"I stayed until the very last moment and absolutely loved the grand finale. The stage lit up with dazzling lights and fireworks. Although getting there was a hassle due to heavy traffic and packed buses, once I arrived all those inconveniences faded away. The final performance made every bit of the struggle worthwhile." },
+        { label:"B", text:"Normally I steer clear of festivals, but I decided to give this one a try. Unfortunately, I didn't have a great time. The sound quality was poor, the event schedule seemed chaotic, and to top it off, it started raining heavily. The muddy ground made things even worse. I didn't think it was worth the trouble." },
+        { label:"C", text:"I really enjoyed the lively atmosphere created by the music. One of the bands on the opening night was so amazing that I couldn't help but sing along. However, everything was quite expensive. The tickets were pricey, and the food and drinks were ridiculously overcharged. I ended up spending more than I had planned." },
+        { label:"D", text:"For me, the most memorable part of the festival was its location. The park by the river was vast and picturesque, with plenty of spots to sit and unwind. I enjoyed a nice lunch there, though it was a bit pricey. Some of the shows were enjoyable, but I didn't stay for the entire event." },
+      ],
+      questions: [
+        { q:"Who had a problem with the ticket / food price?", ans:"C" },
+        { q:"Who was most impressed by the venue / location?", ans:"D" },
+        { q:"Who had difficulty travelling to the festival?", ans:"A" },
+        { q:"Who did not enjoy the experience overall?", ans:"B" },
+        { q:"Who left the festival before it ended?", ans:"D" },
+      ]
+    },
+    {
+      title: "🧗 Extreme Sports",
+      opinions: [
+        { label:"A", text:"Before diving into any extreme sport, I truly believe it's crucial to undergo proper training. While these activities can be thrilling, they also carry risks if you're not well-prepared. I've witnessed people injuring themselves simply because they didn't take the necessary precautions." },
+        { label:"B", text:"I've always had a fondness for more traditional sports such as swimming, running, and tennis. However, a few months ago, I had the chance to go bungee jumping during a vacation, and it turned out to be an unforgettable experience. While I still prefer regular sports for daily exercise, I now feel more open to extreme activities." },
+        { label:"C", text:"What I appreciate most about extreme sports is the unique way they allow me to connect with nature. Activities like rock climbing and mountain biking enable me to explore stunning landscapes while pushing my physical and mental limits. It's an escape from the everyday routine." },
+        { label:"D", text:"I understand that some people find extreme sports exhilarating, but they've never been significant to me. I'm not fond of the idea of placing myself in risky situations just for the sake of excitement. I'd much rather take a peaceful walk or do some yoga than jump out of an airplane." },
+      ],
+      questions: [
+        { q:"Who emphasizes the importance of preparation and safety?", ans:"A" },
+        { q:"Who recently tried an extreme sport for the first time?", ans:"B" },
+        { q:"Who values extreme sports for connecting with nature?", ans:"C" },
+        { q:"Who prefers calm and safe physical activities?", ans:"D" },
+        { q:"Who used to only do traditional sports?", ans:"B" },
+      ]
+    },
+    {
+      title: "💼 Career Choices",
+      opinions: [
+        { label:"A", text:"After graduating, I wanted to take some time to figure out what I truly wanted. I started looking for temporary jobs, but it was quite difficult because most companies don't hire people without experience. Eventually, a game company contacted me, and I agreed to work for them. The job is hybrid, so sometimes I work in the evenings." },
+        { label:"B", text:"I went to university right after finishing high school. I had always wanted to become a teacher, so I didn't need to explore other career options. Three months ago, I did an internship at a local school. It was an eye-opening experience, even though the workload was heavier than I expected." },
+        { label:"C", text:"When I graduated, I didn't really know what I wanted to do. Some people advised me to start working right away, but I wanted to gain some practical experience first. That's why I applied for various volunteer positions. Although I didn't earn any money, I gained valuable knowledge." },
+        { label:"D", text:"When I was younger, I lived near a plumber and sometimes worked with her. She gave me simple tasks like checking for pipe leaks or tightening screws. So later on, it felt natural for me to go to university to become an electrician. Now I wish I had chosen short online courses instead." },
+      ],
+      questions: [
+        { q:"Who worked without receiving payment?", ans:"C" },
+        { q:"Who was influenced by a neighbour's profession?", ans:"D" },
+        { q:"Who knew exactly what career they wanted from the start?", ans:"B" },
+        { q:"Who now works in the technology / gaming industry?", ans:"A" },
+        { q:"Who regrets how they chose to study?", ans:"D" },
+      ]
+    },
+    {
+      title: "🌳 Volunteering — Clean the Park",
+      opinions: [
+        { label:"A", text:"I feel very lucky to have this park here. My family and I often go because of the natural landscape. Unfortunately, I am away this weekend so I cannot help with the cleaning. However, I know my brother and his friends will be very interested in this cleanup so I will ask them if they can help." },
+        { label:"B", text:"I'm a very busy person and I have to spend this weekend with my family because I only have the weekend as free time. I think young people who don't have families should help. Besides, I think this volunteering will be very helpful for students' future careers." },
+        { label:"C", text:"I think this volunteering is a good idea but it doesn't have a long-term vision. When volunteers clean up the park, it will be clean, but it will become busy again after about a month. I think we should clean this park regularly about once a month, and surrounding areas like the lake should also be cleaned." },
+        { label:"D", text:"My family and I often spend time at the park. My children love going there. My son has a dream of becoming a biologist so I think cleaning up this park will be very helpful for my son. I think we should pique children's interest in cleaning so they will be more willing to volunteer." },
+      ],
+      questions: [
+        { q:"Who cannot participate but will encourage others to join?", ans:"A" },
+        { q:"Who thinks this volunteering benefits students' careers?", ans:"B" },
+        { q:"Who suggests the clean-up should happen more regularly?", ans:"C" },
+        { q:"Who believes children should be involved in the activity?", ans:"D" },
+        { q:"Who mentions the activity could benefit a family member's career goals?", ans:"D" },
+      ]
+    }
+  ];
+
+  // PART 4 — Heading matching
+  const p4Sets = [
+    {
+      title: "💻 Digital Innovation",
+      headings: ["Redefining Leisure in the Digital Age","Enhancing Connectivity with Mobile Apps","Promoting Essential Digital Literacy","Risks of Excessive Screen-Based Entertainment","Concerns About Data Privacy","Building Inclusive and Respectful Online Communities","Prioritize Human-Friendly Designs"],
+      paragraphs: [
+        { num:"Para 1", text:"Technology has fundamentally transformed the way people experience leisure — from on-demand streaming to virtual reality gaming, users can now enjoy highly customized entertainment experiences.", ans:"Redefining Leisure in the Digital Age" },
+        { num:"Para 2", text:"Mobile applications have emerged as powerful tools that strengthen global connectivity through instant messaging, video calls, and AI-powered social platforms.", ans:"Enhancing Connectivity with Mobile Apps" },
+        { num:"Para 3", text:"Digital literacy has become a crucial competency — going beyond basic technical knowledge to include critical thinking, evaluating information sources, and behaving responsibly online.", ans:"Promoting Essential Digital Literacy" },
+        { num:"Para 4", text:"Excessive dependence on screen-based activities can lead to serious health problems including eye strain, disrupted sleep patterns, and shorter attention spans.", ans:"Risks of Excessive Screen-Based Entertainment" },
+        { num:"Para 5", text:"As AI-based services and social media grow rapidly, users frequently share sensitive information without fully understanding consequences such as data breaches and unauthorized monitoring.", ans:"Concerns About Data Privacy" },
+        { num:"Para 6", text:"Online platforms can intensify division and misinformation if not properly managed. Creating inclusive digital communities requires addressing cyberbullying, hate speech, and algorithmic bias.", ans:"Building Inclusive and Respectful Online Communities" },
+        { num:"Para 7", text:"In a time of rapid technological progress, intuitive and user-friendly design has become a key factor. An effective interface simplifies complex systems and ensures technology supports users instead of overwhelming them.", ans:"Prioritize Human-Friendly Designs" },
+      ]
+    },
+    {
+      title: "🎵 Music — Benefits of Learning",
+      headings: ["A physically demanding activity","A good way to boost your memory","A great opportunity to broaden your social circle","A way to learn discipline and the importance of routine","A creative outlet for expressing emotions","Enhanced sensitivity to other people's feelings","Develop a greater sense of well-being"],
+      paragraphs: [
+        { num:"Para 1", text:"Playing an instrument requires sustained physical effort — maintaining posture, coordinating hand movements, and building finger strength through hours of repetitive practice.", ans:"A physically demanding activity" },
+        { num:"Para 2", text:"Learning music improves memory because musicians must memorise notation, lyrics, and complex sequences, which strengthens neural pathways associated with recall.", ans:"A good way to boost your memory" },
+        { num:"Para 3", text:"Joining a band, choir, or music class connects you with like-minded people, opening doors to friendships and professional networks beyond your usual circle.", ans:"A great opportunity to broaden your social circle" },
+        { num:"Para 4", text:"Regular practice schedules teach musicians the value of commitment and perseverance — qualities that transfer directly to academic and professional success.", ans:"A way to learn discipline and the importance of routine" },
+        { num:"Para 5", text:"Music allows people to channel their innermost thoughts and feelings into sound, providing a healthy and constructive way to process complex emotions.", ans:"A creative outlet for expressing emotions" },
+        { num:"Para 6", text:"Listening carefully to melodies, harmonies, and lyrics trains musicians to notice subtle emotional cues in conversations, making them more empathetic communicators.", ans:"Enhanced sensitivity to other people's feelings" },
+        { num:"Para 7", text:"Research shows that regularly engaging with music reduces stress, lowers anxiety, and contributes to an overall improved quality of life and happiness.", ans:"Develop a greater sense of well-being" },
+      ]
+    }
+  ];
+
+  /* ---- RENDER PART 1 ---- */
+  function renderP1() {
+    const c = document.getElementById('p1-quiz-container');
+    c.innerHTML = '';
+    p1Sets.forEach((set, si) => {
+      const div = document.createElement('div');
+      div.className = 'quiz-set';
+      div.id = 'p1set-' + si;
+      let sentHTML = set.sentences.map((s, qi) => {
+        const opts = s.opts.map(o => `<option value="${o}">${o}</option>`).join('');
+        const text = s.text.replace('___', `<select id="p1-${si}-${qi}"><option value="">-- choose --</option>${opts}</select>`);
+        return `<div class="blank-sentence">${qi+1}. ${text}</div>`;
+      }).join('');
+      div.innerHTML = `
+        <h3>${set.title}</h3>
+        ${sentHTML}
+        <div class="quiz-actions">
+          <button class="btn-check" onclick="checkP1(${si})">✓ Check</button>
+          <button class="btn-reset-q" onclick="resetP1(${si})">↺ Reset</button>
+        </div>
+        <div class="quiz-result" id="p1-result-${si}"></div>`;
+      c.appendChild(div);
+    });
+  }
+
+  function checkP1(si) {
+    const set = p1Sets[si];
+    let correct = 0;
+    set.sentences.forEach((s, qi) => {
+      const sel = document.getElementById(`p1-${si}-${qi}`);
+      sel.classList.remove('correct','wrong');
+      if (sel.value === s.ans) { sel.classList.add('correct'); correct++; }
+      else { sel.classList.add('wrong'); }
+    });
+    const res = document.getElementById(`p1-result-${si}`);
+    res.style.display = 'block';
+    res.innerHTML = correct === set.sentences.length
+      ? `<span style="color:var(--green)">🎉 Perfect! ${correct}/${set.sentences.length}</span>`
+      : `<span style="color:var(--yellow)">📝 ${correct}/${set.sentences.length} correct — try again!</span>`;
+  }
+
+  function resetP1(si) {
+    p1Sets[si].sentences.forEach((s, qi) => {
+      const sel = document.getElementById(`p1-${si}-${qi}`);
+      sel.value = '';
+      sel.classList.remove('correct','wrong');
+    });
+    document.getElementById(`p1-result-${si}`).style.display = 'none';
+  }
+
+  /* ---- RENDER PART 2 ---- */
+  function renderP2() {
+    const c = document.getElementById('p2-passages-container');
+    c.innerHTML = '';
+    p2Passages.forEach((p, i) => {
+      const card = document.createElement('div');
+      card.className = 'passage-card';
+      card.id = 'p2card-' + i;
+      const liItems = p.sentences.map(s => `<li>${s}</li>`).join('');
+      card.innerHTML = `
+        <div class="passage-header" onclick="togglePassage(${i})">
+          <h3>${p.topic}</h3>
+          <button class="show-passage-btn" id="p2btn-${i}">Show Sentences ▼</button>
+        </div>
+        <div class="passage-body">
+          <ol class="sentence-list">${liItems}</ol>
+        </div>`;
+      c.appendChild(card);
+    });
+  }
+
+  function togglePassage(i) {
+    const card = document.getElementById('p2card-' + i);
+    const btn = document.getElementById('p2btn-' + i);
+    card.classList.toggle('open');
+    btn.textContent = card.classList.contains('open') ? 'Hide ▲' : 'Show Sentences ▼';
+  }
+
+  /* ---- RENDER PART 3 ---- */
+  function renderP3() {
+    const c = document.getElementById('p3-quiz-container');
+    c.innerHTML = '';
+    p3Sets.forEach((set, si) => {
+      const div = document.createElement('div');
+      div.className = 'opinions-block';
+      const opsHTML = set.opinions.map(op => `
+        <div class="opinion-box">
+          <div class="op-label">${op.label}</div>
+          <div>${op.text}</div>
+        </div>`).join('');
+      const qsHTML = set.questions.map((q, qi) => {
+        const btns = ['A','B','C','D'].map(l =>
+          `<button class="op-btn" id="op-${si}-${qi}-${l}" onclick="answerOp(${si},${qi},'${l}')">${l}</button>`
+        ).join('');
+        return `<div class="opinion-question">
+          <p>${qi+1}. ${q.q}</p>
+          <div class="opinion-opts">${btns}</div>
+        </div>`;
+      }).join('');
+      div.innerHTML = `
+        <h3>📝 ${set.title}</h3>
+        <div class="opinions-grid">${opsHTML}</div>
+        <div id="p3qs-${si}">${qsHTML}</div>
+        <div class="quiz-actions">
+          <button class="btn-reset-q" onclick="resetP3(${si})">↺ Reset</button>
+        </div>`;
+      c.appendChild(div);
+    });
+  }
+
+  function answerOp(si, qi, chosen) {
+    const set = p3Sets[si];
+    const correct = set.questions[qi].ans;
+    ['A','B','C','D'].forEach(l => {
+      const btn = document.getElementById(`op-${si}-${qi}-${l}`);
+      btn.classList.remove('selected-correct','selected-wrong','reveal-correct');
+      if (l === chosen) {
+        btn.classList.add(chosen === correct ? 'selected-correct' : 'selected-wrong');
+      }
+      if (l === correct && chosen !== correct) btn.classList.add('reveal-correct');
+      btn.disabled = true;
+    });
+  }
+
+  function resetP3(si) {
+    const set = p3Sets[si];
+    set.questions.forEach((q, qi) => {
+      ['A','B','C','D'].forEach(l => {
+        const btn = document.getElementById(`op-${si}-${qi}-${l}`);
+        btn.classList.remove('selected-correct','selected-wrong','reveal-correct');
+        btn.disabled = false;
+      });
+    });
+  }
+
+  /* ---- RENDER PART 4 ---- */
+  function renderP4() {
+    const c = document.getElementById('p4-quiz-container');
+    c.innerHTML = '';
+    p4Sets.forEach((set, si) => {
+      const div = document.createElement('div');
+      div.className = 'heading-set';
+      const headList = set.headings.map((h,i) => `<li style="font-size:0.82rem; padding:3px 0; color:var(--muted);">${i+1}. ${h}</li>`).join('');
+      const parasHTML = set.paragraphs.map((p, pi) => `
+        <div class="heading-item" onclick="revealHeading(${si},${pi})" id="hi-${si}-${pi}">
+          <div class="para-num">${p.num} — click to reveal answer</div>
+          <div class="para-text">${p.text}</div>
+          <div class="para-ans">✅ ${p.ans}</div>
+        </div>`).join('');
+      div.innerHTML = `
+        <h3>${set.title}</h3>
+        <div class="topic-sub">Headings list:</div>
+        <ul style="list-style:none; background:var(--surface2); border-radius:10px; padding:12px 16px; margin-bottom:16px;">${headList}</ul>
+        <div>${parasHTML}</div>`;
+      c.appendChild(div);
+    });
+  }
+
+  function revealHeading(si, pi) {
+    document.getElementById(`hi-${si}-${pi}`).classList.toggle('revealed');
+  }
+
+  // Init all reading sections
+  renderP1(); renderP2(); renderP3(); renderP4();
+
+  /* ========== SPEAKING DATA ========== */
+  const spkData = {
+    p1: [
+      "Describe your home.",
+      "Please describe this room.",
+      "Describe the clothes you are wearing.",
+      "Describe your journey here today.",
+      "Describe a member of your family.",
+      "Tell me about your friends.",
+      "Tell me about your hometown.",
+      "Tell me about a famous place in your country.",
+      "Tell me about your job.",
+      "Please tell me about yourself.",
+      "Please tell me about your hobbies and interests.",
+      "Please tell me about the last time you went to the cinema.",
+      "Tell me about your typical day.",
+      "Tell me about your first school.",
+      "Tell me about a time you visited a friend.",
+      "Tell me the best way to travel around your country.",
+      "What does your dream house look like?",
+      "What sports do you like?",
+      "Who is your favorite singer?",
+      "What is your favorite type of music?",
+      "What is the typical meal in your country?",
+      "What do you like to do with your friends?",
+      "What is your favorite film?",
+      "How do you like to spend your holidays and vacations?",
+      "What is your favorite season?",
+      "What is your favorite festival?",
+      "What is the weather like today?",
+      "Tell me about one of your good memories.",
+      "Please tell me about your favorite place.",
+      "What do people in your country like to read?",
+      "What did you do yesterday?",
+      "Describe a typical meal in your country.",
+      "Please tell me about the last time you visited friends.",
+      "What is your favorite way to relax after a long day?",
+      "Tell me about something new you learned recently.",
+    ],
+    p2: [
+      { pic:"👥 People at a workplace meeting", q1:"Tell me the last time you discussed something with your team.", q2:"What are the essential qualities of a good leader in the workplace?" },
+      { pic:"🗺️ Someone visiting a new place", q1:"When was the last time you visited a new place?", q2:"Why do you like to go to new places?" },
+      { pic:"🚗 Person travelling in a car", q1:"Tell me the last time you traveled in a car.", q2:"How can people overcome the boredom of a long journey?" },
+      { pic:"🍽️ Friends eating out at a restaurant", q1:"Why do people like eating out with friends?", q2:"Please talk about the last time you ate out with friends." },
+      { pic:"💻 Person using a computer", q1:"When was the last time you used a computer?", q2:"Why do many people like using computers to relax?" },
+      { pic:"🏙️ A crowded city street", q1:"What do you think about living in a crowded city?", q2:"Why do many people dislike crowded places?" },
+      { pic:"🐾 A person with an animal", q1:"Tell me about an animal that you like.", q2:"How important are animals in our lives?" },
+      { pic:"👫 Friends doing an activity together", q1:"When was the last time you went somewhere with your friends?", q2:"Why do people enjoy doing things together?" },
+      { pic:"🏖️ People at the beach", q1:"Tell us the last time you went to the beach.", q2:"Why do some people dislike going to the beach?" },
+      { pic:"🎮 Children playing a game", q1:"Tell me about a game you played when you were a child.", q2:"How have children's games changed in the last 50 years?" },
+      { pic:"🎤 Person giving a presentation", q1:"Tell us the time you gave a presentation. How did you feel?", q2:"Why are people scared of public speaking?" },
+      { pic:"🚌 Children going to school", q1:"How do children go to school in your country?", q2:"Is it common to live far from school in your country? Why?" },
+      { pic:"👨‍👩‍👧 Parents with children", q1:"In your country, do parents care about their children?", q2:"Why do parents need to care about their children?" },
+      { pic:"🖼️ Person looking at artwork", q1:"What are the benefits of looking at art?", q2:"Why do people like going to exhibitions?" },
+      { pic:"🌴 Someone on a holiday", q1:"When was the last time you went on vacation with someone else?", q2:"What are the benefits of spending time with other people?" },
+    ],
+    p3: [
+      { pics:"🤝 Volunteering vs. 🌳 Community gardening", q1:"How can these activities help the local community?", q2:"How important is it to do volunteer work?" },
+      { pics:"🍱 Eating alone vs. 🍽️ Dining with others", q1:"What are the differences between these types of eating?", q2:"How do you prefer dining — alone or with others, and why?" },
+      { pics:"🌆 City apartment vs. 🏡 Country house", q1:"Where do you want to live? Why?", q2:"Why do young people like to live in the city?" },
+      { pics:"🍔 Fast food vs. 🥗 Healthy food", q1:"What appeals to you about each kind of food?", q2:"Why is it important to know what you eat?" },
+      { pics:"♟️ Playing chess vs. 🎮 Playing video games", q1:"Do you prefer playing chess or playing video games?", q2:"Are indoor activities important? Why?" },
+      { pics:"🏕️ Outdoor camping vs. 🏨 City travel", q1:"What is the difference when travelling in those 2 places?", q2:"What do you think would happen if there were no outdoor activities?" },
+      { pics:"🦁 Zoo visit vs. 🐕 Pet at home", q1:"Do you like interacting with animals?", q2:"Should children learn about animals? Why?" },
+      { pics:"⚽ Team sports vs. 🏊 Individual sports", q1:"What are the disadvantages and benefits of each type of activity?", q2:"Do you think people prefer team sports to individual sports?" },
+      { pics:"📰 Reading a newspaper vs. 🎮 Playing video games", q1:"Do you prefer reading newspapers or playing video games?", q2:"What are the benefits of reading?" },
+      { pics:"🏫 Traditional classroom vs. 💻 Online learning", q1:"What are the differences between these two ways of learning?", q2:"Do you think online learning will replace traditional schools?" },
+    ],
+    p4: [
+      { topic:"Technology & Society", q:"Do you think technology has made our lives better or worse overall? Give reasons." },
+      { topic:"Environment", q:"Should individuals or governments be more responsible for protecting the environment? Why?" },
+      { topic:"Education", q:"Is university education necessary for success in life? Give your opinion." },
+      { topic:"Work & Career", q:"Is it better to have one career for life or change jobs frequently? Discuss." },
+      { topic:"Social Media", q:"Do social media platforms have more positive or negative effects on young people? Explain." },
+      { topic:"Travel & Tourism", q:"Should governments invest more in promoting tourism? What are the benefits and drawbacks?" },
+      { topic:"Health & Lifestyle", q:"Who is more responsible for people's health — individuals or the government? Discuss." },
+      { topic:"City vs. Countryside", q:"Is it better to raise children in the city or in the countryside? Give your views." },
+      { topic:"Remote Work", q:"Do you think working from home is better than working in an office? Why or why not?" },
+      { topic:"Arts & Culture", q:"Should governments fund the arts, or should arts organisations raise their own money? Discuss." },
+    ]
+  };
+
+  /* ---- TIMER LOGIC ---- */
+  const timers = {};
+  function startTimer(id, total) {
+    if (timers[id]?.interval) clearInterval(timers[id].interval);
+    let remaining = timers[id]?.remaining ?? total;
+    const display = document.getElementById('timer-' + id);
+    const circle = document.getElementById('ring-circle-' + id);
+    const circumference = 113;
+    timers[id] = { remaining, total, interval: null };
+    timers[id].interval = setInterval(() => {
+      remaining--;
+      timers[id].remaining = remaining;
+      const m = Math.floor(remaining / 60);
+      const s = remaining % 60;
+      display.textContent = `${m}:${s.toString().padStart(2,'0')}`;
+      display.className = 'timer-display' + (remaining <= 10 ? ' danger' : '');
+      circle.style.strokeDashoffset = circumference * (1 - remaining / total);
+      if (remaining <= 0) {
+        clearInterval(timers[id].interval);
+        display.textContent = '⏰ Time!';
+        display.className = 'timer-display danger';
+      }
+    }, 1000);
+  }
+  function stopTimer(id) {
+    if (timers[id]?.interval) clearInterval(timers[id].interval);
+  }
+  function resetTimer(id, total) {
+    stopTimer(id);
+    timers[id] = { remaining: total, total, interval: null };
+    const m = Math.floor(total / 60);
+    const s = total % 60;
+    document.getElementById('timer-' + id).textContent = `${m}:${s.toString().padStart(2,'0')}`;
+    document.getElementById('timer-' + id).className = 'timer-display';
+    document.getElementById('ring-circle-' + id).style.strokeDashoffset = 0;
+  }
+
+  /* ---- SPEAKING RENDER ---- */
+  function randomSpk(part) {
+    const data = spkData[part];
+    const item = data[Math.floor(Math.random() * data.length)];
+    const card = document.getElementById(`spk-${part}-random`);
+    card.style.display = 'block';
+    if (part === 'p1') {
+      card.innerHTML = `<div class="rq-part">Part 1 — Describe / Tell</div><div class="rq-main">${item}</div>`;
+    } else if (part === 'p2') {
+      card.innerHTML = `<div class="rq-part">Part 2 — Picture Description</div>
+        <div class="rq-main">🖼️ Scene: ${item.pic}</div>
+        <div class="rq-follow"><span>${item.q1}</span><span>${item.q2}</span></div>`;
+    } else if (part === 'p3') {
+      card.innerHTML = `<div class="rq-part">Part 3 — Compare Two Pictures</div>
+        <div class="rq-main">🖼️ ${item.pics}</div>
+        <div class="rq-follow"><span>${item.q1}</span><span>${item.q2}</span></div>`;
+    } else {
+      card.innerHTML = `<div class="rq-part">Part 4 — Debate · Topic: ${item.topic}</div>
+        <div class="rq-main">${item.q}</div>`;
+    }
+    document.getElementById(`spk-${part}-all`).style.display = 'none';
+  }
+
+  function showAllSpk(part) {
+    const allDiv = document.getElementById(`spk-${part}-all`);
+    const list = document.getElementById(`spk-${part}-list`);
+    document.getElementById(`spk-${part}-random`).style.display = 'none';
+    allDiv.style.display = 'block';
+    list.innerHTML = '';
+    spkData[part].forEach((item, i) => {
+      const el = document.createElement('div');
+      if (part === 'p1') {
+        el.className = 'spk-item';
+        el.innerHTML = `<div class="spk-num">Q${i+1}</div>${item}`;
+      } else if (part === 'p2') {
+        el.className = 'spk-item has-follow';
+        el.innerHTML = `<div class="spk-num">Set ${i+1} · 🖼️ ${item.pic}</div>
+          <div class="spk-follow"><span>${item.q1}</span><span>${item.q2}</span></div>`;
+      } else if (part === 'p3') {
+        el.className = 'spk-item has-follow';
+        el.innerHTML = `<div class="spk-num">Set ${i+1} · ${item.pics}</div>
+          <div class="spk-follow"><span>${item.q1}</span><span>${item.q2}</span></div>`;
+      } else {
+        el.className = 'spk-item has-follow';
+        el.innerHTML = `<div class="spk-num">Topic: ${item.topic}</div>${item.q}`;
+      }
+      list.appendChild(el);
+    });
+  }
+
+  /* ========== WRITING DATA ========== */
+  const clubData = [
+    { icon:"✈️", name:"Travel Club", task:"Write 3 messages for the Travel Club page. Message 1: Introduce yourself and why you love travel. Message 2: Ask members about their favourite destination. Message 3: Share a travel tip.",
+      messages:[
+        { label:"Message 1 — Introduce", text:"Hi everyone! I'm so excited to join the Travel Club! I've always loved exploring new places and learning about different cultures. I hope to share my experiences and hear about yours!", vocab:"excited to join · exploring new places · learning about cultures" },
+        { label:"Message 2 — Ask opinion", text:"I'd love to know — what's your all-time favourite travel destination and why? I've always dreamed of visiting Japan for its mix of tradition and modernity. Please share your thoughts!", vocab:"all-time favourite · dreamed of visiting · mix of tradition and modernity" },
+        { label:"Message 3 — Share tip", text:"Here's my top travel tip: always book accommodation in advance, especially during peak season. It saves money and guarantees a stress-free trip. What tips do you have for fellow travellers?", vocab:"book in advance · peak season · stress-free trip · fellow travellers" }
+      ]
+    },
+    { icon:"🏘️", name:"Community Club", task:"Write 3 messages for the Community Club. Message 1: Introduce yourself. Message 2: Propose a community activity. Message 3: Encourage others to volunteer.",
+      messages:[
+        { label:"Message 1 — Introduce", text:"Hello, Community Club members! My name is [Name] and I moved to this neighbourhood six months ago. I'm really passionate about making our community a better place for everyone.", vocab:"passionate about · making a better place · neighbourhood" },
+        { label:"Message 2 — Propose activity", text:"I'd like to propose a community clean-up day at the local park this Saturday. We could divide into small groups and tackle different areas. Would you be interested in joining?", vocab:"propose · clean-up day · divide into groups · tackle different areas" },
+        { label:"Message 3 — Encourage", text:"Volunteering even for just a few hours makes a huge difference! It's also a wonderful opportunity to meet neighbours and build friendships. I hope to see as many of you as possible this weekend!", vocab:"makes a huge difference · wonderful opportunity · build friendships" }
+      ]
+    },
+    { icon:"💪", name:"Health Club", task:"Write 3 messages for the Health Club page. Message 1: Share your fitness goal. Message 2: Ask for exercise advice. Message 3: Recommend a healthy habit.",
+      messages:[
+        { label:"Message 1 — Share goal", text:"Hi Health Club! My goal this month is to run 5km without stopping. I've been training three times a week and I'm already seeing improvements. Does anyone else have a fitness goal they're working towards?", vocab:"fitness goal · training · seeing improvements · working towards" },
+        { label:"Message 2 — Ask advice", text:"I've been struggling with motivation to work out in the mornings. Does anyone have tips for making early exercise a regular habit? I really want to start the day with more energy!", vocab:"struggling with motivation · regular habit · start the day with energy" },
+        { label:"Message 3 — Recommend habit", text:"My best healthy habit is drinking at least 8 glasses of water a day. It sounds simple but it really boosts energy levels and helps with concentration. Try it for a week and let me know how you feel!", vocab:"healthy habit · boost energy levels · concentration · sounds simple" }
+      ]
+    },
+    { icon:"💼", name:"Business Club", task:"Write 3 messages for the Business Club. Message 1: Introduce your professional background. Message 2: Ask about career advice. Message 3: Share a business tip.",
+      messages:[
+        { label:"Message 1 — Background", text:"Hello Business Club! I work in marketing for a local startup. I joined this club to network with like-minded professionals and learn from people with different business experiences. Really glad to be here!", vocab:"marketing · startup · network · like-minded professionals" },
+        { label:"Message 2 — Career advice", text:"I'm considering a career change from marketing to project management. Has anyone made a similar switch? I'd appreciate any advice on the best way to make this transition successfully.", vocab:"career change · transition · project management · I'd appreciate" },
+        { label:"Message 3 — Business tip", text:"My top business tip: always respond to emails within 24 hours. It shows professionalism and respect for others' time. Small habits like this can make a big difference to your professional reputation!", vocab:"respond promptly · professionalism · professional reputation · small habits" }
+      ]
+    },
+    { icon:"🎬", name:"Film Club", task:"Write 3 messages for the Film Club. Message 1: Share your favourite film genre. Message 2: Recommend a recent film. Message 3: Organise a film night.",
+      messages:[
+        { label:"Message 1 — Favourite genre", text:"Hi Film Club! I'm a huge fan of science fiction films — I love how they explore ideas about the future and technology. My all-time favourite is Interstellar. What genres do you all enjoy most?", vocab:"huge fan of · explore ideas · all-time favourite · science fiction" },
+        { label:"Message 2 — Recommend film", text:"I recently watched 'The Pursuit of Happyness' and I thought it was absolutely brilliant — very moving and inspiring. It's based on a true story and really makes you appreciate what you have. Has anyone seen it?", vocab:"recently watched · absolutely brilliant · moving · inspiring · based on a true story" },
+        { label:"Message 3 — Organise event", text:"I thought it would be fun to organise a film night next Friday at my place. I'll prepare some popcorn and drinks! We could vote on which film to watch. Who would be interested in coming along?", vocab:"organise · vote on · interested in coming along · prepare" }
+      ]
+    },
+    { icon:"🎓", name:"College Club", task:"Write 3 messages for the College Club. Message 1: Introduce yourself as a student. Message 2: Ask about study tips. Message 3: Propose a study group.",
+      messages:[
+        { label:"Message 1 — Introduce", text:"Hey College Club! I'm a second-year student studying Business Administration. I joined this club to connect with other students and make the most of my university experience. Looking forward to getting to know everyone!", vocab:"second-year student · make the most of · connect with" },
+        { label:"Message 2 — Study tips", text:"Exams are coming up and I'm feeling a bit overwhelmed. Does anyone have effective study techniques they'd recommend? I've tried flashcards but I'm not sure if it's working well for me.", vocab:"overwhelmed · effective study techniques · flashcards · coming up" },
+        { label:"Message 3 — Study group", text:"Would anyone be interested in forming a study group for the upcoming exams? We could meet twice a week at the library and help each other with difficult topics. I think studying together is much more productive!", vocab:"forming a study group · upcoming exams · productive · difficult topics" }
+      ]
+    },
+    { icon:"💻", name:"Computer Club", task:"Write 3 messages for the Computer Club. Message 1: Share your interest in technology. Message 2: Ask for a software recommendation. Message 3: Share a tech tip.",
+      messages:[
+        { label:"Message 1 — Interest", text:"Hello Computer Club! I'm a software developer with a passion for web development and AI. I'm really excited to be part of this community and share ideas with other tech enthusiasts!", vocab:"software developer · passion for · web development · tech enthusiasts" },
+        { label:"Message 2 — Ask recommendation", text:"I'm looking for a good project management tool for my team. We're a small group working remotely. Has anyone used Trello or Notion? Which do you prefer and why?", vocab:"project management tool · working remotely · prefer · small team" },
+        { label:"Message 3 — Tech tip", text:"Quick tip: use keyboard shortcuts to save time! For example, Ctrl+Z to undo and Ctrl+Shift+T to reopen closed browser tabs. These small tricks can really speed up your workflow throughout the day.", vocab:"keyboard shortcuts · save time · workflow · speed up" }
+      ]
+    },
+    { icon:"🌱", name:"Garden Club", task:"Write 3 messages for the Garden Club. Message 1: Share what you grow. Message 2: Ask for gardening advice. Message 3: Invite members to a garden visit.",
+      messages:[
+        { label:"Message 1 — Share", text:"Hello fellow gardeners! I grow tomatoes, herbs and sunflowers in my backyard. Gardening is my favourite way to relax after a busy week. There's something really satisfying about growing your own food!", vocab:"fellow gardeners · backyard · satisfying · growing your own food" },
+        { label:"Message 2 — Ask advice", text:"My rose bushes aren't blooming this year and I'm not sure why. Could it be due to lack of sunlight or incorrect watering? Has anyone experienced this and found a solution? Any advice would be greatly appreciated!", vocab:"blooming · lack of sunlight · any advice would be appreciated" },
+        { label:"Message 3 — Invite", text:"I'd love to invite you all to visit my garden next Sunday afternoon! The sunflowers are in full bloom and the vegetable patch is looking great. I'll provide tea and homemade cake. Please RSVP by Friday!", vocab:"in full bloom · vegetable patch · RSVP · homemade" }
+      ]
+    },
+    { icon:"🚶", name:"Walking Club", task:"Write 3 messages for the Walking Club. Message 1: Describe a favourite walk. Message 2: Organise a group walk. Message 3: Share benefits of walking.",
+      messages:[
+        { label:"Message 1 — Favourite walk", text:"Hi Walking Club! My favourite walk is along the riverside trail near the city centre. It takes about an hour and the views are absolutely stunning, especially in autumn. I try to do it every weekend!", vocab:"riverside trail · stunning views · especially in autumn" },
+        { label:"Message 2 — Organise", text:"I'm planning a group walk this Sunday morning starting at 9am from the main park entrance. The route is about 8km and suitable for all fitness levels. Please bring water and comfortable shoes! Who's joining?", vocab:"planning · suitable for all fitness levels · comfortable shoes · route" },
+        { label:"Message 3 — Benefits", text:"Did you know that walking for just 30 minutes a day can significantly reduce stress and improve cardiovascular health? It's free, requires no equipment, and you can enjoy the fresh air at the same time!", vocab:"significantly reduce stress · cardiovascular health · fresh air · requires no equipment" }
+      ]
+    },
+    { icon:"📱", name:"Technology Club", task:"Write 3 messages for the Technology Club. Message 1: Introduce a tech trend. Message 2: Ask about AI tools. Message 3: Share a useful app.",
+      messages:[
+        { label:"Message 1 — Tech trend", text:"Hi Tech Club! I've been following the rise of artificial intelligence very closely and I believe it's going to transform almost every industry within the next decade. What technology trends are you most excited about?", vocab:"rise of artificial intelligence · transform · industry · trends" },
+        { label:"Message 2 — Ask about AI", text:"Has anyone been using AI tools in their daily work? I've started using AI to help draft emails and it saves me a lot of time. I'm curious whether others have found similar tools helpful.", vocab:"AI tools · draft emails · saves time · I'm curious · similar tools" },
+        { label:"Message 3 — Useful app", text:"I'd highly recommend the app 'Notion' for anyone who wants to stay organised. You can manage tasks, take notes, and even collaborate with teammates all in one place. It's completely changed how I manage my workload!", vocab:"highly recommend · stay organised · manage tasks · collaborate · workload" }
+      ]
+    },
+    { icon:"🎵", name:"Music Club", task:"Write 3 messages for the Music Club. Message 1: Share your musical taste. Message 2: Recommend a song or album. Message 3: Propose a live music event.",
+      messages:[
+        { label:"Message 1 — Musical taste", text:"Hello Music Club! I'm a huge fan of jazz and classical music, though I also enjoy pop occasionally. I've been playing the piano since I was eight years old. What kind of music do you all enjoy?", vocab:"huge fan of · jazz and classical · playing the piano · occasionally" },
+        { label:"Message 2 — Recommend", text:"I'd strongly recommend listening to 'Kind of Blue' by Miles Davis if you haven't already. It's widely considered one of the greatest jazz albums ever recorded and it's incredibly relaxing. Perfect for a Sunday morning!", vocab:"strongly recommend · widely considered · greatest albums · incredibly relaxing" },
+        { label:"Message 3 — Live event", text:"How about we organise a trip to the jazz festival in the city next month? Tickets are still available and the lineup looks fantastic! It would be a wonderful opportunity for us to enjoy live music together.", vocab:"organise a trip · lineup · tickets available · wonderful opportunity · live music" }
+      ]
+    },
+    { icon:"🌍", name:"English Club", task:"Write 3 messages for the English Club. Message 1: Share why you're learning English. Message 2: Ask for practice tips. Message 3: Organise a speaking session.",
+      messages:[
+        { label:"Message 1 — Why learning", text:"Hello English Club! I'm learning English because I want to advance my career and communicate with people from around the world. I find English challenging but also very rewarding. What's your motivation for learning?", vocab:"advance my career · communicate · rewarding · challenging · motivation" },
+        { label:"Message 2 — Practice tips", text:"I struggle most with speaking fluently without long pauses. Does anyone have advice on how to practise speaking more naturally? I've tried watching English films with subtitles but I'm looking for other methods.", vocab:"speaking fluently · long pauses · naturally · with subtitles · looking for methods" },
+        { label:"Message 3 — Speaking session", text:"I'd like to organise an online speaking session this Thursday evening via video call. We could spend 30 minutes chatting about a topic and help each other improve. Would anyone like to join? Please reply below!", vocab:"organise · video call · chatting about a topic · improve" }
+      ]
+    },
+    { icon:"🗣️", name:"Debate Club", task:"Write 3 messages for the Debate Club. Message 1: Share a debating experience. Message 2: Propose a debate topic. Message 3: Invite newcomers.",
+      messages:[
+        { label:"Message 1 — Experience", text:"Hi Debate Club! Last week I took part in my first formal debate and I found it incredibly challenging but hugely rewarding. It really improved my ability to think quickly and express ideas clearly.", vocab:"took part in · formal debate · incredibly challenging · rewarding · think quickly" },
+        { label:"Message 2 — Propose topic", text:"I'd like to suggest the topic 'Social media does more harm than good' for our next debate. It's a highly relevant issue and I think it would generate some lively discussion. What does everyone think?", vocab:"suggest a topic · highly relevant · generate discussion · lively" },
+        { label:"Message 3 — Invite newcomers", text:"To anyone who's thinking about joining: don't be nervous! Our club is very welcoming and supportive. You don't need prior experience — just a willingness to share your opinions and listen to others. We'd love to have you!", vocab:"welcoming · supportive · prior experience · willingness · share your opinions" }
+      ]
+    },
+    { icon:"🌐", name:"Language Club", task:"Write 3 messages for the Language Club. Message 1: Introduce the language you're learning. Message 2: Ask for language exchange partners. Message 3: Share a learning resource.",
+      messages:[
+        { label:"Message 1 — Language intro", text:"Hello Language Club! I'm currently learning Spanish and I'm absolutely fascinated by the culture and history behind it. I've been studying for two years now and I can hold basic conversations.", vocab:"currently learning · fascinated by · culture and history · hold basic conversations" },
+        { label:"Message 2 — Language exchange", text:"Is anyone interested in a language exchange? I'm a native Vietnamese speaker looking for a Spanish speaker who wants to practise Vietnamese in return. We could meet online once a week for 30 minutes each way.", vocab:"language exchange · native speaker · in return · meet online · once a week" },
+        { label:"Message 3 — Share resource", text:"I highly recommend the Duolingo app for beginners — it's fun, free, and you can study at your own pace for just 10–15 minutes a day. I've found it really helpful for building vocabulary. Give it a try!", vocab:"highly recommend · study at your own pace · building vocabulary · give it a try" }
+      ]
+    },
+    { icon:"🏋️", name:"Fitness Power Club", task:"Write 3 messages for the Fitness Club. Message 1: Share your workout routine. Message 2: Ask for nutrition advice. Message 3: Challenge members to a fitness goal.",
+      messages:[
+        { label:"Message 1 — Workout routine", text:"Hey Fitness Club! My current routine is 3 days of strength training and 2 days of cardio per week. I've been following this programme for 3 months and I've noticed a significant improvement in my energy levels!", vocab:"current routine · strength training · cardio · programme · significant improvement" },
+        { label:"Message 2 — Nutrition advice", text:"I've been trying to build muscle but I'm not sure how much protein I should be eating each day. Has anyone worked with a nutritionist or followed a specific diet plan? Any advice from experienced members would be very welcome!", vocab:"build muscle · protein · nutritionist · specific diet plan · experienced members" },
+        { label:"Message 3 — Challenge", text:"I'm starting a 30-day fitness challenge: 20 push-ups, 20 squats, and a 10-minute walk every day. Would anyone like to join me? We can check in daily and motivate each other to keep going!", vocab:"30-day challenge · push-ups · squats · check in · motivate each other" }
+      ]
+    },
+    { icon:"🎨", name:"Art Club", task:"Write 3 messages for the Art Club. Message 1: Share your art style. Message 2: Ask for feedback on a piece. Message 3: Organise an art exhibition.",
+      messages:[
+        { label:"Message 1 — Art style", text:"Hello Art Club! I mainly paint watercolour landscapes and I find the process incredibly meditative. I've been painting as a hobby for about five years. Would love to see what styles others in the club enjoy!", vocab:"watercolour landscapes · meditative · hobby · incredibly" },
+        { label:"Message 2 — Ask feedback", text:"I've just finished a new painting and I'd really value some honest feedback from fellow artists. I'll post a photo below. I'm particularly unsure about the colour balance in the background — any thoughts?", vocab:"honest feedback · fellow artists · particularly · colour balance · any thoughts" },
+        { label:"Message 3 — Exhibition", text:"I'd love to organise a small art exhibition at the community centre next month where members can display their work. It would be a fantastic way to share our passion with the local community. Is anyone interested?", vocab:"organise an exhibition · display their work · community centre · share our passion" }
+      ]
+    },
+    { icon:"📸", name:"Photography Club", task:"Write 3 messages for the Photography Club. Message 1: Share your photography style. Message 2: Ask for camera tips. Message 3: Organise a photo walk.",
+      messages:[
+        { label:"Message 1 — Style", text:"Hi Photography Club! I specialise in street photography and I love capturing candid moments of everyday life. There's something really special about freezing a moment in time. What type of photography do you all enjoy?", vocab:"specialise in · street photography · candid moments · freezing a moment" },
+        { label:"Message 2 — Camera tips", text:"I've just bought my first DSLR camera and I'm a bit overwhelmed by all the manual settings. Does anyone have tips for beginners? I'd especially like to understand when to adjust the aperture and shutter speed.", vocab:"DSLR · manual settings · overwhelmed · adjust · aperture · shutter speed" },
+        { label:"Message 3 — Photo walk", text:"I'm organising a photo walk around the old town district this Saturday morning at 10am. It's a great opportunity to practise our skills and explore the area together. All skill levels are welcome — I hope to see you there!", vocab:"photo walk · old town · practise our skills · all skill levels welcome" }
+      ]
+    },
+    { icon:"🔬", name:"Science Club", task:"Write 3 messages for the Science Club. Message 1: Share a scientific interest. Message 2: Discuss a recent discovery. Message 3: Propose a Science Club experiment.",
+      messages:[
+        { label:"Message 1 — Interest", text:"Hello Science Club! I'm particularly fascinated by astronomy and the possibility of life on other planets. I love reading about the latest space missions and discoveries. What area of science interests you the most?", vocab:"particularly fascinated · astronomy · possibility · space missions · discoveries" },
+        { label:"Message 2 — Discovery", text:"Did everyone see the recent news about the James Webb Telescope discovering complex molecules on a distant planet? I think this could be a significant step towards finding evidence of life beyond Earth. Truly mind-blowing!", vocab:"recent news · significant step · evidence of life · mind-blowing" },
+        { label:"Message 3 — Experiment", text:"I'd like to propose a simple experiment for our next meeting: we could test the effect of light on plant growth using different coloured lenses. It's inexpensive, easy to set up, and would produce interesting results!", vocab:"propose an experiment · test the effect · plant growth · inexpensive · set up" }
+      ]
+    },
+    { icon:"📚", name:"Book Club", task:"Write 3 messages for the Book Club. Message 1: Recommend a book. Message 2: Discuss a current read. Message 3: Organise a book discussion.",
+      messages:[
+        { label:"Message 1 — Recommend", text:"Hello Book Club! I'd strongly recommend 'The Alchemist' by Paulo Coelho if you haven't read it. It's a beautifully written story about following your dreams and it never fails to inspire me every time I re-read it.", vocab:"strongly recommend · beautifully written · following your dreams · never fails to inspire" },
+        { label:"Message 2 — Discuss book", text:"I've been reading '1984' by George Orwell this month and I'm finding it both disturbing and thought-provoking. The themes about surveillance and government control feel surprisingly relevant today. Has anyone else read it?", vocab:"thought-provoking · disturbing · surveillance · surprisingly relevant" },
+        { label:"Message 3 — Organise discussion", text:"How about we meet next Wednesday evening to discuss this month's book? We could each prepare 2–3 questions to bring to the discussion. I'll book a private room at the local library. Please let me know if you can make it!", vocab:"prepare questions · book a room · local library · let me know · can make it" }
+      ]
+    },
+    { icon:"🏛️", name:"Museum Club", task:"Write 3 messages for the Museum Club. Message 1: Share a recent museum visit. Message 2: Recommend a museum. Message 3: Organise a group visit.",
+      messages:[
+        { label:"Message 1 — Recent visit", text:"Hi Museum Club! I visited the Natural History Museum last weekend and it was absolutely fascinating. The exhibition on ancient civilisations was particularly impressive — I ended up spending over three hours there!", vocab:"absolutely fascinating · ancient civilisations · particularly impressive" },
+        { label:"Message 2 — Recommend", text:"I highly recommend the Science Museum in the city centre for anyone who hasn't been. The interactive exhibits make learning genuinely fun, and there's something for people of all ages. Entry is free on the first Sunday of each month!", vocab:"highly recommend · interactive exhibits · genuinely fun · entry is free" },
+        { label:"Message 3 — Group visit", text:"I'm organising a group visit to the Art Gallery on Saturday 15th. There's a new temporary exhibition on contemporary photography that looks outstanding. Shall we meet at the entrance at 2pm? Please reply if you'd like to join!", vocab:"organising a group visit · temporary exhibition · contemporary · outstanding" }
+      ]
+    },
+    { icon:"🏠", name:"Beautiful Homes Club", task:"Write 3 messages for the Beautiful Homes Club. Message 1: Share a home decor tip. Message 2: Ask for renovation advice. Message 3: Share a room transformation.",
+      messages:[
+        { label:"Message 1 — Decor tip", text:"Hello Beautiful Homes Club! My top interior design tip is to use mirrors to make small rooms feel much larger and brighter. I added a large mirror to my hallway and it completely transformed the space!", vocab:"interior design · mirrors · make rooms feel larger · transformed the space · hallway" },
+        { label:"Message 2 — Renovation advice", text:"I'm planning to renovate my kitchen next month and I'm trying to decide between an open-plan layout and keeping the walls. Has anyone done a similar renovation? I'd love to hear about your experience!", vocab:"renovate · open-plan layout · similar renovation · I'd love to hear" },
+        { label:"Message 3 — Transformation", text:"I just finished redecorating my living room and I'm so happy with the result! I changed the paint colour to a warm grey, added some indoor plants, and replaced the old curtains. It feels like a completely new room!", vocab:"redecorating · warm grey · indoor plants · replaced · completely new room" }
+      ]
+    },
+    { icon:"📺", name:"Television Club", task:"Write 3 messages for the Television Club. Message 1: Share a favourite show. Message 2: Recommend a documentary. Message 3: Discuss streaming habits.",
+      messages:[
+        { label:"Message 1 — Favourite show", text:"Hi Television Club! My all-time favourite TV series is Breaking Bad — the writing, acting, and storyline are absolutely exceptional. I've watched it three times and I notice something new every time. What's your favourite show?", vocab:"all-time favourite · exceptional · writing and acting · notice something new" },
+        { label:"Message 2 — Documentary", text:"If you haven't watched 'Our Planet' on Netflix, I strongly recommend it. David Attenborough's narration combined with the stunning visuals makes it one of the most powerful documentaries I've ever seen.", vocab:"strongly recommend · narration · stunning visuals · powerful documentary" },
+        { label:"Message 3 — Streaming habits", text:"I've noticed I watch far more TV on streaming platforms than on traditional television these days. I can watch what I want, when I want, and without adverts! Has streaming changed your viewing habits too?", vocab:"streaming platforms · traditional television · without adverts · viewing habits" }
+      ]
+    },
+    { icon:"🍳", name:"Food Club", task:"Write 3 messages for the Food Club. Message 1: Share a favourite recipe. Message 2: Ask for a cuisine recommendation. Message 3: Organise a cook-off.",
+      messages:[
+        { label:"Message 1 — Recipe", text:"Hello Food Club! My favourite recipe is a simple homemade tomato pasta sauce made from fresh tomatoes, garlic, and basil. It takes about 20 minutes and tastes far better than anything from a jar! Happy to share the full recipe.", vocab:"homemade · fresh tomatoes · garlic and basil · full recipe · far better" },
+        { label:"Message 2 — Cuisine recommendation", text:"I'm planning to try cooking a new cuisine this weekend and I'm torn between Thai and Indian food. Both are delicious but I've heard Thai food can be tricky to get right. Does anyone have a beginner-friendly recipe to suggest?", vocab:"torn between · tricky to get right · beginner-friendly · cuisine" },
+        { label:"Message 3 — Cook-off", text:"How about we organise a friendly cook-off next Saturday? Everyone brings a homemade dish and we vote on our favourite! It would be a brilliant way to try new foods and share our cooking skills. Who's in?", vocab:"cook-off · homemade dish · vote on · brilliant way · share cooking skills" }
+      ]
+    },
+    { icon:"🛋️", name:"Home Living Club", task:"Write 3 messages for the Home Living Club. Message 1: Share a home organisation tip. Message 2: Ask for cleaning product recommendations. Message 3: Discuss eco-friendly living.",
+      messages:[
+        { label:"Message 1 — Organisation tip", text:"Hi Home Living Club! My favourite organisation tip is the 'one in, one out' rule — every time you buy something new, you get rid of something old. It keeps clutter under control and makes your home feel much calmer.", vocab:"organisation tip · one in one out · get rid of · clutter · calmer" },
+        { label:"Message 2 — Cleaning products", text:"I'm trying to switch to more natural cleaning products but I'm not sure which brands are effective and affordable. Has anyone made the switch? I'd love some recommendations for good eco-friendly alternatives!", vocab:"switch to · natural cleaning products · effective · affordable · eco-friendly alternatives" },
+        { label:"Message 3 — Eco-friendly living", text:"I've started composting kitchen waste and using reusable shopping bags and it's made me feel much more conscious about the environment. Small changes really do add up! Has anyone else made changes to live more sustainably?", vocab:"composting · reusable · conscious about the environment · small changes add up" }
+      ]
+    },
+    { icon:"🎥", name:"Movie Club", task:"Write 3 messages for the Movie Club. Message 1: Share your favourite director. Message 2: Recommend an underrated film. Message 3: Organise a movie marathon.",
+      messages:[
+        { label:"Message 1 — Director", text:"Hello Movie Club! My favourite director is Christopher Nolan because of his unique ability to tell complex stories in a visually stunning way. Films like Inception and Interstellar completely changed the way I think about cinema.", vocab:"unique ability · complex stories · visually stunning · completely changed" },
+        { label:"Message 2 — Underrated film", text:"I'd like to recommend 'About Time' — it's a beautifully made British film about time travel and family that deserves far more attention than it gets. It's funny, emotional, and genuinely thought-provoking. A real hidden gem!", vocab:"beautifully made · deserves more attention · thought-provoking · hidden gem" },
+        { label:"Message 3 — Movie marathon", text:"I'm planning a movie marathon at my place this Saturday evening — 3 films starting at 5pm. I'll provide snacks and drinks. We could take a vote on which films to watch beforehand. Who would like to come?", vocab:"movie marathon · take a vote · beforehand · provide snacks" }
+      ]
+    }
+  ];
+
+  const essayTopics = [
+    { title:"Technology & Daily Life", prompt:"Some people believe that technology has made our lives easier and more comfortable. Others think it has created new problems and made life more stressful. Discuss both views and give your opinion.", structure:[{l:"Introduction",h:"State the issue. Give your opinion briefly."},{l:"Body 1 — Benefits",h:"Tech saves time, connects people, improves healthcare."},{l:"Body 2 — Drawbacks",h:"Overuse, addiction, job losses, privacy concerns."},{l:"Conclusion",h:"Summarise. Restate your view clearly."}] },
+    { title:"Environment & Individual Action", prompt:"Many experts argue that individuals can do very little to solve environmental problems, and that it is governments and large companies that must take the lead. To what extent do you agree?", structure:[{l:"Introduction",h:"Introduce the topic. State your position."},{l:"Body 1 — Government action",h:"Policies, regulations, funding green energy."},{l:"Body 2 — Individual action",h:"Recycling, reducing consumption, raising awareness."},{l:"Conclusion",h:"Both must work together. Restate your view."}] },
+    { title:"Education & University", prompt:"In many countries, university education is becoming increasingly expensive. Some people argue that governments should provide free university education for all students. Do you agree or disagree?", structure:[{l:"Introduction",h:"Introduce debate. Give your view."},{l:"Body 1 — For free education",h:"Equal opportunity, reduces inequality, benefits society."},{l:"Body 2 — Against",h:"Costly, better to target funding, private sector options."},{l:"Conclusion",h:"Your balanced recommendation."}] },
+    { title:"Work From Home", prompt:"Modern technology means that many people can work from home. Do the advantages of working from home outweigh the disadvantages? Give reasons and examples.", structure:[{l:"Introduction",h:"Define the issue. State your view."},{l:"Body 1 — Advantages",h:"Flexible hours, no commute, more family time."},{l:"Body 2 — Disadvantages",h:"Isolation, distractions, harder to separate work/life."},{l:"Conclusion",h:"Weigh up, state final view."}] },
+  ];
+
+  const usefulPhrases = [
+    { cat:"📝 Opening a Message", phrases:["Hi everyone!", "Hello [Club] members!", "I'm excited to share...", "I'd like to introduce myself...", "I hope you're all doing well!"] },
+    { cat:"💬 Giving Opinions", phrases:["In my opinion,", "I strongly believe that", "From my perspective,", "I think it's fair to say that", "As far as I'm concerned,"] },
+    { cat:"🙋 Asking Questions", phrases:["Has anyone ever...?", "I'd love to know your thoughts on...", "What do you think about...?", "Could anyone recommend...?", "Does anyone have experience with...?"] },
+    { cat:"✅ Agreeing", phrases:["I completely agree with...", "That's a great point.", "I couldn't agree more.", "Absolutely!", "You're absolutely right."] },
+    { cat:"🔄 Linking Ideas", phrases:["Furthermore,", "In addition to this,", "On the other hand,", "However,", "Despite this,", "As a result,", "Therefore,"] },
+    { cat:"🎯 Making Suggestions", phrases:["How about...?", "Why don't we...?", "I'd like to suggest...", "It might be a good idea to...", "What if we...?"] },
+    { cat:"🏁 Closing a Message", phrases:["I hope to hear from you soon!", "Please feel free to reply.", "Looking forward to your response.", "Don't hesitate to contact me.", "Best wishes,"] },
+    { cat:"📊 Comparing & Contrasting", phrases:["Compared to...", "Similarly,", "In contrast,", "While ... on the other hand ...", "Both ... and ..."] },
+  ];
+
+  /* ---- RENDER WRITING ---- */
+  function randomClub() {
+    const club = clubData[Math.floor(Math.random() * clubData.length)];
+    const card = document.getElementById('wrt-random-card');
+    card.style.display = 'block';
+    document.getElementById('wrt-all-clubs').style.display = 'none';
+    card.innerHTML = `
+      <div class="rq-part">${club.icon} ${club.name}</div>
+      <div style="font-size:0.82rem; color:var(--muted); margin-bottom:14px; line-height:1.6; background:var(--surface2); border-radius:8px; padding:10px 12px;">📋 ${club.task}</div>
+      ${club.messages.map(m => `
+        <div class="msg-block">
+          <div class="msg-label">${m.label}</div>
+          <div class="msg-text">${m.text}</div>
+          <div class="msg-vocab">💡 Key vocab: <b>${m.vocab}</b></div>
+        </div>`).join('')}`;
+  }
+
+  function showAllClubs() {
+    document.getElementById('wrt-random-card').style.display = 'none';
+    const allDiv = document.getElementById('wrt-all-clubs');
+    allDiv.style.display = 'block';
+    const grid = document.getElementById('clubs-grid');
+    if (grid.innerHTML !== '') return;
+    clubData.forEach((club, i) => {
+      const card = document.createElement('div');
+      card.className = 'club-card';
+      card.id = 'club-' + i;
+      card.innerHTML = `
+        <div class="club-header" onclick="toggleClub(${i})">
+          <span class="club-title">${club.icon} ${club.name}</span>
+          <span class="topic-chevron" id="ch-${i}">▼</span>
+        </div>
+        <div class="club-body">
+          <div class="club-task">📋 ${club.task}</div>
+          <div class="club-messages">
+            ${club.messages.map(m => `
+              <div class="msg-block">
+                <div class="msg-label">${m.label}</div>
+                <div class="msg-text">${m.text}</div>
+                <div class="msg-vocab">💡 <b>${m.vocab}</b></div>
+              </div>`).join('')}
+          </div>
+        </div>`;
+      grid.appendChild(card);
+    });
+  }
+
+  function toggleClub(i) {
+    const card = document.getElementById('club-' + i);
+    card.classList.toggle('open');
+    const ch = document.getElementById('ch-' + i);
+    if (ch) ch.style.transform = card.classList.contains('open') ? 'rotate(180deg)' : '';
+  }
+
+  function renderEssayTopics() {
+    const c = document.getElementById('essay-topics-grid');
+    c.innerHTML = '';
+    essayTopics.forEach(t => {
+      const d = document.createElement('div');
+      d.className = 'essay-card';
+      d.innerHTML = `
+        <h3>✏️ ${t.title}</h3>
+        <div class="essay-prompt">${t.prompt}</div>
+        <div class="essay-structure">
+          ${t.structure.map(s => `<div class="essay-part"><div class="ep-label">${s.l}</div><div class="ep-hint">${s.h}</div></div>`).join('')}
+        </div>`;
+      c.appendChild(d);
+    });
+  }
+
+  function renderPhrases() {
+    const c = document.getElementById('phrases-grid');
+    c.innerHTML = '';
+    usefulPhrases.forEach((sec, i) => {
+      const d = document.createElement('div');
+      d.className = 'phrases-section';
+      d.id = 'ph-' + i;
+      d.innerHTML = `
+        <div class="ph-header" onclick="togglePhrase(${i})">
+          <span>${sec.cat}</span><span>▼</span>
+        </div>
+        <div class="ph-body">
+          <div class="phrase-list">${sec.phrases.map(p => `<span class="phrase-chip">${p}</span>`).join('')}</div>
+        </div>`;
+      c.appendChild(d);
+    });
+  }
+
+  function togglePhrase(i) {
+    document.getElementById('ph-' + i).classList.toggle('open');
+  }
+
+  renderEssayTopics();
+  renderPhrases();
+</script>
+</body>
+</html>
