@@ -634,41 +634,19 @@
       cursor: pointer;
     }
     .passage-header h3 { font-size: 0.95rem; font-weight: 700; }
-    .passage-body { padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.4s, padding 0.4s; }
-    .passage-card.open .passage-body { max-height: 600px; padding: 18px 20px; }
-    .sentence-list { list-style: none; counter-reset: sent; }
-    .sentence-list li {
-      counter-increment: sent;
-      padding: 8px 0 8px 32px;
-      position: relative;
-      font-size: 0.88rem;
-      line-height: 1.6;
-      border-bottom: 1px solid #2a2d45;
-    }
-    .sentence-list li:last-child { border-bottom: none; }
-    .sentence-list li::before {
-      content: counter(sent);
-      position: absolute; left: 0;
-      background: var(--accent);
-      color: #fff;
-      font-size: 0.7rem;
-      font-weight: 700;
-      width: 20px; height: 20px;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      top: 10px;
-    }
-    .show-passage-btn {
-      background: var(--surface2);
-      border: 1px solid #3a3d55;
-      color: var(--accent);
-      border-radius: 8px;
-      padding: 5px 14px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      cursor: pointer;
-      white-space: nowrap;
-    }
+    .passage-body { padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.5s, padding 0.4s; }
+    .passage-card.open .passage-body { max-height: 900px; padding: 18px 20px; }
+    .show-passage-btn { background:var(--surface2); border:1px solid #3a3d55; color:var(--accent); border-radius:8px; padding:5px 14px; font-size:0.8rem; font-weight:700; cursor:pointer; white-space:nowrap; }
+    .scrambled-list { margin-bottom:14px; }
+    .scrambled-item { display:flex; align-items:flex-start; gap:10px; padding:8px 0; border-bottom:1px solid #2a2d45; font-size:0.88rem; line-height:1.6; }
+    .scrambled-item:last-child { border-bottom:none; }
+    .scrambled-lbl { background:var(--surface2); border:1px solid #3a3d55; color:var(--accent); border-radius:6px; padding:2px 8px; font-weight:700; font-size:0.78rem; min-width:24px; text-align:center; flex-shrink:0; margin-top:2px; }
+    .show-ans-btn { background:var(--surface2); border:1px solid var(--green); color:var(--green); border-radius:8px; padding:5px 14px; font-size:0.8rem; font-weight:700; cursor:pointer; margin-bottom:12px; }
+    .p2-answer { border-top:1px solid #2a2d45; padding-top:12px; margin-top:4px; }
+    .answer-item { display:flex; align-items:flex-start; gap:8px; padding:8px 0; border-bottom:1px solid #2a2d45; font-size:0.88rem; line-height:1.6; }
+    .answer-item:last-child { border-bottom:none; }
+    .answer-num { background:var(--accent); color:#fff; border-radius:50%; width:22px; height:22px; display:flex; align-items:center; justify-content:center; font-size:0.72rem; font-weight:700; flex-shrink:0; margin-top:1px; }
+    .answer-orig { color:var(--green); font-weight:700; font-size:0.78rem; margin-top:2px; flex-shrink:0; }
 
     /* Part 3 opinions */
     .opinions-block {
@@ -903,7 +881,7 @@
 
       <!-- PART 2: PASSAGES -->
       <div id="read-p2" class="inner-section">
-        <p style="color:var(--muted); font-size:0.85rem; margin-bottom:18px;">Đọc đoạn văn và click <b style="color:var(--accent)">Show Sentences</b> để xem câu hoàn chỉnh theo thứ tự đúng.</p>
+        <p style="color:var(--muted); font-size:0.85rem; margin-bottom:18px;">Các câu <b style="color:var(--accent)">A–E</b> bị xáo trộn — hãy tự sắp xếp theo thứ tự đúng, rồi click <b style="color:var(--green)">Show Answer</b> để kiểm tra.</p>
         <div id="p2-passages-container"></div>
       </div>
 
@@ -1624,21 +1602,46 @@
   }
 
   /* ---- RENDER PART 2 ---- */
+  function shuffleArr(arr) {
+    const a = [...arr];
+    for (let i = a.length-1; i > 0; i--) {
+      const j = Math.floor(Math.random()*(i+1));
+      [a[i],a[j]] = [a[j],a[i]];
+    }
+    return a;
+  }
+
   function renderP2() {
     const c = document.getElementById('p2-passages-container');
     c.innerHTML = '';
+    const letters = 'ABCDE';
     p2Passages.forEach((p, i) => {
       const card = document.createElement('div');
       card.className = 'passage-card';
       card.id = 'p2card-' + i;
-      const liItems = p.sentences.map(s => `<li>${s}</li>`).join('');
+      // Shuffle with original index tracking
+      const indexed = p.sentences.map((s, idx) => ({s, idx}));
+      const shuffled = shuffleArr(indexed);
+      const scrambledHTML = shuffled.map((item, li) =>
+        `<div class="scrambled-item"><span class="scrambled-lbl">${letters[li]}</span><span>${item.s}</span></div>`
+      ).join('');
+      const answerHTML = p.sentences.map((s, ni) => {
+        const origLetter = letters[shuffled.findIndex(x => x.idx === ni)];
+        return `<div class="answer-item"><span class="answer-num">${ni+1}</span><span class="answer-orig">${origLetter}</span><span>${s}</span></div>`;
+      }).join('');
       card.innerHTML = `
         <div class="passage-header" onclick="togglePassage(${i})">
           <h3>${p.topic}</h3>
-          <button class="show-passage-btn" id="p2btn-${i}">Show Sentences ▼</button>
+          <button class="show-passage-btn" id="p2btn-${i}">Practice ▼</button>
         </div>
         <div class="passage-body">
-          <ol class="sentence-list">${liItems}</ol>
+          <p style="font-size:0.8rem;color:var(--muted);margin-bottom:12px;">📝 Sắp xếp các câu <b>A–E</b> theo thứ tự đúng để tạo thành đoạn văn hoàn chỉnh.</p>
+          <div class="scrambled-list">${scrambledHTML}</div>
+          <button class="show-ans-btn" onclick="showP2Answer(${i})" id="p2ans-btn-${i}">Show Answer ▼</button>
+          <div class="p2-answer" id="p2ans-${i}" style="display:none">
+            <p style="font-size:0.75rem;color:var(--muted);margin-bottom:8px;">Thứ tự đúng — số tròn = vị trí, chữ cái = câu gốc:</p>
+            ${answerHTML}
+          </div>
         </div>`;
       c.appendChild(card);
     });
@@ -1648,7 +1651,15 @@
     const card = document.getElementById('p2card-' + i);
     const btn = document.getElementById('p2btn-' + i);
     card.classList.toggle('open');
-    btn.textContent = card.classList.contains('open') ? 'Hide ▲' : 'Show Sentences ▼';
+    btn.textContent = card.classList.contains('open') ? 'Hide ▲' : 'Practice ▼';
+  }
+
+  function showP2Answer(i) {
+    const ans = document.getElementById('p2ans-' + i);
+    const btn = document.getElementById('p2ans-btn-' + i);
+    const showing = ans.style.display !== 'none';
+    ans.style.display = showing ? 'none' : 'block';
+    btn.textContent = showing ? 'Show Answer ▼' : 'Hide Answer ▲';
   }
 
   /* ---- RENDER PART 3 ---- */
