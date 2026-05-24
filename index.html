@@ -648,6 +648,15 @@
     .answer-num { background:var(--accent); color:#fff; border-radius:50%; width:22px; height:22px; display:flex; align-items:center; justify-content:center; font-size:0.72rem; font-weight:700; flex-shrink:0; margin-top:1px; }
     .answer-orig { color:var(--green); font-weight:700; font-size:0.78rem; margin-top:2px; flex-shrink:0; }
 
+    /* Sample answer reveal */
+    .sample-toggle-btn { background:var(--surface2); border:1px solid var(--accent2); color:var(--accent2); border-radius:8px; padding:5px 14px; font-size:0.78rem; font-weight:700; cursor:pointer; margin-top:10px; display:inline-block; }
+    .sample-toggle-btn:hover { opacity:0.85; }
+    .sample-block { display:none; background:rgba(255,101,132,0.07); border:1px solid rgba(255,101,132,0.28); border-radius:10px; padding:14px 16px; margin-top:10px; }
+    .sample-block.open { display:block; }
+    .sample-block-title { font-size:0.72rem; color:var(--accent2); font-weight:700; text-transform:uppercase; letter-spacing:0.6px; margin-bottom:8px; }
+    .sample-block p, .sample-block .s-line { font-size:0.86rem; line-height:1.75; color:var(--text); margin:0 0 6px 0; }
+    .sample-block .s-label { font-weight:700; color:var(--green); margin-right:6px; }
+
     /* Part 3 opinions */
     .opinions-block {
       background: var(--surface);
@@ -1752,86 +1761,156 @@
   /* ========== SPEAKING DATA ========== */
   const spkData = {
     p1: [
-      "Describe your home.",
-      "Please describe this room.",
-      "Describe the clothes you are wearing.",
-      "Describe your journey here today.",
-      "Describe a member of your family.",
-      "Tell me about your friends.",
-      "Tell me about your hometown.",
-      "Tell me about a famous place in your country.",
-      "Tell me about your job.",
-      "Please tell me about yourself.",
-      "Please tell me about your hobbies and interests.",
-      "Please tell me about the last time you went to the cinema.",
-      "Tell me about your typical day.",
-      "Tell me about your first school.",
-      "Tell me about a time you visited a friend.",
-      "Tell me the best way to travel around your country.",
-      "What does your dream house look like?",
-      "What sports do you like?",
-      "Who is your favorite singer?",
-      "What is your favorite type of music?",
-      "What is the typical meal in your country?",
-      "What do you like to do with your friends?",
-      "What is your favorite film?",
-      "How do you like to spend your holidays and vacations?",
-      "What is your favorite season?",
-      "What is your favorite festival?",
-      "What is the weather like today?",
-      "Tell me about one of your good memories.",
-      "Please tell me about your favorite place.",
-      "What do people in your country like to read?",
-      "What did you do yesterday?",
-      "Describe a typical meal in your country.",
-      "Please tell me about the last time you visited friends.",
-      "What is your favorite way to relax after a long day?",
-      "Tell me about something new you learned recently.",
+      { q:"Describe your home.", ans:"I live in a comfortable two-bedroom apartment in the city. The living room has large windows that let in natural light and I've decorated it with plants and family photos. My favourite spot is the small balcony where I enjoy morning coffee. It's not huge, but it feels warm and cosy — exactly what I need after a busy day." },
+      { q:"Please describe this room.", ans:"This appears to be a well-organised study or office. There's a large desk with a computer and books arranged neatly on it. Bookshelves line one wall and there's a comfortable reading chair in the corner. The lighting is excellent — both natural light and a desk lamp. It's clearly a productive, peaceful space designed for focused work." },
+      { q:"Describe the clothes you are wearing.", ans:"Today I'm wearing a casual outfit — a white T-shirt and dark jeans. On my feet I have comfortable trainers, perfect for walking. I also have a light jacket with me since the weather is unpredictable. I generally prefer comfortable, practical clothes for everyday life, though I dress smarter for work or special occasions." },
+      { q:"Describe your journey here today.", ans:"Today I travelled here by bus, which took about 30 minutes. The journey was fairly smooth — the bus was on time and not too crowded. I listened to music and read a few articles on my phone along the way. I actually enjoy the commute as it gives me time to think and prepare for the day ahead." },
+      { q:"Describe a member of your family.", ans:"I'd like to describe my mother. She's in her late fifties with short dark hair and a warm smile that puts everyone at ease. She works as a teacher and has always been incredibly hardworking and patient. I admire her most for her dedication to others and her positive attitude, even in difficult times. She's my biggest inspiration." },
+      { q:"Tell me about your friends.", ans:"I have a close group of about five friends I've known since university. We share similar interests — we love hiking, watching films, and trying new restaurants. Despite busy schedules, we try to meet at least once a month. My friends are incredibly supportive and honest, which I value deeply. I'm very lucky to have such a reliable group." },
+      { q:"Tell me about your hometown.", ans:"I'm from a mid-sized city in the south. It's known for beautiful old architecture, lively weekend markets, and fantastic local cuisine. The community there is very welcoming. Growing up, I spent a lot of time at the riverside park with my family. Although I now live elsewhere, I visit regularly and always feel a strong sense of belonging." },
+      { q:"Tell me about a famous place in your country.", ans:"One of the most famous places in my country is the ancient capital, which attracts millions of tourists each year. It's home to stunning historical temples, traditional craft villages, and scenic rivers. Visitors come from all over the world. I've visited several times and am always struck by its beauty — it makes me truly proud of my heritage." },
+      { q:"Tell me about your job.", ans:"I work as a software developer for a mid-sized technology company. My job mainly involves writing code, testing applications, and collaborating with colleagues. I enjoy it because every day brings new challenges. The work-life balance is good — I sometimes work from home, which is very convenient. It's demanding but incredibly rewarding when a project comes together successfully." },
+      { q:"Please tell me about yourself.", ans:"My name is [Name] and I'm from [city]. I'm currently working as an engineer and also studying part-time to develop my skills. In my free time I enjoy hiking, reading, and cooking. I'm quite sociable and love meeting new people and learning about different cultures. I'm always looking for ways to grow both personally and professionally." },
+      { q:"Please tell me about your hobbies and interests.", ans:"I have quite a wide range of hobbies. My main passion is photography — I love capturing landscapes and everyday moments during weekend trips. I also enjoy reading, particularly historical fiction. When I want to be active, I go cycling or swimming. Recently I've picked up cooking as well. These hobbies help me stay balanced, creative, and energised." },
+      { q:"Please tell me about the last time you went to the cinema.", ans:"The last time I went to the cinema was about three weeks ago. I went with two friends to watch a sci-fi action film. We booked tickets in advance since the theatre was busy. The special effects were incredible. Afterwards we spent an hour at a nearby café discussing the plot. It was a great evening — I really enjoy the cinema experience." },
+      { q:"Tell me about your typical day.", ans:"My weekday starts at around 7am. I have a light breakfast while checking emails, then arrive at work by 8:30. I spend the morning in meetings or focused coding. After lunch I continue working and try to finish by 6pm. In the evenings I cook dinner, do brief exercise, then read or watch something before bed. A consistent routine makes me much more productive." },
+      { q:"Tell me about your first school.", ans:"My first school was a small primary school in my neighbourhood. I started at age six and attended for five years. The classrooms were colourful and full of student artwork. I remember my first teacher very fondly — she was patient and made learning fun. I made several close friends there, some I'm still in contact with today. It was a very happy time." },
+      { q:"Tell me about a time you visited a friend.", ans:"Last month I visited a university friend who lives in another city. I took the train and arrived in the early afternoon. We explored the city — visiting a local market, trying street food, and walking by the river. In the evening we cooked a simple meal and caught up for hours. It was relaxed and reminded me how important it is to maintain friendships." },
+      { q:"Tell me the best way to travel around your country.", ans:"For longer journeys, the train is ideal — it's comfortable, reliable, and gives beautiful views of the countryside. For shorter or more remote trips, renting a car offers flexibility. Buses are affordable and widely available, great for budget travellers. Each option has advantages, but the train is my personal favourite for scenery and convenience. I think it's the most enjoyable way to explore." },
+      { q:"What does your dream house look like?", ans:"My dream house would be a spacious modern home near nature. It would have large floor-to-ceiling windows, an open-plan kitchen and living area, and a cosy reading nook. The garden would be my favourite part — a lawn, fruit trees, and seating for summer evenings. I'd also want a home office and small gym. Essentially, a comfortable retreat from city life." },
+      { q:"What sports do you like?", ans:"I've always enjoyed swimming — it's relaxing and a great full-body workout. I also love badminton, which I play with friends on weekends. It's fast-paced and fun without feeling like exercise. Recently I've started cycling to work, something I genuinely look forward to each morning. I think it's important to stay active, and fortunately there are plenty of sports that make it enjoyable." },
+      { q:"Who is your favorite singer?", ans:"My favourite singer is a local artist who blends folk music with modern pop. What I love about her is the emotional depth of her lyrics — they tell real stories about life and love. Her voice is incredibly expressive. I've seen her perform live twice and both times were unforgettable. Listening to her music always makes me feel reflective and uplifted at the same time." },
+      { q:"What is your favorite type of music?", ans:"My favourite genre is jazz. I love the improvisational nature of it — no two performances are exactly the same. There's something soothing yet stimulating about a skilled jazz ensemble. I often play it while working or cooking. I also enjoy acoustic folk for relaxed evenings. Music is a huge part of my daily life and helps me manage stress and stay focused." },
+      { q:"What is the typical meal in your country?", ans:"A typical meal usually consists of rice served with a variety of side dishes — grilled or braised meat, stir-fried vegetables, and soup. Meals are communal — everything is placed in the centre of the table and shared. We use a lot of fresh herbs and spices that give wonderful aromas. It's a balanced, flavourful cuisine that reflects our cultural values of sharing." },
+      { q:"What do you like to do with your friends?", ans:"When I spend time with friends, we often go out for dinner or try a new café someone has recommended. On weekends we sometimes go hiking or cycling if the weather is nice. Other times we stay in and watch films or play board games. We also travel together when possible — a short trip every few months keeps things exciting. I really look forward to time with friends." },
+      { q:"What is your favorite film?", ans:"My favourite film is The Shawshank Redemption. It's a classic drama about perseverance, hope, and friendship. What makes it remarkable is how the story unfolds slowly yet keeps you completely engaged. The performances are outstanding. The ending is both surprising and deeply satisfying. I've watched it several times and notice new details each time. It genuinely moves you and stays with you long after it ends." },
+      { q:"How do you like to spend your holidays and vacations?", ans:"I love using holidays to explore new places, either domestically or abroad. My ideal vacation mixes sightseeing, trying local food, and simply relaxing in a beautiful environment. Last year I visited a coastal city and spent time hiking along cliffs and swimming in the sea. I also enjoy city breaks — museums, galleries, and local markets. The best memories often come from unexpected moments." },
+      { q:"What is your favorite season?", ans:"My favourite season is autumn. I love the way leaves change to rich shades of orange, red, and yellow — it's incredibly beautiful. The cooler temperatures are perfect for long walks. I associate autumn with cosy evenings, warm drinks, and reading. There's something refreshing about the change after summer heat. I also find it the most creatively inspiring season — I read and write much more." },
+      { q:"What is your favorite festival?", ans:"My favourite festival is Lunar New Year. It's the most important celebration in my culture and brings the whole family together. Preparations start weeks in advance — cleaning, buying traditional foods, making decorations. On the night itself, we have a big family dinner, exchange red envelopes for good luck, and watch fireworks. The atmosphere is joyful and nostalgic — a reminder of our roots and family bonds." },
+      { q:"What is the weather like today?", ans:"Today the weather is quite pleasant. It's mild and sunny with a light breeze — the kind of day that makes you want to be outside. Temperatures are around 22 degrees, which is comfortable for walking. There are a few white clouds but nothing threatening. It's exactly the weather I enjoy most — not too hot, not too cold. I hope it stays like this for the rest of the week." },
+      { q:"Tell me about one of your good memories.", ans:"One of my happiest memories is a family camping trip when I was about ten. We drove to a national park and spent three days in tents by a lake, hiking by day and sitting around a campfire at night. I remember how bright the stars were and how relaxed my parents seemed. Looking back, it was a simple trip, but the feeling of togetherness made it truly special." },
+      { q:"Please tell me about your favorite place.", ans:"My favourite place is a small mountain town I visited a few years ago. It's nestled among pine forests with stunning views of the valley below. The pace of life is wonderfully slow — people are friendly, the air is clean, and everything feels peaceful. I stayed in a traditional guesthouse and spent my days hiking and reading on the terrace. Each visit leaves me completely refreshed." },
+      { q:"What do people in your country like to read?", ans:"Reading habits have changed recently. Younger people tend to prefer digital content — blogs, social media, and news apps. However, novels, especially self-improvement and motivational books, remain popular across all ages. Historical fiction and biographies are also widely read. Physical bookshops are still appreciated. Schools encourage reading from an early age, which I think is vital for developing critical thinking and creativity." },
+      { q:"What did you do yesterday?", ans:"Yesterday was a relaxed day. In the morning I went for a run in the local park as the weather was lovely. After that, I had brunch at a café with my sister and we caught up for an hour. In the afternoon I worked on a project from home and had a video call with my team. In the evening I cooked pasta, watched a series, and went to bed fairly early." },
+      { q:"Describe a typical meal in your country.", ans:"A typical meal centres around rice served with a protein dish — often fish, chicken, or pork prepared with a rich sauce or simply grilled with herbs. There's almost always a vegetable stir-fry or light soup alongside it. Meals are communal — everything is shared from the centre of the table. It's a balanced, flavourful way of eating that reflects our cultural values of togetherness." },
+      { q:"Please tell me about the last time you visited friends.", ans:"The last time I visited friends was about two weeks ago. A small group met at one friend's apartment for a casual dinner. Everyone brought something — I made a salad, another friend cooked curry. We ate, played music, and spent hours talking and catching up. Very relaxed and informal, which made it even more enjoyable. Those evenings remind me how important it is to stay connected." },
+      { q:"What is your favorite way to relax after a long day?", ans:"After a long day, my favourite way to unwind is a hot shower then sitting quietly with a book and herbal tea. Reading helps me switch off from work completely. If I'm restless, I'll take a short walk outside for fresh air. Sometimes I listen to music or a podcast while doing light stretches. These simple rituals help me decompress and properly transition from work mode." },
+      { q:"Tell me about something new you learned recently.", ans:"Recently I've been learning basic photography techniques. I started because I wanted better travel photos, but it quickly became a genuine hobby. I've learned about composition — the rule of thirds, leading lines — and how to use natural light effectively. I've been practising every weekend and can already see improvement. It's a great reminder that you're never too old to learn something new." },
     ],
     p2: [
-      { pic:"👥 People at a workplace meeting", q1:"Tell me the last time you discussed something with your team.", q2:"What are the essential qualities of a good leader in the workplace?" },
-      { pic:"🗺️ Someone visiting a new place", q1:"When was the last time you visited a new place?", q2:"Why do you like to go to new places?" },
-      { pic:"🚗 Person travelling in a car", q1:"Tell me the last time you traveled in a car.", q2:"How can people overcome the boredom of a long journey?" },
-      { pic:"🍽️ Friends eating out at a restaurant", q1:"Why do people like eating out with friends?", q2:"Please talk about the last time you ate out with friends." },
-      { pic:"💻 Person using a computer", q1:"When was the last time you used a computer?", q2:"Why do many people like using computers to relax?" },
-      { pic:"🏙️ A crowded city street", q1:"What do you think about living in a crowded city?", q2:"Why do many people dislike crowded places?" },
-      { pic:"🐾 A person with an animal", q1:"Tell me about an animal that you like.", q2:"How important are animals in our lives?" },
-      { pic:"👫 Friends doing an activity together", q1:"When was the last time you went somewhere with your friends?", q2:"Why do people enjoy doing things together?" },
-      { pic:"🏖️ People at the beach", q1:"Tell us the last time you went to the beach.", q2:"Why do some people dislike going to the beach?" },
-      { pic:"🎮 Children playing a game", q1:"Tell me about a game you played when you were a child.", q2:"How have children's games changed in the last 50 years?" },
-      { pic:"🎤 Person giving a presentation", q1:"Tell us the time you gave a presentation. How did you feel?", q2:"Why are people scared of public speaking?" },
-      { pic:"🚌 Children going to school", q1:"How do children go to school in your country?", q2:"Is it common to live far from school in your country? Why?" },
-      { pic:"👨‍👩‍👧 Parents with children", q1:"In your country, do parents care about their children?", q2:"Why do parents need to care about their children?" },
-      { pic:"🖼️ Person looking at artwork", q1:"What are the benefits of looking at art?", q2:"Why do people like going to exhibitions?" },
-      { pic:"🌴 Someone on a holiday", q1:"When was the last time you went on vacation with someone else?", q2:"What are the benefits of spending time with other people?" },
+      { pic:"👥 People at a workplace meeting", q1:"Tell me the last time you discussed something with your team.", q2:"What are the essential qualities of a good leader in the workplace?",
+        a1:"The last time I had a team discussion was last week during our project meeting. We reviewed progress on a new feature and resolved a key issue together. Everyone contributed ideas and it was very productive. I find collaborative problem-solving much more effective than working in isolation.",
+        a2:"A good leader needs strong communication skills, empathy, and decisiveness. They must listen carefully to their team while being able to make clear decisions under pressure. Being transparent and giving credit to others are equally important. A leader who inspires trust naturally gets the best from their team." },
+      { pic:"🗺️ Someone visiting a new place", q1:"When was the last time you visited a new place?", q2:"Why do you like to go to new places?",
+        a1:"Six months ago I travelled to a city I'd never visited before. I explored the old town, tried local street food, and visited a fascinating museum. It was a spontaneous decision but one of the most memorable trips I've taken. New places always offer unexpected surprises.",
+        a2:"Visiting new places broadens my perspective and breaks the daily routine. You encounter different cultures, architecture, and ways of life that challenge your assumptions. The sense of discovery is genuinely exciting. I always return home feeling refreshed, more open-minded, and grateful for the variety that the world offers." },
+      { pic:"🚗 Person travelling in a car", q1:"Tell me the last time you traveled in a car.", q2:"How can people overcome the boredom of a long journey?",
+        a1:"Last weekend my family drove to visit relatives in the countryside — about a three-hour journey. We listened to music, stopped once for a break, and enjoyed the changing landscape. It was actually a very pleasant trip. Long car journeys give you time to talk and connect with the people you're travelling with.",
+        a2:"To overcome boredom on long journeys, I recommend making a playlist beforehand, downloading podcasts, or listening to audiobooks. Playing word games with fellow passengers also helps. Taking regular breaks for stretching and snacks keeps energy levels up. The key is to stay mentally engaged rather than just watching the clock." },
+      { pic:"🍽️ Friends eating out at a restaurant", q1:"Why do people like eating out with friends?", q2:"Please talk about the last time you ate out with friends.",
+        a1:"Eating out with friends combines great food with meaningful social time. It's a relaxed setting where conversations flow naturally. Trying new restaurants together also becomes a shared experience and a talking point. People enjoy the break from cooking at home and the opportunity to celebrate or simply catch up.",
+        a2:"Last month I ate out with three friends at a new Vietnamese restaurant in the city. The food was excellent and we stayed for nearly three hours just talking and laughing. We ordered far too much food because everything looked delicious. It was a really enjoyable evening that I'm looking forward to repeating." },
+      { pic:"💻 Person using a computer", q1:"When was the last time you used a computer?", q2:"Why do many people like using computers to relax?",
+        a1:"I use a computer every single day — both for work and personal activities. Just this morning I was writing a report and then browsing news articles over my lunch break. For me the computer has become such a central part of daily life that I barely notice it anymore.",
+        a2:"Many people relax with computers because they offer such a wide variety of entertainment — streaming films, gaming, browsing social media, or reading. The interactive nature keeps the mind engaged without the pressure of work. It's also accessible from home, which makes it very convenient for unwinding at any time of day." },
+      { pic:"🏙️ A crowded city street", q1:"What do you think about living in a crowded city?", q2:"Why do many people dislike crowded places?",
+        a1:"Living in a crowded city has real advantages — more job opportunities, better facilities, and a vibrant social scene. However, the noise, high costs, and constant rush can be exhausting. Personally I enjoy city life but I think it's important to balance it with regular time in quieter, green spaces to recharge.",
+        a2:"Crowded places can be stressful because they overstimulate the senses — noise, movement, and the constant proximity of strangers. Many people feel anxious or overwhelmed in such environments. There's also a loss of personal space which can feel uncomfortable. Introverted people in particular often find crowds draining and prefer calmer settings." },
+      { pic:"🐾 A person with an animal", q1:"Tell me about an animal that you like.", q2:"How important are animals in our lives?",
+        a1:"I love dogs, particularly golden retrievers. They're incredibly loyal, affectionate, and playful. Growing up I had a dog named Max who was like a member of the family. He would wait by the door every evening when I came home from school. That kind of unconditional affection is something truly special.",
+        a2:"Animals play an enormously important role in our lives. Pets provide companionship and emotional support, particularly for people who live alone or struggle with mental health. Farm animals sustain our food supply, and wildlife maintains ecological balance. The bond between humans and animals is ancient and deeply meaningful." },
+      { pic:"👫 Friends doing an activity together", q1:"When was the last time you went somewhere with your friends?", q2:"Why do people enjoy doing things together?",
+        a1:"Last month a group of us went cycling along a riverside trail on a Saturday afternoon. The weather was perfect and we stopped at a café halfway. It was wonderful to be outdoors together doing something active rather than just sitting at a restaurant. I always feel energised after that kind of shared activity.",
+        a2:"Doing things together creates shared memories and strengthens bonds. Activities also tend to be more fun when you have someone to share the experience with. There's a motivating effect too — people push themselves further when accompanied by others. Shared challenges or achievements create a sense of belonging and friendship." },
+      { pic:"🏖️ People at the beach", q1:"Tell us the last time you went to the beach.", q2:"Why do some people dislike going to the beach?",
+        a1:"The last time I went to the beach was during summer last year. A group of friends and I spent a full day at a coastal resort — swimming in the morning, eating seafood for lunch, and watching the sunset in the evening. It was completely relaxing and I came home feeling restored and happy.",
+        a2:"Some people dislike the beach because of the heat, the sand getting into everything, or concerns about sun damage. Others find it overcrowded during peak season, which defeats the purpose of relaxing. Some simply prefer cooler environments like forests or mountains. Personal comfort and preference play a big role in choosing holiday destinations." },
+      { pic:"🎮 Children playing a game", q1:"Tell me about a game you played when you were a child.", q2:"How have children's games changed in the last 50 years?",
+        a1:"As a child, my favourite game was a local variation of tag played in teams. We would play for hours outdoors after school, completely lost in the game. It was simple but enormous fun and built real friendships. Looking back, those outdoor games taught me teamwork and creativity in ways I still value today.",
+        a2:"Children's games have changed dramatically. Fifty years ago, most play happened outdoors — physical, creative, and social. Today, digital games and screens dominate. While technology offers rich, complex experiences, it has reduced physical activity and face-to-face interaction. Many educators now argue that traditional outdoor play is crucial for healthy development." },
+      { pic:"🎤 Person giving a presentation", q1:"Tell us the time you gave a presentation. How did you feel?", q2:"Why are people scared of public speaking?",
+        a1:"The most memorable presentation I gave was at a company conference last year. I presented a new system I'd developed to about 50 colleagues. I was nervous beforehand but once I started speaking, I found my rhythm. The audience was engaged and asked great questions. Afterwards I felt a real sense of achievement and confidence.",
+        a2:"Public speaking is feared because it exposes you to judgement from a group. The fear of making a mistake, forgetting your words, or being perceived negatively triggers a stress response. This anxiety is actually very natural — even experienced speakers feel it. The difference is that practice and preparation reduce it significantly over time." },
+      { pic:"🚌 Children going to school", q1:"How do children go to school in your country?", q2:"Is it common to live far from school in your country? Why?",
+        a1:"In my country, most children in cities travel to school by school bus or with their parents by car or motorbike. In more rural areas, some children walk long distances or use bicycles. Public buses are also common in urban areas. The government has been improving school transport infrastructure to make it safer and more accessible.",
+        a2:"In urban areas it's not uncommon for families to seek schools with good reputations even if they're farther from home. As a result, many children travel 30 minutes to an hour each day. In rural communities, distance to the nearest school can be a genuine challenge, sometimes affecting attendance rates." },
+      { pic:"👨‍👩‍👧 Parents with children", q1:"In your country, do parents care about their children?", q2:"Why do parents need to care about their children?",
+        a1:"Absolutely — family bonds are extremely strong in my culture. Parents invest enormously in their children's education, health, and future. It's common for parents to make significant personal sacrifices to provide opportunities for their children. Extended families also play a supporting role, so children often have a strong network of care around them.",
+        a2:"Parental care is essential because children are completely dependent in their early years and need guidance, emotional security, and education throughout their development. A child who feels loved and supported develops better confidence, mental health, and social skills. Parenting shapes the foundations of who a person becomes as an adult." },
+      { pic:"🖼️ Person looking at artwork", q1:"What are the benefits of looking at art?", q2:"Why do people like going to exhibitions?",
+        a1:"Looking at art stimulates the imagination and emotions in ways that ordinary daily life often doesn't. It encourages you to see the world from new perspectives and can be deeply calming or thought-provoking. Studies also suggest that engaging with art reduces stress and anxiety. For me, visiting a gallery always leaves me feeling inspired and reflective.",
+        a2:"People enjoy exhibitions because they offer a curated, immersive experience that's different from everyday life. It's a chance to appreciate craftsmanship and creativity, learn about history and culture, and share the experience with others. The gallery setting itself — quiet, beautiful, and focused — creates an atmosphere that encourages genuine contemplation." },
+      { pic:"🌴 Someone on a holiday", q1:"When was the last time you went on vacation with someone else?", q2:"What are the benefits of spending time with other people?",
+        a1:"Last summer I went on a five-day trip to a mountain region with two close friends. We hiked during the day, tried local food in the evenings, and stayed in a charming guesthouse. Travelling with good friends made every moment more enjoyable — we were spontaneous and everything felt like an adventure. I'd go back in a heartbeat.",
+        a2:"Spending time with others provides emotional support, reduces feelings of loneliness, and creates lasting shared memories. Social interaction also keeps the mind sharp and improves communication skills. People often feel more motivated and happier when connected to a community. Human beings are fundamentally social creatures who thrive in the company of others." },
     ],
     p3: [
-      { pics:"🤝 Volunteering vs. 🌳 Community gardening", q1:"How can these activities help the local community?", q2:"How important is it to do volunteer work?" },
-      { pics:"🍱 Eating alone vs. 🍽️ Dining with others", q1:"What are the differences between these types of eating?", q2:"How do you prefer dining — alone or with others, and why?" },
-      { pics:"🌆 City apartment vs. 🏡 Country house", q1:"Where do you want to live? Why?", q2:"Why do young people like to live in the city?" },
-      { pics:"🍔 Fast food vs. 🥗 Healthy food", q1:"What appeals to you about each kind of food?", q2:"Why is it important to know what you eat?" },
-      { pics:"♟️ Playing chess vs. 🎮 Playing video games", q1:"Do you prefer playing chess or playing video games?", q2:"Are indoor activities important? Why?" },
-      { pics:"🏕️ Outdoor camping vs. 🏨 City travel", q1:"What is the difference when travelling in those 2 places?", q2:"What do you think would happen if there were no outdoor activities?" },
-      { pics:"🦁 Zoo visit vs. 🐕 Pet at home", q1:"Do you like interacting with animals?", q2:"Should children learn about animals? Why?" },
-      { pics:"⚽ Team sports vs. 🏊 Individual sports", q1:"What are the disadvantages and benefits of each type of activity?", q2:"Do you think people prefer team sports to individual sports?" },
-      { pics:"📰 Reading a newspaper vs. 🎮 Playing video games", q1:"Do you prefer reading newspapers or playing video games?", q2:"What are the benefits of reading?" },
-      { pics:"🏫 Traditional classroom vs. 💻 Online learning", q1:"What are the differences between these two ways of learning?", q2:"Do you think online learning will replace traditional schools?" },
+      { pics:"🤝 Volunteering vs. 🌳 Community gardening", q1:"How can these activities help the local community?", q2:"How important is it to do volunteer work?",
+        compare:"Both volunteering and community gardening bring people together for a shared purpose. Volunteering tends to directly address social needs — supporting vulnerable groups — while community gardening improves the physical environment and promotes sustainable living. Both foster a sense of pride and belonging in the neighbourhood.",
+        a1:"Both activities create stronger community bonds. Volunteering provides direct support to those in need, whether through food banks, tutoring, or mentoring. Community gardening improves shared spaces, produces local food, and gives residents a sense of ownership. Either way, these activities transform a neighbourhood from a collection of individuals into a true community.",
+        a2:"Volunteer work is very important. It fills gaps that governments cannot always address, supports vulnerable people, and teaches valuable skills. For young people especially, it builds character, empathy, and a sense of civic responsibility. Even a few hours a month of volunteering can have a significant positive impact on both the community and the volunteer's own wellbeing." },
+      { pics:"🍱 Eating alone vs. 🍽️ Dining with others", q1:"What are the differences between these types of eating?", q2:"How do you prefer dining — alone or with others, and why?",
+        compare:"Eating alone is quiet, efficient, and gives you time to reflect or focus on something else. Dining with others is a social event — it's noisier, longer, and centres on conversation as much as food. Both have value depending on your mood and the context.",
+        a1:"Eating alone is quick and flexible — you choose exactly what you want, when you want it. Dining with others turns a meal into a social occasion; conversations flow, experiences are shared, and the meal itself becomes secondary to the connection. One is about nourishment, the other about relationship-building.",
+        a2:"Personally I prefer dining with others when possible. Food always tastes better in good company and the conversation makes the whole experience more enriching. However, I also value the occasional quiet meal alone — it's a rare moment to be fully present with my thoughts without distraction. Both have their place." },
+      { pics:"🌆 City apartment vs. 🏡 Country house", q1:"Where do you want to live? Why?", q2:"Why do young people like to live in the city?",
+        compare:"A city apartment offers convenience, career opportunities, and a vibrant social life, while a country house provides space, nature, and tranquillity. The city suits an active, career-focused lifestyle whereas the countryside appeals to those seeking a slower, more peaceful pace of life.",
+        a1:"Ideally I'd like a home near nature but within reach of a city — perhaps a house in the suburbs with a garden. I value the convenience of urban life but find city noise exhausting long-term. Having green space nearby would make a significant difference to my quality of life and mental wellbeing.",
+        a2:"Young people are drawn to cities because of job opportunities, universities, entertainment, and the social scene. Cities offer independence and exposure to diverse people and ideas. The energy and pace is exciting when you're young. Many also move for career development and then reassess where they want to live as family priorities change." },
+      { pics:"🍔 Fast food vs. 🥗 Healthy food", q1:"What appeals to you about each kind of food?", q2:"Why is it important to know what you eat?",
+        compare:"Fast food appeals through convenience, affordability, and familiar flavours, while healthy food offers long-term wellbeing benefits. The contrast represents a trade-off between immediate satisfaction and sustainable health. Both have a place in a balanced diet, but the proportion matters enormously.",
+        a1:"Fast food is undeniably convenient and can be satisfying after a long day. The variety of flavours and its accessibility make it very appealing. Healthy food, on the other hand, gives me genuine energy and I always feel better after a nutritious meal. I enjoy both, but I'm conscious about keeping the balance right.",
+        a2:"Understanding what you eat is crucial because food directly impacts your energy, mood, and long-term health. Poor diet is linked to serious conditions such as diabetes, heart disease, and obesity. Being informed empowers people to make better choices. With so much processed food marketed aggressively, nutritional awareness is more important than ever." },
+      { pics:"♟️ Playing chess vs. 🎮 Playing video games", q1:"Do you prefer playing chess or playing video games?", q2:"Are indoor activities important? Why?",
+        compare:"Chess is a slow, strategic game requiring deep concentration and planning, while video games offer fast, immersive entertainment with social features. Chess has centuries of tradition; video games represent modern interactive media. Both challenge the mind but in very different ways.",
+        a1:"I personally prefer chess. There's something deeply satisfying about the slow build of strategy and the moment when your plan comes together. It also requires no screen time, which I appreciate. That said, I understand the appeal of video games — the interactive storytelling and social play are genuinely compelling for many people.",
+        a2:"Indoor activities are important for developing focus, creativity, and relaxation. They provide alternatives to outdoor activities during bad weather or for people with mobility limitations. Chess and other indoor games build cognitive skills and patience. In today's increasingly sedentary world, choosing mentally stimulating indoor activities is an important part of a balanced lifestyle." },
+      { pics:"🏕️ Outdoor camping vs. 🏨 City travel", q1:"What is the difference when travelling in those 2 places?", q2:"What do you think would happen if there were no outdoor activities?",
+        compare:"Outdoor camping connects you with nature and requires self-sufficiency, while city travel offers comfort, culture, and variety. Camping is raw and immersive; city travel is curated and convenient. The experiences appeal to very different aspects of the human desire for exploration.",
+        a1:"Camping feels completely different from city travel. In the outdoors you're disconnected from technology, dependent on your own resources, and surrounded by natural beauty. City travel offers museums, restaurants, and infrastructure. Both are rewarding in different ways — I love the challenge of camping and the stimulation of city exploration equally.",
+        a2:"Without outdoor activities, people would lose a vital connection to nature, which is essential for mental and physical health. Research shows that time outdoors reduces stress and improves wellbeing. If access to nature disappeared, rates of anxiety and depression would likely increase significantly. Outdoor activities also build resilience, teamwork, and environmental awareness." },
+      { pics:"🦁 Zoo visit vs. 🐕 Pet at home", q1:"Do you like interacting with animals?", q2:"Should children learn about animals? Why?",
+        compare:"Visiting a zoo provides exposure to exotic wildlife in a controlled environment, while keeping a pet creates a daily, personal bond with an animal. Both forms of interaction have educational and emotional value but differ in intimacy and scale.",
+        a1:"Yes, I genuinely enjoy interacting with animals. Growing up with a dog taught me responsibility, empathy, and unconditional affection. I also find visiting wildlife sanctuaries fascinating — observing animals in near-natural settings is both humbling and inspiring. The connection between humans and animals is ancient and deeply meaningful.",
+        a2:"Absolutely. Learning about animals from a young age builds empathy, scientific curiosity, and environmental awareness. Children who understand and appreciate wildlife tend to grow into adults who care about conservation. Animals also teach children about life cycles, responsibility, and the diversity of living beings on our planet." },
+      { pics:"⚽ Team sports vs. 🏊 Individual sports", q1:"What are the disadvantages and benefits of each type of activity?", q2:"Do you think people prefer team sports to individual sports?",
+        compare:"Team sports build communication, collaboration, and shared motivation, while individual sports develop personal discipline, self-reliance, and focused goal-setting. Both offer physical health benefits, but the social and psychological dynamics are very different.",
+        a1:"Team sports build communication and solidarity — you learn to rely on others and celebrate shared victories. However, poor team dynamics can be discouraging. Individual sports give you full control over your progress and pace, which is deeply satisfying. The downside is the potential for loneliness. The best approach is probably to experience both.",
+        a2:"It depends on personality. Extroverted people often thrive in team environments, enjoying the social energy and shared goals. Introverts may prefer the autonomy and personal challenge of individual sports. Globally, team sports like football and basketball are more popular in terms of spectators and participants, but individual sports like swimming and running have their own large followings." },
+      { pics:"📰 Reading a newspaper vs. 🎮 Playing video games", q1:"Do you prefer reading newspapers or playing video games?", q2:"What are the benefits of reading?",
+        compare:"Reading a newspaper is an informational, analytical activity that keeps you connected to the world, while video games offer interactive entertainment and creative stimulation. Both engage the mind but serve entirely different purposes and audiences.",
+        a1:"I personally prefer reading — both newspapers and books. There's something irreplaceable about the depth you get from long-form writing compared to the rapid stimulation of gaming. That said, I appreciate that modern video games can be deeply strategic and narrative-rich. I think both have legitimate value depending on context and purpose.",
+        a2:"Reading builds vocabulary, improves concentration, and develops critical thinking. It exposes you to different perspectives and ideas, fostering empathy and understanding. Regular reading is strongly linked to academic success and lifelong mental agility. It's also one of the most effective ways to reduce stress, with just six minutes of reading shown to lower anxiety significantly." },
+      { pics:"🏫 Traditional classroom vs. 💻 Online learning", q1:"What are the differences between these two ways of learning?", q2:"Do you think online learning will replace traditional schools?",
+        compare:"Traditional classrooms offer face-to-face interaction, structure, and immediate feedback, while online learning provides flexibility, accessibility, and self-paced study. Both have undergone significant change in recent years, with most modern education incorporating elements of both.",
+        a1:"Traditional classrooms provide structure, direct teacher interaction, and the social dimension of learning with peers. Online learning offers flexibility and access to global resources. The key difference is human contact — the mentoring relationship between teacher and student is hard to replicate digitally. Blended learning that combines both approaches seems to be the future.",
+        a2:"Not entirely. While online learning has expanded enormously and is here to stay, traditional schools serve purposes beyond academic content — socialisation, emotional development, discipline, and community. Young children especially need the physical classroom environment. Online learning will continue to complement and transform education, but I don't believe it will fully replace face-to-face schooling." },
     ],
     p4: [
-      { topic:"Technology & Society", q:"Do you think technology has made our lives better or worse overall? Give reasons." },
-      { topic:"Environment", q:"Should individuals or governments be more responsible for protecting the environment? Why?" },
-      { topic:"Education", q:"Is university education necessary for success in life? Give your opinion." },
-      { topic:"Work & Career", q:"Is it better to have one career for life or change jobs frequently? Discuss." },
-      { topic:"Social Media", q:"Do social media platforms have more positive or negative effects on young people? Explain." },
-      { topic:"Travel & Tourism", q:"Should governments invest more in promoting tourism? What are the benefits and drawbacks?" },
-      { topic:"Health & Lifestyle", q:"Who is more responsible for people's health — individuals or the government? Discuss." },
-      { topic:"City vs. Countryside", q:"Is it better to raise children in the city or in the countryside? Give your views." },
-      { topic:"Remote Work", q:"Do you think working from home is better than working in an office? Why or why not?" },
-      { topic:"Arts & Culture", q:"Should governments fund the arts, or should arts organisations raise their own money? Discuss." },
+      { topic:"Technology & Society", q:"Do you think technology has made our lives better or worse overall? Give reasons.",
+        ans:"Overall, I believe technology has made our lives significantly better, though not without complications. Communication is faster, healthcare has improved dramatically, and access to information is unprecedented. However, I acknowledge the downsides — social media addiction, reduced attention spans, and privacy concerns are real issues. The key is balance: technology is a tool, and like any tool, its impact depends entirely on how wisely we choose to use it." },
+      { topic:"Environment", q:"Should individuals or governments be more responsible for protecting the environment? Why?",
+        ans:"I believe both must take responsibility, but governments must lead. Individuals can reduce consumption and recycle, but systemic problems like industrial pollution, fossil fuel dependency, and deforestation require regulatory solutions that only governments can enforce. Individual action is meaningful symbolically and collectively, but without legislation, corporate accountability, and international cooperation, it simply isn't sufficient. The two must work in tandem — government policy enabling and incentivising better individual choices." },
+      { topic:"Education", q:"Is university education necessary for success in life? Give your opinion.",
+        ans:"University education is valuable but not the only path to success. It provides critical thinking skills, specialist knowledge, and networking opportunities that many careers require. However, skilled trades, entrepreneurship, and creative careers demonstrate that success is also achievable without a degree. What matters most is a commitment to lifelong learning. I think society should value diverse educational paths equally, rather than treating university as the single measure of ambition or intelligence." },
+      { topic:"Work & Career", q:"Is it better to have one career for life or change jobs frequently? Discuss.",
+        ans:"I think the ideal lies somewhere between the two extremes. Spending an entire career in one role can limit your perspective and growth, while changing too frequently prevents you from building deep expertise or professional relationships. The modern economy increasingly rewards adaptability, so some career mobility is healthy. I'd say changing roles within a field every five to ten years — building on previous experience rather than abandoning it — strikes the right balance." },
+      { topic:"Social Media", q:"Do social media platforms have more positive or negative effects on young people? Explain.",
+        ans:"The effects are genuinely mixed, but I lean towards concerning. Social media connects young people, enables creativity, and provides access to important information and support communities. However, the documented links to anxiety, depression, cyberbullying, and unrealistic body image are deeply worrying. The addictive design of these platforms exploits psychological vulnerabilities deliberately. Greater regulation, digital literacy education in schools, and parental guidance are urgently needed to make these platforms genuinely safe for young users." },
+      { topic:"Travel & Tourism", q:"Should governments invest more in promoting tourism? What are the benefits and drawbacks?",
+        ans:"Tourism investment can be economically valuable — it creates jobs, generates foreign revenue, and improves infrastructure. However, over-tourism is a real risk. Popular destinations like Venice and Kyoto are struggling with environmental degradation and loss of authentic local culture. Governments should invest thoughtfully — promoting sustainable tourism, distributing visitors across less-known destinations, and ensuring that economic benefits reach local communities rather than large international corporations. Smart investment, not simply more visitors, is the goal." },
+      { topic:"Health & Lifestyle", q:"Who is more responsible for people's health — individuals or the government? Discuss.",
+        ans:"Both share responsibility but in different ways. Individuals are accountable for their daily choices — diet, exercise, sleep, and stress management. However, governments shape the environment in which those choices are made. If healthy food is expensive, if cities lack parks, and if healthcare is inaccessible, individual responsibility alone is inadequate. Government investment in public health infrastructure, nutrition education, and affordable healthcare is essential to give everyone a genuine opportunity to live healthily." },
+      { topic:"City vs. Countryside", q:"Is it better to raise children in the city or in the countryside? Discuss.",
+        ans:"Both environments offer distinct advantages. Cities provide better schools, cultural diversity, and career opportunities, which can broaden children's horizons. The countryside offers space, safety, and a closer connection to nature, which supports physical activity and a calmer upbringing. Personally I think the countryside has the edge for younger children, while cities become increasingly valuable during teenage years for educational and social development. Ideally, exposure to both environments during childhood would be the best outcome." },
+      { topic:"Remote Work", q:"Do you think working from home is better than working in an office? Why or why not?",
+        ans:"Working from home offers significant advantages — no commute, greater flexibility, and often higher productivity in a comfortable environment. However, the office provides spontaneous collaboration, social interaction, and a separation between work and personal life that many people genuinely need. I think a hybrid model is the ideal solution: two to three days at home for focused individual work, and the remainder in the office for team activities and relationship-building. One size does not fit all." },
+      { topic:"Arts & Culture", q:"Should governments fund the arts, or should arts organisations raise their own money? Discuss.",
+        ans:"I strongly believe governments should fund the arts. Culture and creativity are not luxury commodities — they define a society's identity, promote mental wellbeing, and drive the creative economy. Commercial arts funding inevitably favours popular or profitable forms, leaving classical music, experimental theatre, and local heritage underfunded. Government support ensures diversity and accessibility, allowing arts to serve all communities, not just those with purchasing power. Arts funding is an investment in society's soul." },
     ]
   };
 
-  /* ---- TIMER LOGIC ---- */
+    /* ---- TIMER LOGIC ---- */
   const timers = {};
   function startTimer(id, total) {
     if (timers[id]?.interval) clearInterval(timers[id].interval);
@@ -1869,24 +1948,45 @@
   }
 
   /* ---- SPEAKING RENDER ---- */
+  function sampleBlock(id, html) {
+    return `<button class="sample-toggle-btn" onclick="toggleSample('${id}')">📝 Sample Answer</button>
+      <div class="sample-block" id="${id}">${html}</div>`;
+  }
+  function toggleSample(id) {
+    const el = document.getElementById(id);
+    el.classList.toggle('open');
+    const btn = el.previousElementSibling;
+    btn.textContent = el.classList.contains('open') ? '📝 Hide Sample' : '📝 Sample Answer';
+  }
+
   function randomSpk(part) {
     const data = spkData[part];
     const item = data[Math.floor(Math.random() * data.length)];
     const card = document.getElementById(`spk-${part}-random`);
     card.style.display = 'block';
+    const idx = data.indexOf(item);
     if (part === 'p1') {
-      card.innerHTML = `<div class="rq-part">Part 1 — Describe / Tell</div><div class="rq-main">${item}</div>`;
+      card.innerHTML = `<div class="rq-part">Part 1 — Describe / Tell</div><div class="rq-main">${item.q}</div>
+        ${sampleBlock(`rs-p1-${idx}`,`<div class="sample-block-title">Sample Answer (45 sec)</div><p>${item.ans}</p>`)}`;
     } else if (part === 'p2') {
       card.innerHTML = `<div class="rq-part">Part 2 — Picture Description</div>
         <div class="rq-main">🖼️ Scene: ${item.pic}</div>
-        <div class="rq-follow"><span>${item.q1}</span><span>${item.q2}</span></div>`;
+        <div class="rq-follow"><span>${item.q1}</span><span>${item.q2}</span></div>
+        ${sampleBlock(`rs-p2-${idx}`,`<div class="sample-block-title">Sample Answers</div>
+          <div class="s-line"><span class="s-label">Q1:</span>${item.a1}</div>
+          <div class="s-line"><span class="s-label">Q2:</span>${item.a2}</div>`)}`;
     } else if (part === 'p3') {
       card.innerHTML = `<div class="rq-part">Part 3 — Compare Two Pictures</div>
         <div class="rq-main">🖼️ ${item.pics}</div>
-        <div class="rq-follow"><span>${item.q1}</span><span>${item.q2}</span></div>`;
+        <div class="rq-follow"><span>${item.q1}</span><span>${item.q2}</span></div>
+        ${sampleBlock(`rs-p3-${idx}`,`<div class="sample-block-title">Sample Answers</div>
+          <div class="s-line"><span class="s-label">Compare:</span>${item.compare}</div>
+          <div class="s-line"><span class="s-label">Q1:</span>${item.a1}</div>
+          <div class="s-line"><span class="s-label">Q2:</span>${item.a2}</div>`)}`;
     } else {
       card.innerHTML = `<div class="rq-part">Part 4 — Debate · Topic: ${item.topic}</div>
-        <div class="rq-main">${item.q}</div>`;
+        <div class="rq-main">${item.q}</div>
+        ${sampleBlock(`rs-p4-${idx}`,`<div class="sample-block-title">Sample Answer (~2 min)</div><p>${item.ans}</p>`)}`;
     }
     document.getElementById(`spk-${part}-all`).style.display = 'none';
   }
@@ -1901,18 +2001,27 @@
       const el = document.createElement('div');
       if (part === 'p1') {
         el.className = 'spk-item';
-        el.innerHTML = `<div class="spk-num">Q${i+1}</div>${item}`;
+        el.innerHTML = `<div class="spk-num">Q${i+1}</div>${item.q}
+          ${sampleBlock(`all-p1-${i}`,`<div class="sample-block-title">Sample Answer</div><p>${item.ans}</p>`)}`;
       } else if (part === 'p2') {
         el.className = 'spk-item has-follow';
         el.innerHTML = `<div class="spk-num">Set ${i+1} · 🖼️ ${item.pic}</div>
-          <div class="spk-follow"><span>${item.q1}</span><span>${item.q2}</span></div>`;
+          <div class="spk-follow"><span>${item.q1}</span><span>${item.q2}</span></div>
+          ${sampleBlock(`all-p2-${i}`,`<div class="sample-block-title">Sample Answers</div>
+            <div class="s-line"><span class="s-label">Q1:</span>${item.a1}</div>
+            <div class="s-line"><span class="s-label">Q2:</span>${item.a2}</div>`)}`;
       } else if (part === 'p3') {
         el.className = 'spk-item has-follow';
         el.innerHTML = `<div class="spk-num">Set ${i+1} · ${item.pics}</div>
-          <div class="spk-follow"><span>${item.q1}</span><span>${item.q2}</span></div>`;
+          <div class="spk-follow"><span>${item.q1}</span><span>${item.q2}</span></div>
+          ${sampleBlock(`all-p3-${i}`,`<div class="sample-block-title">Sample Answers</div>
+            <div class="s-line"><span class="s-label">Compare:</span>${item.compare}</div>
+            <div class="s-line"><span class="s-label">Q1:</span>${item.a1}</div>
+            <div class="s-line"><span class="s-label">Q2:</span>${item.a2}</div>`)}`;
       } else {
         el.className = 'spk-item has-follow';
-        el.innerHTML = `<div class="spk-num">Topic: ${item.topic}</div>${item.q}`;
+        el.innerHTML = `<div class="spk-num">Topic: ${item.topic}</div>${item.q}
+          ${sampleBlock(`all-p4-${i}`,`<div class="sample-block-title">Sample Answer</div><p>${item.ans}</p>`)}`;
       }
       list.appendChild(el);
     });
@@ -2046,6 +2155,161 @@
       p3qs:["A: Can you tell us about a film you have watched recently that you would recommend and explain why?","B: What do you think makes a film truly memorable and worth watching more than once?","C: Some people say that Hollywood films are too similar to each other and lack originality. Do you agree?"],
       p4:`Dear member,\nThe club will be repaired and redesigned to appeal to both young and old people. Please suggest an alternative meeting or activity for members while the renovation takes place.\n\n📝 Write an email to your friend (50–75 words) and an email to the club manager (120–150 words).`
     }
+  ];
+
+
+  // Sample answers for Writing (same order as clubData)
+  const clubAnswers = [
+    { // Travel Club
+      p3ans:["I would highly recommend visiting Hội An in Vietnam — a beautifully preserved ancient town with colourful lanterns, traditional architecture, and delicious street food. The atmosphere is magical, especially in the evening. I'm sure every club member would absolutely love it.",
+             "Tourists should always respect local customs and dress codes, avoid littering, and ask permission before photographing people. Learning a few polite phrases in the local language goes a long way. Being mindful and curious rather than intrusive shows genuine respect for the culture.",
+             "Research the local culture before you go, keep important documents secure, and stay open to unexpected experiences. Pack light, stay flexible, and connect with local people. The best travel memories almost always come from spontaneous moments and genuine human connections."],
+      p4ans:"Hi [Friend], I wanted to let you know about an exciting project my Travel Club is running — we're promoting our area to tourists and encouraging respectful visitor behaviour. I thought you might want to get involved! We'd love your ideas and support. Let me know if you'd like to join us for our next meeting. Hope to hear from you soon!"
+    },
+    { // Community Club
+      p3ans:["Your friend could take the local bus or ask a neighbour for a lift. She might also try a taxi or a ride-sharing app. If the salon is nearby, cycling or walking could work too. It's worth calling ahead to rearrange the appointment if needed.",
+             "I completely agree. Volunteering teaches practical skills like communication, teamwork, and problem-solving that you rarely learn in a classroom. It also builds empathy and a sense of responsibility. I personally gained enormous confidence from my first volunteering experience and would encourage everyone to try it.",
+             "Absolutely. Young people develop real-world skills through volunteering that formal education cannot always provide. It teaches time management, compassion, and civic awareness. It also looks impressive on a CV. More importantly, it helps young people understand their community and motivates them to make a positive difference."],
+      p4ans:"Hi [Friend], I just heard from the Community Club — they're looking for new members and fresh ideas this year. It sounds like a great opportunity to get involved in something meaningful. I think you'd be perfect for it! Why don't we go together to the next meeting? Let me know what you think!"
+    },
+    { // Health Club
+      p3ans:["Drinking eight glasses of water daily has genuinely transformed how I feel. My energy levels are much higher, my concentration has improved, and I feel healthier overall. It sounds simple, but staying well-hydrated makes a remarkable difference to daily performance and mood.",
+             "Setting specific, achievable goals and tracking progress really helps. Working out with a friend also keeps you accountable and makes exercise more enjoyable. Varying your routine to avoid boredom is equally important. Once you notice physical improvements, motivation tends to come naturally.",
+             "I believe both are equally important and work best together. A nutritious diet fuels your body with the right energy, while exercise strengthens muscles and boosts mental wellbeing. Focusing on one while neglecting the other limits your results. A truly healthy lifestyle requires commitment to both."],
+      p4ans:"Hi [Friend], Just a heads-up — our Health Club instructor is away for two weeks, so we'll be using the gym independently. It's a bit different but could actually be fun! Want to join me for a session next week? We can motivate each other. Let me know your schedule and we'll sort something out!"
+    },
+    { // Business Club
+      p3ans:["There's a small family bakery near my home that has been incredibly successful. They make artisan bread using traditional recipes and source all ingredients locally. Their loyal customer base and warm, personal service are key factors. Word of mouth has helped them grow without any formal advertising.",
+             "I'd advise her to analyse what made the first shop successful and replicate those strengths carefully. She should hire reliable staff she trusts to manage day-to-day operations. Choosing the right location is critical. Maintaining consistent quality and building on existing customer loyalty will be the foundation of her second success.",
+             "A successful entrepreneur needs resilience, financial literacy, and strong interpersonal skills. The ability to spot opportunities, manage risk, and adapt to change is essential. Good time management and genuine passion for the product also matter enormously. Without passion, it's very hard to sustain the effort that building a business demands."],
+      p4ans:"Hi [Friend], My Business Club is planning two new initiatives to support local entrepreneurs — either a call centre helpline or free business courses for university students. I think the courses would be more impactful long-term. What do you think? It might even be something we could get involved with together. Let me know your thoughts!"
+    },
+    { // Film Club
+      p3ans:["The film that had the greatest impact on me was The Shawshank Redemption. It's a powerful story about hope and resilience that completely changed my perspective on perseverance. The performances were extraordinary and the ending stayed with me for weeks. I still think about it regularly.",
+             "Watching online is undeniably convenient — you can watch anytime, pause when needed, and access thousands of titles. However, the cinema offers an immersive experience that home viewing simply cannot replicate: the large screen, surround sound, and shared atmosphere create something genuinely special.",
+             "To some extent, yes. Many big-budget films rely on sequels and familiar formulas rather than original storytelling. However, independent cinema and international films continue to produce genuinely creative work. The problem is that commercial pressures often prioritise profit over originality, pushing innovative films out of mainstream visibility."],
+      p4ans:"Hi [Friend], Disappointing news from Film Club — James McAvoy has had to cancel his talk due to personal reasons. They're rescheduling to either January or March next year. The regular meeting is still going ahead with a discussion about online learning. Hope you can make it! Let me know if you'd prefer January or March so we can coordinate."
+    },
+    { // College Club
+      p3ans:["The subject I found most fascinating at college was sociology. Understanding how societies function, how culture shapes behaviour, and how social structures create inequality gave me an entirely new lens to view the world. It changed how I think about almost every aspect of daily life.",
+             "I would advise them to get involved in clubs and activities beyond their studies. Academic success matters, but the friendships, experiences, and skills you develop through social engagement are equally valuable. Also, never be afraid to ask tutors for help — that's exactly what they're there for.",
+             "Not entirely. While many skills can be developed through work experience, a college education provides structured knowledge, critical thinking, and networking opportunities that are hard to replicate independently. It also opens doors in competitive job markets. The value depends on the field, but for most careers, it remains highly beneficial."],
+      p4ans:"Hi [Friend], The College Club is planning events to support student development and they want our input. I've been thinking about suggesting a CV workshop and a mental health awareness session — both seem very practical. Want to write in together with a joint recommendation? It might carry more weight. Let me know your thoughts by the end of the week!"
+    },
+    { // Computer Club
+      p3ans:["My smartphone is the piece of technology I rely on most. It keeps me connected to friends and family, helps me manage my schedule, access information instantly, and navigate unfamiliar places. The convenience it offers is extraordinary — though I'm also aware of the importance of digital balance.",
+             "The main risks include addiction, reduced attention span, and exposure to misinformation. Spending excessive time online can also disrupt sleep and reduce real-world social interaction. Young people are particularly vulnerable. Digital literacy and healthy boundaries around screen time are essential in today's increasingly connected world.",
+             "Overall, I believe AI will have more positive than negative effects if developed responsibly. It has enormous potential in healthcare, education, and addressing climate change. The key risks — job displacement and misuse — are real but manageable with the right policy frameworks. Society has adapted to transformative technologies before and will do so again."],
+      p4ans:"Hi [Friend], The Computer Club is organising a tech fair next month and they're looking for ideas for workshops and demos! I'm thinking of suggesting an AI demonstration — I think it would get a lot of interest. Have you got any ideas? It would be great to put forward a few suggestions together. Let me know what you're thinking!"
+    },
+    { // Garden Club
+      p3ans:["My favourite plant is lavender. It has a beautiful colour and a wonderfully calming scent that I find incredibly relaxing. It's also very easy to grow and attracts bees and butterflies, which is wonderful for the garden ecosystem. I grow it on my balcony and it brings me real joy.",
+             "Gardening is excellent for both physical and mental health. It encourages gentle exercise, reduces stress, and provides a real sense of achievement when plants flourish. Being in contact with nature and soil has proven benefits for mood and anxiety. Even a small container garden can significantly improve personal wellbeing.",
+             "Absolutely. Urban green spaces improve air quality, reduce the heat island effect, and provide residents with areas to relax and exercise. They also support biodiversity by providing habitats for birds and insects. As cities grow more densely populated, access to green space becomes increasingly important for physical and mental health."],
+      p4ans:"Hi [Friend], The Garden Club is organising a community planting day next month and they need volunteers and plant donations. I've signed up to help on the day — would you like to join me? It'll be a great way to spend time outdoors and do something positive for the neighbourhood. Let me know if you're interested and I'll send you the details!"
+    },
+    { // Walking Club
+      p3ans:["One of my most memorable walks was along a coastal cliff path last summer. The views were spectacular — dramatic cliffs, turquoise sea, and wildflowers everywhere. We stopped at a small café midway and the whole experience felt completely restorative. I'm planning to go back next year with more friends.",
+             "Regular walking strengthens the heart, improves circulation, and helps maintain a healthy weight. It's also one of the best exercises for mental health — the combination of gentle movement, fresh air, and natural scenery significantly reduces stress and anxiety. Best of all, it's free and accessible to almost everyone.",
+             "Both have their merits. The gym offers structured workouts and climate-controlled comfort, while walking outdoors provides fresh air, varied scenery, and a more natural form of movement. I personally prefer walking because it feels less like exercise and more like an enjoyable activity. The mental health benefits of being in nature are an additional bonus."],
+      p4ans:"Hi [Friend], My Walking Club is organising a charity walk next month and I thought you might like to join! It's for a great local cause and a brilliant excuse to spend a day outside. The route is supposed to be beautiful — mostly riverside and woodland. Would you be up for it? Let me know and I'll get you the registration details!"
+    },
+    { // Technology Club
+      p3ans:["I believe the smartphone has most transformed daily life in the last decade. It has combined communication, navigation, entertainment, and commerce into a single pocket-sized device. Nearly every aspect of modern life now has a smartphone component. Its impact on how we live and work has been profound.",
+             "There is some truth to this. When we can instantly search for answers, we practise problem-solving less. However, technology also builds new kinds of problem-solving skills — debugging, data analysis, and systems thinking. The key is maintaining a balance and not becoming entirely dependent on technology for every decision.",
+             "I'm most excited about advances in medical technology, particularly personalised medicine and early disease detection using AI. The potential to dramatically improve health outcomes is genuinely exciting. Combined with developments in renewable energy, I believe technology will be central to solving the most pressing challenges we face as a society."],
+      p4ans:"Hi [Friend], The Technology Club is running a public exhibition next month and members are being asked to submit project proposals. I'm thinking of entering something — maybe a small AI demo. Would you like to collaborate? It could be a really fun project and great experience. Let me know if you're interested and we can brainstorm ideas this weekend!"
+    },
+    { // Music Club
+      p3ans:["A song deeply meaningful to me is a traditional folk melody my grandmother used to sing. Whenever I hear it, I'm instantly transported back to childhood evenings with my family. Music has an extraordinary ability to preserve memories and emotions across time in a way almost nothing else can.",
+             "Learning an instrument develops patience, discipline, and creativity. It also improves memory, concentration, and coordination. There is strong evidence that musical training benefits children's academic performance. Beyond these cognitive benefits, playing music provides a wonderful emotional outlet and a lifelong source of personal satisfaction and joy.",
+             "Streaming has both helped and harmed the music industry. It has dramatically reduced revenue for many artists, particularly independent musicians. However, it has also made music more accessible globally and created new discovery pathways for emerging talent. The industry has adapted, with live performances becoming more important revenue streams than recordings."],
+      p4ans:"Hi [Friend], The Music Club is putting on a summer concert and they're looking for performers and volunteers! I've offered to help with promotion. It would be brilliant if you could come along — or even perform! The atmosphere at these events is always fantastic. Let me know if you're interested and I'll give you all the details. Hope to see you there!"
+    },
+    { // English Club
+      p3ans:["I find listening comprehension most challenging, particularly when speakers use accents or idioms I'm unfamiliar with. To overcome this, I watch English films and podcasts regularly without subtitles. Gradual exposure has significantly improved my ability to understand natural, fast-paced speech. Persistence and consistency are truly the most important factors.",
+             "Regular conversation practice with native or fluent speakers is the most effective method. It forces you to think quickly and builds natural fluency. Watching English-language films and TV shows also helps greatly by exposing you to authentic speech patterns, intonation, and vocabulary in real context.",
+             "While cultural diversity is incredibly valuable, English has undeniably become the global language of business, science, and diplomacy. Having a working knowledge of English opens enormous opportunities. However, learning it should not come at the cost of neglecting one's mother tongue, which carries its own irreplaceable cultural identity."],
+      p4ans:"Hi [Friend], The English Club is organising a language exchange event — pairing us with native English speakers for conversation practice. I think it's a brilliant opportunity to build real fluency in a relaxed, friendly setting. I've already signed up! Why don't you join too? It would be much more fun going together. Let me know and I'll forward you the registration link!"
+    },
+    { // Debate Club
+      p3ans:["The most important debating skills are clear logical reasoning, the ability to listen actively to opposing views, and composure under pressure. You must construct persuasive arguments quickly and acknowledge the strengths of opposing positions without abandoning your own. Preparation and thorough research are equally essential foundations.",
+             "I'd suggest debating whether social media should be more heavily regulated by governments. It's a topic with strong arguments on both sides — freedom of expression versus the harm caused by misinformation and toxic content. It's relevant, contemporary, and affects people's daily lives, making it genuinely engaging to discuss.",
+             "Absolutely. Debating teaches critical thinking, structured communication, and the ability to see issues from multiple perspectives — all invaluable life skills. Even if someone never competes formally, the ability to construct and present a reasoned argument clearly and confidently is essential in education, the workplace, and civic life."],
+      p4ans:"Hi [Friend], Great news from Debate Club — we've been invited to a regional competition next term! Practice sessions start next week. I think you'd be a fantastic team member. You're so articulate and well-read — you'd really shine in the competition setting. Can you come along to the first practice session? Let me know and I'll save you a spot!"
+    },
+    { // Language Club
+      p3ans:["I would most like to learn Japanese. It's a uniquely structured language with a fascinating writing system, and it would give me access to Japanese culture, literature, and film in their original form. Japan's blend of ancient tradition and cutting-edge modernity makes it one of the most culturally rich countries in the world.",
+             "Regular use is the most important factor — whether through speaking, reading, watching films, or keeping a diary in that language. If you stop using a language, it fades surprisingly quickly. Finding a conversation partner helps enormously by keeping the language alive and emotionally meaningful.",
+             "Absolutely. Learning another language gives you direct access to a different cultural mindset and set of values. It reveals concepts and ways of expressing ideas that don't exist in your own language. This genuinely broadens your perspective and cultivates empathy. To learn a new language is to gain a new soul."],
+      p4ans:"Hi [Friend], Exciting news from the Language Club — they're launching virtual language exchanges with clubs in other countries! I've already signed up to be matched with a partner. It sounds like a brilliant way to practise in a real context. You should join too! It's completely free and you can choose your preferred language. Let me know if you want the sign-up link!"
+    },
+    { // Fitness Power Club
+      p3ans:["Last year I achieved my goal of completing a 10km run. I followed a structured training plan, starting with shorter distances and gradually building up. Consistency was the key — I trained three times a week for three months. Crossing the finish line was an incredibly satisfying moment I'll never forget.",
+             "Start slowly and set realistic, specific goals. It's very easy to do too much too soon and risk injury or burnout. Finding an activity you genuinely enjoy is crucial because sustainability matters far more than intensity. Having a training partner also makes a significant difference to motivation and long-term commitment.",
+             "There's some truth to this. The pressure to win can cause anxiety and reduce enjoyment for some young people. However, healthy competition also teaches resilience, goal-setting, and teamwork. The key is ensuring that participation and personal development are valued over winning. When managed well, competitive sport builds character and confidence."],
+      p4ans:"Hi [Friend], The Fitness Club is running a six-week challenge next month — you set a personal goal and track your progress. There are even prizes for the most improved! I think it's exactly what we both need to stay motivated. Want to sign up together and keep each other accountable? Let me know and we can register this week!"
+    },
+    { // Art Club
+      p3ans:["A piece I deeply admire is Van Gogh's Starry Night. The swirling energy of the brushwork and the emotional intensity of the colours create a sense of movement and feeling that is utterly unique. It looks like a dream rendered in paint. Every time I see it, I notice something new.",
+             "Engaging with art reduces stress, stimulates imagination, and encourages people to slow down and pay attention. Creating art provides a powerful emotional outlet for feelings that are difficult to express in words. Viewing art builds empathy by inviting us to see the world through another person's perspective.",
+             "I disagree. Digital art requires significant skill, creativity, and vision — the medium is different but the artistry is not. Photography was once dismissed as not 'real' art. What matters is the idea, the emotion, and the craft the artist brings to their work, regardless of the medium used."],
+      p4ans:"Hi [Friend], The Art Club is holding a members' exhibition next month at the community centre — all mediums welcome! I've decided to submit a few of my recent watercolours. You should submit something too! Your photography is genuinely stunning and deserves to be seen. Let me know if you're interested and I'll send you the submission guidelines. It's a really exciting opportunity!"
+    },
+    { // Photography Club
+      p3ans:["I'm most proud of a portrait I took of my grandmother in her garden at golden hour. The warm light, her natural expression, and the surrounding flowers combined to create something genuinely beautiful. She loved it too, which made it even more meaningful. It's framed on my wall.",
+             "Professional photography requires technical mastery, consistent quality, and the ability to deliver results under pressure in any conditions. Amateurs have more creative freedom to experiment. However, the line has blurred significantly with accessible high-quality cameras. Many professional-level images are now captured by dedicated amateurs with excellent technique.",
+             "Social media has been both positive and negative. It has democratised photography, allowing talented amateurs to reach huge audiences. However, it has also led to an oversaturation of images where originality can be overwhelmed by volume and trends. There's a risk of photography becoming more about instant validation than genuine artistic vision."],
+      p4ans:"Hi [Friend], The Photography Club is running a photo walk through the historic quarter next Saturday morning — it sounds absolutely brilliant! I'm definitely going. Want to join? The light in that part of the city in the early morning is incredible — perfect for architectural shots. Let me know by Thursday as I need to confirm numbers. I'd love to go together!"
+    },
+    { // Science Club
+      p3ans:["I find neuroscience most fascinating — specifically how the brain generates consciousness and stores memories. The idea that our entire subjective experience emerges from electrochemical processes is simultaneously mind-boggling and beautiful. Recent advances in brain imaging are revealing things about the mind that seemed like science fiction just decades ago.",
+             "Absolutely. Science literacy is increasingly essential in a world shaped by technology, medicine, and environmental challenges. Students who understand scientific thinking can evaluate evidence critically. Beyond individual benefit, a society that values and understands science is better equipped to address complex global problems effectively.",
+             "I have some concerns, particularly around genetic engineering of humans, where ethical boundaries are genuinely complex. However, I believe most scientific research is conducted responsibly and with beneficial intentions. Robust ethical frameworks and international oversight are crucial to ensure that powerful technologies are developed safely and transparently."],
+      p4ans:"Hi [Friend], The Science Club is running a public science fair for young people and they need members to design demonstrations! I'm planning a simple chemistry experiment and thought you might want to get involved too. It's a great cause and really good fun. Let me know if you'd like to join me — I need a partner for the experiment anyway!"
+    },
+    { // Book Club
+      p3ans:["I would highly recommend Educated by Tara Westover. It's a remarkable memoir about a woman who grows up without formal schooling and eventually earns a PhD from Cambridge. It's both inspiring and deeply thought-provoking, challenging assumptions about education, family, and personal identity in profound ways.",
+             "A book club motivates you to read more regularly and exposes you to books you might never have chosen independently. Discussing different interpretations deepens your understanding and reveals perspectives you hadn't considered. The social element also creates genuine friendships built on shared intellectual curiosity and a love of literature.",
+             "I strongly disagree. Fiction develops empathy by immersing you in other lives and perspectives. It builds vocabulary, stimulates imagination, and often explores moral questions more powerfully than non-fiction. Great literary fiction can change how you see yourself and the world in ways that purely factual writing rarely achieves."],
+      p4ans:"Hi [Friend], The Book Club is putting together a reading list for the year and they want member suggestions. I'm recommending 'Pachinko' by Min Jin Lee — it's an epic multigenerational novel with incredible depth. Have you read anything recently that deserves wider attention? We should submit a joint recommendation! Let me know by the weekend and I'll include it in my submission."
+    },
+    { // Museum Club
+      p3ans:["One of the most fascinating museums I've visited is the National Museum of Natural History. The sheer scale of the exhibits — from dinosaur skeletons to ancient human fossils — is breathtaking. Walking through geological time in a single afternoon gave me a profound sense of perspective about the history of life on Earth.",
+             "Museums could attract younger visitors by incorporating interactive technology, virtual reality experiences, and hands-on activities alongside traditional exhibits. Social media campaigns featuring engaging content would also help. Collaborating with schools and making visits more affordable for young people would significantly increase youth attendance.",
+             "Artefacts removed under colonial circumstances were often taken without consent and hold deep cultural significance for their communities of origin. Repatriation seems both morally right and practically beneficial for cultural identity. However, practical concerns about preservation and access also need careful consideration in each individual case."],
+      p4ans:"Hi [Friend], The Museum Club has organised a private guided tour of a special exhibition next month — places are very limited so we need to register by this Friday! I've already put my name down. You should come along too — it's on a Saturday morning. Let me know right away and I'll see if I can add you to the list!"
+    },
+    { // Beautiful Homes Club
+      p3ans:["My ideal home would be a light-filled house surrounded by a garden with mature trees. I'd want open-plan living areas that flow naturally outdoors, and a cosy reading room lined with bookshelves. The design would be simple and use natural materials like wood and stone to create warmth and a connection with nature.",
+             "I think natural light is the most important factor — a well-lit space instantly feels more welcoming and positive. Good flow and functionality matter too. Finally, personal touches like artwork, plants, and meaningful objects transform a house into a home that genuinely reflects its inhabitants' personalities and values.",
+             "Absolutely. Studies show that our environment affects mood, stress levels, and productivity. A cluttered, dark space can increase anxiety, while an organised, nature-inspired environment promotes calm and wellbeing. Colour choices, furniture arrangement, and even the presence of plants all have documented psychological effects on the people who inhabit the space."],
+      p4ans:"Hi [Friend], The Beautiful Homes Club is running a home makeover competition — redesign a room on a budget and document the transformation! I'm entering — I'm planning to revamp my home office. You should enter too, I'd love to see what you do with your living room! It'll be such a fun project. Let me know if you're interested and I'll send you the registration details!"
+    },
+    { // Television Club
+      p3ans:["I'd highly recommend the series Succession. It's a brilliantly written drama about a powerful media family and the battle for control of their empire. The characters are complex and flawed in fascinating ways, and the dialogue is extraordinarily sharp. Every episode left me wanting more — one of the most compelling dramas I've ever seen.",
+             "Streaming services offer incredible convenience and variety — you can watch what you want, when you want. They've also invested heavily in high-quality original content. The disadvantages are cost, the potential for excessive binge-watching, and the overwhelming choice that can make it difficult to decide what to watch.",
+             "Excessive television is undoubtedly harmful — it reduces physical activity and disrupts sleep. However, watching in moderation has genuine benefits: it informs, entertains, and can educate. The content matters too. Thoughtful documentaries and quality dramas can stimulate critical thinking and emotional intelligence when watched mindfully."],
+      p4ans:"Hi [Friend], The Television Club is hosting a screening event next month and they want member suggestions for the film programme. I'm recommending 'Parasite' — I think it would spark a brilliant discussion. Have you got anything in mind? We should both submit something and then go along to the screening together. Let me know what film you're thinking of suggesting!"
+    },
+    { // Food Club
+      p3ans:["I'd love everyone to try Phở, the Vietnamese noodle soup. It's made with a deeply aromatic broth simmered for hours with spices, served with fresh herbs and tender beef or chicken. It's deeply comforting and incredibly complex in flavour. It perfectly represents the warmth and depth that defines Vietnamese cuisine.",
+             "Cooking at home gives you complete control over ingredients, portion size, and nutrition. It's generally more affordable than eating out and allows you to develop valuable skills. There's also real satisfaction in creating something from scratch. Home cooking naturally encourages more mindful eating and a deeper appreciation of food culture.",
+             "There is some truth to this concern. When fast food becomes the daily norm, traditional recipes are prepared less frequently and risk being forgotten. However, food culture is resilient — traditional dishes persist within families and communities. The real challenge is inspiring younger generations to value and continue their culinary heritage."],
+      p4ans:"Hi [Friend], The Food Club is organising a cultural food festival next month and everyone is bringing a traditional dish from their home region! I'm making my grandmother's special braised pork recipe. You should come along and bring something too — your cooking is incredible. It's going to be a wonderful celebration of food and culture. Let me know if you'll join us!"
+    },
+    { // Home Living Club
+      p3ans:["The most effective decluttering tip I've found is the one-year rule: if you haven't used something in the past year, donate or recycle it. I also find that having a specific place for every item prevents clutter from accumulating. Starting with one small area at a time makes the whole process manageable.",
+             "The most impactful changes are switching to LED lighting, improving insulation to reduce heating costs, and installing a water-efficient shower. Composting food waste and reducing single-use plastics also make a significant difference. Solar panels, where affordable, are an excellent long-term investment that reduces both carbon footprint and energy bills.",
+             "I think there's a lot of wisdom in it. Smaller homes reduce energy consumption, lower costs, and encourage you to be intentional about what you own. The minimalist philosophy — prioritising experiences over possessions — resonates with me strongly. Of course it depends on family size, but the principle of simplifying is something I deeply admire."],
+      p4ans:"Hi [Friend], The Home Living Club is running a 30-day sustainability challenge — making small daily changes to reduce your environmental impact at home. I've signed up and I'm genuinely excited about it. Want to do it together? We could check in with each other every few days and share tips. I think we'd both really benefit from it. Let me know if you're in!"
+    },
+    { // Movie Club
+      p3ans:["I recently watched 'Past Lives', a quiet and deeply moving film about memory, identity, and the choices that define us. The performances are extraordinarily naturalistic and the story unfolds with remarkable restraint. It's the kind of film that stays with you for days afterwards. I'd recommend it to anyone who appreciates thoughtful, emotionally honest cinema.",
+             "A truly memorable film usually combines an emotionally resonant story with authentic performances and a distinctive visual style. The best films reveal something true about human experience that you hadn't fully articulated before. They reward repeat viewing because the more you understand the characters, the more meaning you find in every scene.",
+             "There is some justification for this critique. Major studios do rely heavily on sequels and franchise films because they are commercially safe. However, genuinely original work continues to emerge — often from independent productions, international cinema, and streaming platforms willing to take creative risks. Originality exists if you look beyond the blockbusters."],
+      p4ans:"Hi [Friend], Just heard from the Movie Club — the venue is being renovated for the next few weeks! They're looking for suggestions for alternative meeting places. I thought we could suggest meeting at someone's home for a small screening evening — intimate, comfortable, and free! What do you think? Let me know and we can put the idea forward together."
+    },
   ];
 
   const essayTopics = [
