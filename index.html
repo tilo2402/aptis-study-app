@@ -278,6 +278,42 @@
     .fc-btn:hover { opacity: 0.85; }
     .fc-btn.good { background: rgba(67,233,123,0.15); color: var(--green); border: 1px solid rgba(67,233,123,0.3); }
     .fc-btn.bad  { background: rgba(255,101,132,0.15); color: var(--accent2); border: 1px solid rgba(255,101,132,0.3); }
+    .fc-speak-btn {
+      position: absolute; top: 10px; left: 12px;
+      background: none; border: none;
+      font-size: 1rem; cursor: pointer;
+      opacity: 0.55; transition: opacity 0.2s;
+      padding: 2px;
+    }
+    .fc-speak-btn:hover { opacity: 1; }
+    /* Part 3 opinion match */
+    .p3-set {
+      background: var(--surface);
+      border: 1px solid #2a2d45;
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .p3-set h3 { font-size: 0.95rem; font-weight: 700; color: var(--accent); margin-bottom: 14px; }
+    .p3-stmt {
+      display: flex; align-items: flex-start;
+      gap: 10px; margin-bottom: 12px;
+      background: var(--surface2); border-radius: 10px;
+      padding: 10px 14px; border: 1px solid #2a2d45;
+    }
+    .p3-stmt .stmt-text { flex: 1; font-size: 0.87rem; line-height: 1.5; }
+    .p3-stmt .mbw-group { display: flex; gap: 6px; flex-shrink: 0; margin-top:2px; }
+    .mbw-btn {
+      background: var(--surface); border: 1px solid #3a3d55;
+      color: var(--muted); border-radius: 6px;
+      padding: 3px 10px; font-size: 0.78rem;
+      font-weight: 700; cursor: pointer; transition: all 0.18s;
+    }
+    .mbw-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .mbw-btn.correct  { background: rgba(67,233,123,0.2); border-color: var(--green); color: var(--green); }
+    .mbw-btn.wrong    { background: rgba(255,101,132,0.2); border-color: var(--accent2); color: var(--accent2); }
+    .mbw-btn.reveal   { background: rgba(67,233,123,0.1); border-color: var(--green); color: var(--green); }
+    .p3-altkeys { font-size: 0.75rem; color: var(--muted); margin-top: 10px; font-style: italic; }
 
     /* ===== TOPIC CARD ===== */
     .topic-card {
@@ -816,6 +852,7 @@
       <div class="inner-tabs">
         <button class="active" data-target="lis-p1" onclick="showInner('listening-group','lis-p1')">Part 1 — Flashcards</button>
         <button data-target="lis-p2" onclick="showInner('listening-group','lis-p2')">Part 2 — Topics</button>
+        <button data-target="lis-p3" onclick="showInner('listening-group','lis-p3')">Part 3 — Opinion Match</button>
       </div>
 
       <!-- PART 1: FLASHCARDS -->
@@ -834,6 +871,12 @@
       <!-- PART 2: TOPICS -->
       <div id="lis-p2" class="inner-section">
         <div id="topics-grid" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:14px;"></div>
+      </div>
+
+      <!-- PART 3: OPINION MATCH -->
+      <div id="lis-p3" class="inner-section">
+        <div class="spk-tip">💡 <b>Part 3:</b> Nghe đoạn hội thoại giữa <b>Man (M)</b> và <b>Woman (W)</b>. Chọn ai đồng ý với mỗi câu phát biểu: <b>M = Man only · W = Woman only · B = Both</b>. Click để chọn rồi xem đáp án.</div>
+        <div id="lisp3-grid"></div>
       </div>
     </div>
   </section>
@@ -1013,7 +1056,7 @@
             <button class="btn-reset-q" onclick="showAllClubs()">📋 All Clubs</button>
           </div>
         </div>
-        <div class="spk-tip">💡 <b>Part 1:</b> Viết <b>3 short messages</b> (khoảng 30–40 từ mỗi cái) cho một club post trên mạng xã hội hoặc forum. Mỗi message có <b>mục đích khác nhau</b> (giới thiệu, hỏi ý kiến, chia sẻ kinh nghiệm...).</div>
+        <div class="spk-tip">💡 <b>Part 3:</b> Viết <b>3 messages trong chat room</b> của club (30–40 từ mỗi cái) trả lời câu hỏi <b>A, B, C</b>. &nbsp;|&nbsp; <b>Part 4:</b> Viết email trả lời email từ club: <b>50–75 từ</b> gửi bạn bè + <b>120–150 từ</b> gửi club manager.</div>
         <div id="wrt-random-card" class="random-q-card" style="display:none;"></div>
         <div id="wrt-all-clubs" style="display:none;">
           <div id="clubs-grid" class="clubs-grid"></div>
@@ -1151,6 +1194,7 @@
       card.className = 'flashcard';
       card.id = 'fc-' + i;
       card.innerHTML = `
+        <button class="fc-speak-btn" onclick="speakNow(event,'${item.q.replace(/'/g,"&#39;")}')">🔊</button>
         <div class="fc-mark">✅</div>
         <div class="fc-q">${item.q}</div>
         <div class="fc-vn">${item.vn}</div>
@@ -1163,6 +1207,15 @@
       grid.appendChild(card);
     });
     document.getElementById('lis-total').textContent = '0';
+  }
+
+  function speakNow(e, text) {
+    e.stopPropagation();
+    if (!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'en-GB'; u.rate = 0.88;
+    window.speechSynthesis.speak(u);
   }
 
   function revealCard(i) {
@@ -1229,6 +1282,98 @@
   // Init listening on first load
   renderFlashcards(lisCards);
   renderTopics();
+
+  /* ========== LISTENING PART 3 DATA ========== */
+  const lisP3Data = [
+    { topic:"Internet", stmts:[
+      { text:"There is too much information on the internet", ans:"B" },
+      { text:"Using the internet requires skills", ans:"B" },
+      { text:"The internet is changing the way we think", ans:"M" },
+      { text:"The internet has made people less patient", ans:"B" }
+    ], alt:"Alt keys: B-W-W-B / M-W-B-W" },
+    { topic:"Politics", stmts:[
+      { text:"Young people are becoming more interested in politics", ans:"B" },
+      { text:"Social media has changed political activism", ans:"W" },
+      { text:"People are better informed about political issues", ans:"M" },
+      { text:"More women are likely to participate in politics", ans:"B" }
+    ] },
+    { topic:"University and Technology", stmts:[
+      { text:"Technology helps make education more accessible", ans:"B" },
+      { text:"Social interaction is important at university", ans:"M" },
+      { text:"The diverse curriculum is not an advantage", ans:"W" },
+      { text:"University competition should be encouraged", ans:"M" }
+    ] },
+    { topic:"Urban Farming", stmts:[
+      { text:"Living space is more important than farming space", ans:"W" },
+      { text:"Farming space is appealing to people", ans:"M" },
+      { text:"Farming space will benefit the urban economy", ans:"M" },
+      { text:"Urban farming is needed to address food shortages", ans:"B" }
+    ] },
+    { topic:"Online Shopping", stmts:[
+      { text:"The internet makes shopping easier", ans:"B" },
+      { text:"Online shopping can be risky", ans:"W" },
+      { text:"Shopping online is more convenient", ans:"M" },
+      { text:"Online shopping is popular with young people", ans:"B" }
+    ] },
+    { topic:"Community Design", stmts:[
+      { text:"Building design can influence people's behaviour", ans:"B" },
+      { text:"Creating community can take a long time", ans:"W" },
+      { text:"Work communities and social communities are the same", ans:"M" },
+      { text:"Technology has changed how communities form", ans:"M" }
+    ], alt:"Alt keys: B-W-M-B" },
+    { topic:"Actor & Casting", stmts:[
+      { text:"Auditions are the most important part of casting", ans:"B" },
+      { text:"Actors respond best to a strong script", ans:"W" },
+      { text:"Theatre acting and movie acting require different skills", ans:"M" },
+      { text:"Actors need to be praised to perform well", ans:"B" }
+    ] },
+    { topic:"The Local Centre", stmts:[
+      { text:"Exhibitions should be different and diverse", ans:"M" },
+      { text:"Traditional customs are gradually losing their significance", ans:"B" },
+      { text:"Local festivals will disappear in the near future", ans:"W" },
+      { text:"Schools are important for shaping future generations", ans:"W" }
+    ] }
+  ];
+
+  let lisP3State = {}; // {topicIdx_stmtIdx: chosen}
+
+  function renderLisP3() {
+    const grid = document.getElementById('lisp3-grid');
+    grid.innerHTML = '';
+    lisP3Data.forEach((set, ti) => {
+      const div = document.createElement('div');
+      div.className = 'p3-set';
+      div.id = 'lisp3-' + ti;
+      div.innerHTML = `<h3>🗣️ Topic: ${set.topic}</h3>
+        ${set.stmts.map((s,si) => `
+          <div class="p3-stmt" id="p3s-${ti}-${si}">
+            <span class="stmt-text">${si+1}. ${s.text}</span>
+            <div class="mbw-group">
+              <button class="mbw-btn" onclick="pickMBW(${ti},${si},'M')">M</button>
+              <button class="mbw-btn" onclick="pickMBW(${ti},${si},'W')">W</button>
+              <button class="mbw-btn" onclick="pickMBW(${ti},${si},'B')">B</button>
+            </div>
+          </div>`).join('')}
+        ${set.alt ? `<div class="p3-altkeys">⚠️ ${set.alt}</div>` : ''}`;
+      grid.appendChild(div);
+    });
+  }
+
+  function pickMBW(ti, si, chosen) {
+    const key = ti + '_' + si;
+    const correct = lisP3Data[ti].stmts[si].ans;
+    lisP3State[key] = chosen;
+    const row = document.getElementById('p3s-' + ti + '-' + si);
+    const btns = row.querySelectorAll('.mbw-btn');
+    btns.forEach(b => { b.className = 'mbw-btn'; });
+    btns.forEach(b => {
+      if (b.textContent === correct) b.classList.add('reveal');
+      if (b.textContent === chosen && chosen !== correct) b.classList.add('wrong');
+      if (b.textContent === chosen && chosen === correct) b.classList.add('correct');
+    });
+  }
+
+  renderLisP3();
 
   /* ========== READING DATA ========== */
 
@@ -1763,181 +1908,132 @@
   }
 
   /* ========== WRITING DATA ========== */
+  // Each club: p3qs = 3 chat questions (A/B/C), p4 = email received, p3tip = chat context
   const clubData = [
-    { icon:"✈️", name:"Travel Club", task:"Write 3 messages for the Travel Club page. Message 1: Introduce yourself and why you love travel. Message 2: Ask members about their favourite destination. Message 3: Share a travel tip.",
-      messages:[
-        { label:"Message 1 — Introduce", text:"Hi everyone! I'm so excited to join the Travel Club! I've always loved exploring new places and learning about different cultures. I hope to share my experiences and hear about yours!", vocab:"excited to join · exploring new places · learning about cultures" },
-        { label:"Message 2 — Ask opinion", text:"I'd love to know — what's your all-time favourite travel destination and why? I've always dreamed of visiting Japan for its mix of tradition and modernity. Please share your thoughts!", vocab:"all-time favourite · dreamed of visiting · mix of tradition and modernity" },
-        { label:"Message 3 — Share tip", text:"Here's my top travel tip: always book accommodation in advance, especially during peak season. It saves money and guarantees a stress-free trip. What tips do you have for fellow travellers?", vocab:"book in advance · peak season · stress-free trip · fellow travellers" }
-      ]
+    { icon:"✈️", name:"Travel Club",
+      p3tip:"You are a member of a Travel Club. You are talking to three other members in the travel club chat room. Write sentences (30–40 words each).",
+      p3qs:["A: Can you tell us about a place you have visited that you would recommend to other members?","B: What do you think tourists should do to behave politely and respectfully when visiting new places?","C: What advice would you give to someone travelling abroad for the first time?"],
+      p4:`Dear members,\nOur club is planning to encourage tourists to visit our area. We also want visitors to behave politely. Please raise your voice and give some suggestions for this plan.\n\n📝 Write an email to your friend (50–75 words) and an email to the club manager (120–150 words).`
     },
-    { icon:"🏘️", name:"Community Club", task:"Write 3 messages for the Community Club. Message 1: Introduce yourself. Message 2: Propose a community activity. Message 3: Encourage others to volunteer.",
-      messages:[
-        { label:"Message 1 — Introduce", text:"Hello, Community Club members! My name is [Name] and I moved to this neighbourhood six months ago. I'm really passionate about making our community a better place for everyone.", vocab:"passionate about · making a better place · neighbourhood" },
-        { label:"Message 2 — Propose activity", text:"I'd like to propose a community clean-up day at the local park this Saturday. We could divide into small groups and tackle different areas. Would you be interested in joining?", vocab:"propose · clean-up day · divide into groups · tackle different areas" },
-        { label:"Message 3 — Encourage", text:"Volunteering even for just a few hours makes a huge difference! It's also a wonderful opportunity to meet neighbours and build friendships. I hope to see as many of you as possible this weekend!", vocab:"makes a huge difference · wonderful opportunity · build friendships" }
-      ]
+    { icon:"🏘️", name:"Community Club",
+      p3tip:"You are a member of a Community Club. You are talking to three other members in the Community Club chat room. Write sentences (30–40 words each).",
+      p3qs:["A: My friend wants to go to the hair salon, but her car isn't working. Can you suggest some ways for her to get there?","B: Volunteering provides great learning opportunities and helps others a lot. Do you agree with this?","C: Do you agree with the view that volunteering is a form of learning, especially for young people? Why?"],
+      p4:`Dear Member,\nOur club needs support with several tasks this year. First, we need more members who can actively participate in our ongoing projects. Second, we are looking for creative ideas to develop new activities. Could you share some suggestions with us to help support our projects this year?\n\n📝 Write an email to your friend (about 50 words) and an email to the club manager (about 120–150 words).`
     },
-    { icon:"💪", name:"Health Club", task:"Write 3 messages for the Health Club page. Message 1: Share your fitness goal. Message 2: Ask for exercise advice. Message 3: Recommend a healthy habit.",
-      messages:[
-        { label:"Message 1 — Share goal", text:"Hi Health Club! My goal this month is to run 5km without stopping. I've been training three times a week and I'm already seeing improvements. Does anyone else have a fitness goal they're working towards?", vocab:"fitness goal · training · seeing improvements · working towards" },
-        { label:"Message 2 — Ask advice", text:"I've been struggling with motivation to work out in the mornings. Does anyone have tips for making early exercise a regular habit? I really want to start the day with more energy!", vocab:"struggling with motivation · regular habit · start the day with energy" },
-        { label:"Message 3 — Recommend habit", text:"My best healthy habit is drinking at least 8 glasses of water a day. It sounds simple but it really boosts energy levels and helps with concentration. Try it for a week and let me know how you feel!", vocab:"healthy habit · boost energy levels · concentration · sounds simple" }
-      ]
+    { icon:"💪", name:"Health Club",
+      p3tip:"You are a member of a Health Club. You are talking to three other members in the health club chat room. Write sentences (30–40 words each).",
+      p3qs:["A: Can you tell us about a healthy habit that has made a difference in your daily life?","B: What do you think is the best way to stay motivated to exercise regularly?","C: Some people say that diet is more important than exercise for staying healthy. What is your opinion?"],
+      p4:`Dear members,\nBecause of personal reasons, our instructor will be away for the next two weeks. We will use the facilities by ourselves without the assistance of an instructor. We are sorry about this situation.\n\n📝 Write an email to your friend (50–75 words) and an email to the club manager (120–150 words).`
     },
-    { icon:"💼", name:"Business Club", task:"Write 3 messages for the Business Club. Message 1: Introduce your professional background. Message 2: Ask about career advice. Message 3: Share a business tip.",
-      messages:[
-        { label:"Message 1 — Background", text:"Hello Business Club! I work in marketing for a local startup. I joined this club to network with like-minded professionals and learn from people with different business experiences. Really glad to be here!", vocab:"marketing · startup · network · like-minded professionals" },
-        { label:"Message 2 — Career advice", text:"I'm considering a career change from marketing to project management. Has anyone made a similar switch? I'd appreciate any advice on the best way to make this transition successfully.", vocab:"career change · transition · project management · I'd appreciate" },
-        { label:"Message 3 — Business tip", text:"My top business tip: always respond to emails within 24 hours. It shows professionalism and respect for others' time. Small habits like this can make a big difference to your professional reputation!", vocab:"respond promptly · professionalism · professional reputation · small habits" }
-      ]
+    { icon:"💼", name:"Business Club",
+      p3tip:"You are a member of a Business Club. You are talking to three other members in the business club chat room. Write sentences (30–40 words each).",
+      p3qs:["A: I know there are a lot of successful small businesses these days. Tell me about a successful small business in your area.","B: I have a friend who wants to open a second coffee shop. She opened her first one a year ago and it was quite successful. What advice do you have to help her be more successful in her second shop?","C: Can you tell me what qualities and skills are needed to create a successful small business?"],
+      p4:`Dear members,\nOur club is currently planning to support local individuals who want to start up a small business. The club has 2 proposals:\n1. Create a call centre where customers can call to ask questions and request help.\n2. Create free courses to support local universities nearby.\nLet us know which option you would use and why.\n\n📝 Write an email to your friend (50–75 words) and an email to the club manager (120–225 words).`
     },
-    { icon:"🎬", name:"Film Club", task:"Write 3 messages for the Film Club. Message 1: Share your favourite film genre. Message 2: Recommend a recent film. Message 3: Organise a film night.",
-      messages:[
-        { label:"Message 1 — Favourite genre", text:"Hi Film Club! I'm a huge fan of science fiction films — I love how they explore ideas about the future and technology. My all-time favourite is Interstellar. What genres do you all enjoy most?", vocab:"huge fan of · explore ideas · all-time favourite · science fiction" },
-        { label:"Message 2 — Recommend film", text:"I recently watched 'The Pursuit of Happyness' and I thought it was absolutely brilliant — very moving and inspiring. It's based on a true story and really makes you appreciate what you have. Has anyone seen it?", vocab:"recently watched · absolutely brilliant · moving · inspiring · based on a true story" },
-        { label:"Message 3 — Organise event", text:"I thought it would be fun to organise a film night next Friday at my place. I'll prepare some popcorn and drinks! We could vote on which film to watch. Who would be interested in coming along?", vocab:"organise · vote on · interested in coming along · prepare" }
-      ]
+    { icon:"🎬", name:"Film Club",
+      p3tip:"You are a member of a Film Club. You are talking to three other members in the film club chat room. Write sentences (30–40 words each).",
+      p3qs:["A: Can you tell us about a film that has had a big impact on you and explain why?","B: What do you think are the advantages and disadvantages of watching films online compared to going to the cinema?","C: Some people say that modern films are becoming less creative and original. Do you agree?"],
+      p4:`Dear member,\nWe are writing to tell you that the guest actor, James McAvoy, will unfortunately not be able to give a talk at our next club meeting due to personal reasons. He has requested we reschedule the talk for next year in either January or March. Please contact the club secretary if you have a preference for one of the two months. Our meeting will take place as usual with a discussion on the advantages and disadvantages of learning on the Internet.\n\n📝 Write an email to your friend (50–75 words) and an email to the club manager (120–150 words).`
     },
-    { icon:"🎓", name:"College Club", task:"Write 3 messages for the College Club. Message 1: Introduce yourself as a student. Message 2: Ask about study tips. Message 3: Propose a study group.",
-      messages:[
-        { label:"Message 1 — Introduce", text:"Hey College Club! I'm a second-year student studying Business Administration. I joined this club to connect with other students and make the most of my university experience. Looking forward to getting to know everyone!", vocab:"second-year student · make the most of · connect with" },
-        { label:"Message 2 — Study tips", text:"Exams are coming up and I'm feeling a bit overwhelmed. Does anyone have effective study techniques they'd recommend? I've tried flashcards but I'm not sure if it's working well for me.", vocab:"overwhelmed · effective study techniques · flashcards · coming up" },
-        { label:"Message 3 — Study group", text:"Would anyone be interested in forming a study group for the upcoming exams? We could meet twice a week at the library and help each other with difficult topics. I think studying together is much more productive!", vocab:"forming a study group · upcoming exams · productive · difficult topics" }
-      ]
+    { icon:"🎓", name:"College Club",
+      p3tip:"You are a member of a College Club. You are talking to three other members in the college club chat room. Write sentences (30–40 words each).",
+      p3qs:["A: Can you tell us about a subject or class at college that you have found particularly useful and why?","B: What do you think is the most important skill a student needs to succeed at college?","C: Some students say that studying in a group is more effective than studying alone. What is your view?"],
+      p4:`Dear student,\nWe are writing to inform you that the end-of-course exams will now take place two weeks earlier than originally planned. Your exam, which was scheduled for the 21st of next month, will now take place on the 7th of next month. We apologize for any difficulty this may cause.\n\nCollege Administrator\n\n📝 Write an email to your friend (50–75 words) and an email to the college administrator (120–150 words).`
     },
-    { icon:"💻", name:"Computer Club", task:"Write 3 messages for the Computer Club. Message 1: Share your interest in technology. Message 2: Ask for a software recommendation. Message 3: Share a tech tip.",
-      messages:[
-        { label:"Message 1 — Interest", text:"Hello Computer Club! I'm a software developer with a passion for web development and AI. I'm really excited to be part of this community and share ideas with other tech enthusiasts!", vocab:"software developer · passion for · web development · tech enthusiasts" },
-        { label:"Message 2 — Ask recommendation", text:"I'm looking for a good project management tool for my team. We're a small group working remotely. Has anyone used Trello or Notion? Which do you prefer and why?", vocab:"project management tool · working remotely · prefer · small team" },
-        { label:"Message 3 — Tech tip", text:"Quick tip: use keyboard shortcuts to save time! For example, Ctrl+Z to undo and Ctrl+Shift+T to reopen closed browser tabs. These small tricks can really speed up your workflow throughout the day.", vocab:"keyboard shortcuts · save time · workflow · speed up" }
-      ]
+    { icon:"💻", name:"Computer Club",
+      p3tip:"You are a member of a Computer Club. You are talking to three other members in the computer club chat room. Write sentences (30–40 words each).",
+      p3qs:["A: Can you tell us about a piece of technology or software that you use every day and find very helpful?","B: What do you think is the biggest problem with people relying too much on technology in their daily lives?","C: Some people say that technology is making young people less creative. Do you agree or disagree?"],
+      p4:`Dear members,\nThe club has a plan to adjust our website in order to attract more members. Please share your feelings and suggestions about how we can improve the club website to make it more appealing and useful.\n\n📝 Write an email to your friend (50–75 words) and an email to the club manager (120–150 words).`
     },
-    { icon:"🌱", name:"Garden Club", task:"Write 3 messages for the Garden Club. Message 1: Share what you grow. Message 2: Ask for gardening advice. Message 3: Invite members to a garden visit.",
-      messages:[
-        { label:"Message 1 — Share", text:"Hello fellow gardeners! I grow tomatoes, herbs and sunflowers in my backyard. Gardening is my favourite way to relax after a busy week. There's something really satisfying about growing your own food!", vocab:"fellow gardeners · backyard · satisfying · growing your own food" },
-        { label:"Message 2 — Ask advice", text:"My rose bushes aren't blooming this year and I'm not sure why. Could it be due to lack of sunlight or incorrect watering? Has anyone experienced this and found a solution? Any advice would be greatly appreciated!", vocab:"blooming · lack of sunlight · any advice would be appreciated" },
-        { label:"Message 3 — Invite", text:"I'd love to invite you all to visit my garden next Sunday afternoon! The sunflowers are in full bloom and the vegetable patch is looking great. I'll provide tea and homemade cake. Please RSVP by Friday!", vocab:"in full bloom · vegetable patch · RSVP · homemade" }
-      ]
+    { icon:"🌱", name:"Garden Club",
+      p3tip:"You are a member of a Garden Club. You are talking to three other members in the garden club chat room. Write sentences (30–40 words each).",
+      p3qs:["A: Can you tell us about something you have grown in your garden that you are particularly proud of?","B: What do you think are the main benefits of gardening as a hobby?","C: Some people say that growing your own vegetables is better than buying them from a supermarket. Do you agree?"],
+      p4:`Dear members,\nWe are writing to tell you that the talk and slideshow on The Gardens of Japan by Mr Seiko has been cancelled because the speaker has been taken ill. Mr Jones has kindly agreed to give his talk on The Gardens of England again. I know many of you have already heard Mr Jones before but I hope you will be happy to hear him once again. Please give your suggestions for a future event.\n\n📝 Write an email to your friend (50–75 words) and an email to the club manager (120–150 words).`
     },
-    { icon:"🚶", name:"Walking Club", task:"Write 3 messages for the Walking Club. Message 1: Describe a favourite walk. Message 2: Organise a group walk. Message 3: Share benefits of walking.",
-      messages:[
-        { label:"Message 1 — Favourite walk", text:"Hi Walking Club! My favourite walk is along the riverside trail near the city centre. It takes about an hour and the views are absolutely stunning, especially in autumn. I try to do it every weekend!", vocab:"riverside trail · stunning views · especially in autumn" },
-        { label:"Message 2 — Organise", text:"I'm planning a group walk this Sunday morning starting at 9am from the main park entrance. The route is about 8km and suitable for all fitness levels. Please bring water and comfortable shoes! Who's joining?", vocab:"planning · suitable for all fitness levels · comfortable shoes · route" },
-        { label:"Message 3 — Benefits", text:"Did you know that walking for just 30 minutes a day can significantly reduce stress and improve cardiovascular health? It's free, requires no equipment, and you can enjoy the fresh air at the same time!", vocab:"significantly reduce stress · cardiovascular health · fresh air · requires no equipment" }
-      ]
+    { icon:"🚶", name:"Walking Club",
+      p3tip:"You are a member of a Walking Club. You are talking to three other members in the walking club chat room. Write sentences (30–40 words each).",
+      p3qs:["A: Can you tell us about a walk you have done that you particularly enjoyed and would recommend?","B: What do you think are the main health and social benefits of going for regular walks?","C: Some people say it is unsafe to walk in cities because of traffic and pollution. Do you agree?"],
+      p4:`Dear members,\nThe club will organise a 2-week walking tour through countries in Europe. Some members have different opinions on this plan. What do you think? Please give your opinion or suggestion about this plan.\n\nVersion 2: Currently in the walking club, many pedestrians are not concentrating but using their phones while walking. The club wants members to give their opinions and suggestions on this matter.\n\n📝 Write an email to your friend (50–75 words) and an email to the club manager (120–150 words).`
     },
-    { icon:"📱", name:"Technology Club", task:"Write 3 messages for the Technology Club. Message 1: Introduce a tech trend. Message 2: Ask about AI tools. Message 3: Share a useful app.",
-      messages:[
-        { label:"Message 1 — Tech trend", text:"Hi Tech Club! I've been following the rise of artificial intelligence very closely and I believe it's going to transform almost every industry within the next decade. What technology trends are you most excited about?", vocab:"rise of artificial intelligence · transform · industry · trends" },
-        { label:"Message 2 — Ask about AI", text:"Has anyone been using AI tools in their daily work? I've started using AI to help draft emails and it saves me a lot of time. I'm curious whether others have found similar tools helpful.", vocab:"AI tools · draft emails · saves time · I'm curious · similar tools" },
-        { label:"Message 3 — Useful app", text:"I'd highly recommend the app 'Notion' for anyone who wants to stay organised. You can manage tasks, take notes, and even collaborate with teammates all in one place. It's completely changed how I manage my workload!", vocab:"highly recommend · stay organised · manage tasks · collaborate · workload" }
-      ]
+    { icon:"📱", name:"Technology Club",
+      p3tip:"You are a member of a Technology Club. You are talking to three other members in the technology club chat room. Write sentences (30–40 words each).",
+      p3qs:["A: Can you tell us about a technology trend you are following closely and why you find it interesting?","B: What do you think is the most important way technology has changed how we communicate with each other?","C: Some people believe social media has a negative effect on society. What is your view?"],
+      p4:`Dear member,\nThere have been some negative comments on the club's website. The problem is that all comments are anonymous. We are considering changing the system and would like to hear your opinion about this. Do you have any other solutions?\n\n📝 Write an email to your friend (50–75 words) and an email to the club manager (120–150 words).`
     },
-    { icon:"🎵", name:"Music Club", task:"Write 3 messages for the Music Club. Message 1: Share your musical taste. Message 2: Recommend a song or album. Message 3: Propose a live music event.",
-      messages:[
-        { label:"Message 1 — Musical taste", text:"Hello Music Club! I'm a huge fan of jazz and classical music, though I also enjoy pop occasionally. I've been playing the piano since I was eight years old. What kind of music do you all enjoy?", vocab:"huge fan of · jazz and classical · playing the piano · occasionally" },
-        { label:"Message 2 — Recommend", text:"I'd strongly recommend listening to 'Kind of Blue' by Miles Davis if you haven't already. It's widely considered one of the greatest jazz albums ever recorded and it's incredibly relaxing. Perfect for a Sunday morning!", vocab:"strongly recommend · widely considered · greatest albums · incredibly relaxing" },
-        { label:"Message 3 — Live event", text:"How about we organise a trip to the jazz festival in the city next month? Tickets are still available and the lineup looks fantastic! It would be a wonderful opportunity for us to enjoy live music together.", vocab:"organise a trip · lineup · tickets available · wonderful opportunity · live music" }
-      ]
+    { icon:"🎵", name:"Music Club",
+      p3tip:"You are a member of a Music Club. You are talking to three other members in the music club chat room. Write sentences (30–40 words each).",
+      p3qs:["A: Can you tell us about a song or album that means a lot to you and explain why?","B: What do you think is the best way for young people to learn to play a musical instrument?","C: Some people say that music streaming services are harmful to musicians. Do you agree?"],
+      p4:`Dear members,\nVersion 1: The club wants to find volunteers to organise an event. The club does not require experience but you need to be free in the evenings. Write an email about why you want to be a volunteer and contribute your ideas to the event.\n\nVersion 2: Your music club holds a concert in the evening, so the surrounding residents complain. Please give some suggestions to solve the above problem.\n\n📝 Write an email to your friend (50–75 words) and an email to the club manager (120–150 words).`
     },
-    { icon:"🌍", name:"English Club", task:"Write 3 messages for the English Club. Message 1: Share why you're learning English. Message 2: Ask for practice tips. Message 3: Organise a speaking session.",
-      messages:[
-        { label:"Message 1 — Why learning", text:"Hello English Club! I'm learning English because I want to advance my career and communicate with people from around the world. I find English challenging but also very rewarding. What's your motivation for learning?", vocab:"advance my career · communicate · rewarding · challenging · motivation" },
-        { label:"Message 2 — Practice tips", text:"I struggle most with speaking fluently without long pauses. Does anyone have advice on how to practise speaking more naturally? I've tried watching English films with subtitles but I'm looking for other methods.", vocab:"speaking fluently · long pauses · naturally · with subtitles · looking for methods" },
-        { label:"Message 3 — Speaking session", text:"I'd like to organise an online speaking session this Thursday evening via video call. We could spend 30 minutes chatting about a topic and help each other improve. Would anyone like to join? Please reply below!", vocab:"organise · video call · chatting about a topic · improve" }
-      ]
+    { icon:"🌍", name:"English Club",
+      p3tip:"You are a member of an English Club. You are talking to three other members in the English club chat room. Write sentences (30–40 words each).",
+      p3qs:["A: Can you tell us about the most useful method you have found for improving your English skills?","B: What do you think is the biggest challenge for people learning English as a second language?","C: Some people say that the best way to learn English is to live in an English-speaking country. Do you agree?"],
+      p4:`Dear members,\nVersion 1: Nowadays, more and more new words and phrases are added to the language, so many people have strong reactions to this issue. Some people gladly accept while others argue that there should be rules for language. Write a letter to your friend and the club manager to express your views and explain why so many people react like this.\n\nVersion 2: The English Club is planning to organise a public meeting. The club wants members to suggest a place for the event and choose a topic.\n\n📝 Write an email to your friend (50–75 words) and an email to the club manager (120–150 words).`
     },
-    { icon:"🗣️", name:"Debate Club", task:"Write 3 messages for the Debate Club. Message 1: Share a debating experience. Message 2: Propose a debate topic. Message 3: Invite newcomers.",
-      messages:[
-        { label:"Message 1 — Experience", text:"Hi Debate Club! Last week I took part in my first formal debate and I found it incredibly challenging but hugely rewarding. It really improved my ability to think quickly and express ideas clearly.", vocab:"took part in · formal debate · incredibly challenging · rewarding · think quickly" },
-        { label:"Message 2 — Propose topic", text:"I'd like to suggest the topic 'Social media does more harm than good' for our next debate. It's a highly relevant issue and I think it would generate some lively discussion. What does everyone think?", vocab:"suggest a topic · highly relevant · generate discussion · lively" },
-        { label:"Message 3 — Invite newcomers", text:"To anyone who's thinking about joining: don't be nervous! Our club is very welcoming and supportive. You don't need prior experience — just a willingness to share your opinions and listen to others. We'd love to have you!", vocab:"welcoming · supportive · prior experience · willingness · share your opinions" }
-      ]
+    { icon:"🗣️", name:"Debate Club",
+      p3tip:"You are a member of a Debate Club. You are talking to three other members in the debate club chat room. Write sentences (30–40 words each).",
+      p3qs:["A: Can you tell us about a topic you have debated recently and what you found most challenging about it?","B: What do you think are the main benefits of learning to debate and speak in public?","C: Some people say that debating skills are more important than academic qualifications in the workplace. What is your view?"],
+      p4:`Dear members,\nWe want to encourage many young people to join the club; unfortunately, young people usually think that debating is not for them. What do you think are the benefits of debating and speaking in public? Please give two benefits that you think are the most important and explain why.\n\n📝 Write an email to your friend (50–75 words) and an email to the club manager (120–150 words).`
     },
-    { icon:"🌐", name:"Language Club", task:"Write 3 messages for the Language Club. Message 1: Introduce the language you're learning. Message 2: Ask for language exchange partners. Message 3: Share a learning resource.",
-      messages:[
-        { label:"Message 1 — Language intro", text:"Hello Language Club! I'm currently learning Spanish and I'm absolutely fascinated by the culture and history behind it. I've been studying for two years now and I can hold basic conversations.", vocab:"currently learning · fascinated by · culture and history · hold basic conversations" },
-        { label:"Message 2 — Language exchange", text:"Is anyone interested in a language exchange? I'm a native Vietnamese speaker looking for a Spanish speaker who wants to practise Vietnamese in return. We could meet online once a week for 30 minutes each way.", vocab:"language exchange · native speaker · in return · meet online · once a week" },
-        { label:"Message 3 — Share resource", text:"I highly recommend the Duolingo app for beginners — it's fun, free, and you can study at your own pace for just 10–15 minutes a day. I've found it really helpful for building vocabulary. Give it a try!", vocab:"highly recommend · study at your own pace · building vocabulary · give it a try" }
-      ]
+    { icon:"🌐", name:"Language Club",
+      p3tip:"You are a member of a Language Club. You are talking to three other members in the language club chat room. Write sentences (30–40 words each).",
+      p3qs:["A: Can you tell us about the language you are learning and what motivated you to start?","B: What do you think is the most effective way to practise a new language every day?","C: Some people say translation apps will make it unnecessary to learn foreign languages. Do you agree?"],
+      p4:`Dear members,\nVersion 1 (common): The club will have a lecture soon. The club needs speakers. Please let us know if you are interested and suggest a topic you could speak about.\n\nVersion 2: You are taking an English course at the American Dream Centre. After studying for 2 months, you find the course effective and useful. Write to recommend it to a friend and share your experience with the club manager.\n\n📝 Write an email to your friend (50–75 words) and an email to the club manager (120–150 words).`
     },
-    { icon:"🏋️", name:"Fitness Power Club", task:"Write 3 messages for the Fitness Club. Message 1: Share your workout routine. Message 2: Ask for nutrition advice. Message 3: Challenge members to a fitness goal.",
-      messages:[
-        { label:"Message 1 — Workout routine", text:"Hey Fitness Club! My current routine is 3 days of strength training and 2 days of cardio per week. I've been following this programme for 3 months and I've noticed a significant improvement in my energy levels!", vocab:"current routine · strength training · cardio · programme · significant improvement" },
-        { label:"Message 2 — Nutrition advice", text:"I've been trying to build muscle but I'm not sure how much protein I should be eating each day. Has anyone worked with a nutritionist or followed a specific diet plan? Any advice from experienced members would be very welcome!", vocab:"build muscle · protein · nutritionist · specific diet plan · experienced members" },
-        { label:"Message 3 — Challenge", text:"I'm starting a 30-day fitness challenge: 20 push-ups, 20 squats, and a 10-minute walk every day. Would anyone like to join me? We can check in daily and motivate each other to keep going!", vocab:"30-day challenge · push-ups · squats · check in · motivate each other" }
-      ]
+    { icon:"🏋️", name:"Fitness Power Club",
+      p3tip:"You are a member of a Fitness Club. You are talking to three other members in the fitness club chat room. Write sentences (30–40 words each).",
+      p3qs:["A: Can you tell us about a fitness goal you have set for yourself and how you are working towards it?","B: What do you think is the best piece of advice you would give to someone starting to exercise for the first time?","C: Some people say it is better to exercise at home than at a gym. What is your view?"],
+      p4:`Dear members,\nVersion 1: Some equipment in the club is old and needs to be replaced. Our club is planning to hold a sponsorship event to raise money for the upgrade. On the other hand, some suggest increasing the membership fee by 50%. Please give your opinions.\n\nVersion 2: In order to cut costs, the club will reduce the amount of equipment offered. Some suggested closing the shop and the café. Please give your opinions.\n\n📝 Write an email to your friend (50–75 words) and an email to the club manager (120–150 words).`
     },
-    { icon:"🎨", name:"Art Club", task:"Write 3 messages for the Art Club. Message 1: Share your art style. Message 2: Ask for feedback on a piece. Message 3: Organise an art exhibition.",
-      messages:[
-        { label:"Message 1 — Art style", text:"Hello Art Club! I mainly paint watercolour landscapes and I find the process incredibly meditative. I've been painting as a hobby for about five years. Would love to see what styles others in the club enjoy!", vocab:"watercolour landscapes · meditative · hobby · incredibly" },
-        { label:"Message 2 — Ask feedback", text:"I've just finished a new painting and I'd really value some honest feedback from fellow artists. I'll post a photo below. I'm particularly unsure about the colour balance in the background — any thoughts?", vocab:"honest feedback · fellow artists · particularly · colour balance · any thoughts" },
-        { label:"Message 3 — Exhibition", text:"I'd love to organise a small art exhibition at the community centre next month where members can display their work. It would be a fantastic way to share our passion with the local community. Is anyone interested?", vocab:"organise an exhibition · display their work · community centre · share our passion" }
-      ]
+    { icon:"🎨", name:"Art Club",
+      p3tip:"You are a member of an Art Club. You are talking to three other members in the art club chat room. Write sentences (30–40 words each).",
+      p3qs:["A: Can you tell us about a piece of art or an artist that has inspired you and explain why?","B: What do you think is the best way to encourage more young people to take an interest in art?","C: Some people say that art is not a practical subject and should not be taught in schools. Do you agree?"],
+      p4:`Dear all members,\nThe Art Club is holding a public talk to attract more attention. We will invite an artist to speak to the members. As a member of the club, can you suggest an artist to join our talk and what topics they should share to get more attention? We especially want to attract both young and elderly members.\n\n📝 Write an email to your friend (50–75 words) and an email to the club manager (120–150 words).`
     },
-    { icon:"📸", name:"Photography Club", task:"Write 3 messages for the Photography Club. Message 1: Share your photography style. Message 2: Ask for camera tips. Message 3: Organise a photo walk.",
-      messages:[
-        { label:"Message 1 — Style", text:"Hi Photography Club! I specialise in street photography and I love capturing candid moments of everyday life. There's something really special about freezing a moment in time. What type of photography do you all enjoy?", vocab:"specialise in · street photography · candid moments · freezing a moment" },
-        { label:"Message 2 — Camera tips", text:"I've just bought my first DSLR camera and I'm a bit overwhelmed by all the manual settings. Does anyone have tips for beginners? I'd especially like to understand when to adjust the aperture and shutter speed.", vocab:"DSLR · manual settings · overwhelmed · adjust · aperture · shutter speed" },
-        { label:"Message 3 — Photo walk", text:"I'm organising a photo walk around the old town district this Saturday morning at 10am. It's a great opportunity to practise our skills and explore the area together. All skill levels are welcome — I hope to see you there!", vocab:"photo walk · old town · practise our skills · all skill levels welcome" }
-      ]
+    { icon:"📸", name:"Photography Club",
+      p3tip:"You are a member of a Photography Club. You are talking to three other members in the photography club chat room. Write sentences (30–40 words each).",
+      p3qs:["A: Can you tell us about a photograph you have taken that you are particularly proud of and explain why?","B: What do you think makes a truly great photograph?","C: Some people say that smartphones have made professional cameras unnecessary. Do you agree?"],
+      p4:`Dear member,\nThe club organises exhibitions to display the best photographs of club members. This exhibition must be suitable for both the young and the old. Please give suggestions for how we can organise a successful exhibition that appeals to all ages.\n\n📝 Write an email to your friend (50–75 words) and an email to the club manager (120–150 words).`
     },
-    { icon:"🔬", name:"Science Club", task:"Write 3 messages for the Science Club. Message 1: Share a scientific interest. Message 2: Discuss a recent discovery. Message 3: Propose a Science Club experiment.",
-      messages:[
-        { label:"Message 1 — Interest", text:"Hello Science Club! I'm particularly fascinated by astronomy and the possibility of life on other planets. I love reading about the latest space missions and discoveries. What area of science interests you the most?", vocab:"particularly fascinated · astronomy · possibility · space missions · discoveries" },
-        { label:"Message 2 — Discovery", text:"Did everyone see the recent news about the James Webb Telescope discovering complex molecules on a distant planet? I think this could be a significant step towards finding evidence of life beyond Earth. Truly mind-blowing!", vocab:"recent news · significant step · evidence of life · mind-blowing" },
-        { label:"Message 3 — Experiment", text:"I'd like to propose a simple experiment for our next meeting: we could test the effect of light on plant growth using different coloured lenses. It's inexpensive, easy to set up, and would produce interesting results!", vocab:"propose an experiment · test the effect · plant growth · inexpensive · set up" }
-      ]
+    { icon:"🔬", name:"Science Club",
+      p3tip:"You are a member of a Science Club. You are talking to three other members in the science club chat room. Write sentences (30–40 words each).",
+      p3qs:["A: Can you tell us about a scientific discovery or invention that you find fascinating and explain why?","B: What do you think is the most important scientific challenge facing humanity today?","C: Some people say that science should always be taught in an interesting, hands-on way. Do you agree?"],
+      p4:`Dear all members,\nOur club is preparing to organise a science exhibition next month. Both young people and elderly people can take part in our activities. We are planning for the exhibition. Could you contribute some ideas for our event team? Also, should our club issue tickets for participants? Please share your contribution.\n\n📝 Write an email to your friend (50–75 words) and an email to the club manager (120–150 words).`
     },
-    { icon:"📚", name:"Book Club", task:"Write 3 messages for the Book Club. Message 1: Recommend a book. Message 2: Discuss a current read. Message 3: Organise a book discussion.",
-      messages:[
-        { label:"Message 1 — Recommend", text:"Hello Book Club! I'd strongly recommend 'The Alchemist' by Paulo Coelho if you haven't read it. It's a beautifully written story about following your dreams and it never fails to inspire me every time I re-read it.", vocab:"strongly recommend · beautifully written · following your dreams · never fails to inspire" },
-        { label:"Message 2 — Discuss book", text:"I've been reading '1984' by George Orwell this month and I'm finding it both disturbing and thought-provoking. The themes about surveillance and government control feel surprisingly relevant today. Has anyone else read it?", vocab:"thought-provoking · disturbing · surveillance · surprisingly relevant" },
-        { label:"Message 3 — Organise discussion", text:"How about we meet next Wednesday evening to discuss this month's book? We could each prepare 2–3 questions to bring to the discussion. I'll book a private room at the local library. Please let me know if you can make it!", vocab:"prepare questions · book a room · local library · let me know · can make it" }
-      ]
+    { icon:"📚", name:"Book Club",
+      p3tip:"You are a member of a Book Club. You are talking to three other members in the book club chat room. Write sentences (30–40 words each).",
+      p3qs:["A: Can you tell us about a book that you have read recently that you would recommend and explain why?","B: What do you think is the best way to encourage children to develop a love of reading?","C: Some people say that e-books will eventually replace traditional printed books. Do you agree?"],
+      p4:`Dear member,\nVersion 1: From next month we will no longer be able to continue our offer of one free book every month. Also, because of problems with our delivery service, please expect a wait of 4–6 weeks before your order arrives.\n\nVersion 2: The club will hold a meeting. Who do you want to invite? What is the theme? Please give a suggestion for both young and old people.\n\n📝 Write an email to your friend (50–75 words) and an email to the club manager (120–150 words).`
     },
-    { icon:"🏛️", name:"Museum Club", task:"Write 3 messages for the Museum Club. Message 1: Share a recent museum visit. Message 2: Recommend a museum. Message 3: Organise a group visit.",
-      messages:[
-        { label:"Message 1 — Recent visit", text:"Hi Museum Club! I visited the Natural History Museum last weekend and it was absolutely fascinating. The exhibition on ancient civilisations was particularly impressive — I ended up spending over three hours there!", vocab:"absolutely fascinating · ancient civilisations · particularly impressive" },
-        { label:"Message 2 — Recommend", text:"I highly recommend the Science Museum in the city centre for anyone who hasn't been. The interactive exhibits make learning genuinely fun, and there's something for people of all ages. Entry is free on the first Sunday of each month!", vocab:"highly recommend · interactive exhibits · genuinely fun · entry is free" },
-        { label:"Message 3 — Group visit", text:"I'm organising a group visit to the Art Gallery on Saturday 15th. There's a new temporary exhibition on contemporary photography that looks outstanding. Shall we meet at the entrance at 2pm? Please reply if you'd like to join!", vocab:"organising a group visit · temporary exhibition · contemporary · outstanding" }
-      ]
+    { icon:"🏛️", name:"Museum Club",
+      p3tip:"You are a member of a Museum Club. You are talking to three other members in the museum club chat room. Write sentences (30–40 words each).",
+      p3qs:["A: Can you tell us about a museum or exhibition you have visited that you found particularly interesting?","B: What do you think museums can do to attract more young visitors?","C: Some people say museums should be free for everyone to enter. Do you agree?"],
+      p4:`Dear members,\nCurrently, the museum club is considering charging members a fee to visit the museum. Please give your opinions on this proposal and suggest any alternative ways the club could raise funds.\n\n📝 Write an email to your friend (50–75 words) and an email to the club manager (120–150 words).`
     },
-    { icon:"🏠", name:"Beautiful Homes Club", task:"Write 3 messages for the Beautiful Homes Club. Message 1: Share a home decor tip. Message 2: Ask for renovation advice. Message 3: Share a room transformation.",
-      messages:[
-        { label:"Message 1 — Decor tip", text:"Hello Beautiful Homes Club! My top interior design tip is to use mirrors to make small rooms feel much larger and brighter. I added a large mirror to my hallway and it completely transformed the space!", vocab:"interior design · mirrors · make rooms feel larger · transformed the space · hallway" },
-        { label:"Message 2 — Renovation advice", text:"I'm planning to renovate my kitchen next month and I'm trying to decide between an open-plan layout and keeping the walls. Has anyone done a similar renovation? I'd love to hear about your experience!", vocab:"renovate · open-plan layout · similar renovation · I'd love to hear" },
-        { label:"Message 3 — Transformation", text:"I just finished redecorating my living room and I'm so happy with the result! I changed the paint colour to a warm grey, added some indoor plants, and replaced the old curtains. It feels like a completely new room!", vocab:"redecorating · warm grey · indoor plants · replaced · completely new room" }
-      ]
+    { icon:"🏠", name:"Beautiful Homes Club",
+      p3tip:"You are a member of a Beautiful Homes Club. You are talking to three other members in the beautiful homes club chat room. Write sentences (30–40 words each).",
+      p3qs:["A: Can you tell us about something you have done to improve or redecorate your home that you are happy with?","B: What do you think is the most important factor when choosing a home to live in?","C: Some people prefer to rent a home rather than buy one. What are the advantages and disadvantages of renting?"],
+      p4:`Dear member,\nThe cost of maintaining old buildings is very high and these buildings take up a lot of space. The government has proposed knocking down old buildings and building more modern blocks. Please share your opinion on this proposal.\n\n📝 Write an email to your friend (50–75 words) and an email to the club manager (120–150 words).`
     },
-    { icon:"📺", name:"Television Club", task:"Write 3 messages for the Television Club. Message 1: Share a favourite show. Message 2: Recommend a documentary. Message 3: Discuss streaming habits.",
-      messages:[
-        { label:"Message 1 — Favourite show", text:"Hi Television Club! My all-time favourite TV series is Breaking Bad — the writing, acting, and storyline are absolutely exceptional. I've watched it three times and I notice something new every time. What's your favourite show?", vocab:"all-time favourite · exceptional · writing and acting · notice something new" },
-        { label:"Message 2 — Documentary", text:"If you haven't watched 'Our Planet' on Netflix, I strongly recommend it. David Attenborough's narration combined with the stunning visuals makes it one of the most powerful documentaries I've ever seen.", vocab:"strongly recommend · narration · stunning visuals · powerful documentary" },
-        { label:"Message 3 — Streaming habits", text:"I've noticed I watch far more TV on streaming platforms than on traditional television these days. I can watch what I want, when I want, and without adverts! Has streaming changed your viewing habits too?", vocab:"streaming platforms · traditional television · without adverts · viewing habits" }
-      ]
+    { icon:"📺", name:"Television Club",
+      p3tip:"You are a member of a Television Club. You are talking to three other members in the television club chat room. Write sentences (30–40 words each).",
+      p3qs:["A: Can you tell us about a TV programme or series that you enjoy watching and explain what you like about it?","B: What do you think is the effect of watching too much television on people's health and social life?","C: Some people say that reality television programmes have a negative influence on society. Do you agree?"],
+      p4:`Dear members,\nWe need to set up an event and choose a place so that foreigners can attend. Please give your suggestions for what type of event we should hold and where it should take place.\n\n📝 Write an email to your friend (50–75 words) and an email to the club manager (120–150 words).`
     },
-    { icon:"🍳", name:"Food Club", task:"Write 3 messages for the Food Club. Message 1: Share a favourite recipe. Message 2: Ask for a cuisine recommendation. Message 3: Organise a cook-off.",
-      messages:[
-        { label:"Message 1 — Recipe", text:"Hello Food Club! My favourite recipe is a simple homemade tomato pasta sauce made from fresh tomatoes, garlic, and basil. It takes about 20 minutes and tastes far better than anything from a jar! Happy to share the full recipe.", vocab:"homemade · fresh tomatoes · garlic and basil · full recipe · far better" },
-        { label:"Message 2 — Cuisine recommendation", text:"I'm planning to try cooking a new cuisine this weekend and I'm torn between Thai and Indian food. Both are delicious but I've heard Thai food can be tricky to get right. Does anyone have a beginner-friendly recipe to suggest?", vocab:"torn between · tricky to get right · beginner-friendly · cuisine" },
-        { label:"Message 3 — Cook-off", text:"How about we organise a friendly cook-off next Saturday? Everyone brings a homemade dish and we vote on our favourite! It would be a brilliant way to try new foods and share our cooking skills. Who's in?", vocab:"cook-off · homemade dish · vote on · brilliant way · share cooking skills" }
-      ]
+    { icon:"🍳", name:"Food Club",
+      p3tip:"You are a member of a Food Club. You are talking to three other members in the food club chat room. Write sentences (30–40 words each).",
+      p3qs:["A: Can you tell us about a dish you enjoy cooking and explain how you make it?","B: What do you think are the main reasons why so many people eat unhealthily today?","C: Some people say that cooking at home is always better than eating in a restaurant. Do you agree?"],
+      p4:`Dear members,\nWe are planning to start a new project in the club to promote healthy eating among teenagers. Please share your ideas on how we can make cooking and eating healthy food more exciting for young people.\n\n📝 Write an email to your friend (50–75 words) and an email to the club manager (120–150 words).`
     },
-    { icon:"🛋️", name:"Home Living Club", task:"Write 3 messages for the Home Living Club. Message 1: Share a home organisation tip. Message 2: Ask for cleaning product recommendations. Message 3: Discuss eco-friendly living.",
-      messages:[
-        { label:"Message 1 — Organisation tip", text:"Hi Home Living Club! My favourite organisation tip is the 'one in, one out' rule — every time you buy something new, you get rid of something old. It keeps clutter under control and makes your home feel much calmer.", vocab:"organisation tip · one in one out · get rid of · clutter · calmer" },
-        { label:"Message 2 — Cleaning products", text:"I'm trying to switch to more natural cleaning products but I'm not sure which brands are effective and affordable. Has anyone made the switch? I'd love some recommendations for good eco-friendly alternatives!", vocab:"switch to · natural cleaning products · effective · affordable · eco-friendly alternatives" },
-        { label:"Message 3 — Eco-friendly living", text:"I've started composting kitchen waste and using reusable shopping bags and it's made me feel much more conscious about the environment. Small changes really do add up! Has anyone else made changes to live more sustainably?", vocab:"composting · reusable · conscious about the environment · small changes add up" }
-      ]
+    { icon:"🛋️", name:"Home Living Club",
+      p3tip:"You are a member of a Home Living Club. You are talking to three other members in the home living club chat room. Write sentences (30–40 words each).",
+      p3qs:["A: Can you tell us about a way you have made your home more organised or comfortable?","B: What do you think are the main benefits of living in an eco-friendly way at home?","C: Some people say that it is impossible to live sustainably in a modern city. Do you agree?"],
+      p4:`Dear members,\nCurrently, there are many young families who want to buy a house or an apartment. The club wants its members to make suggestions to help them find suitable homes.\n\n📝 Write an email to your friend (50–75 words) and an email to the club manager (120–150 words).`
     },
-    { icon:"🎥", name:"Movie Club", task:"Write 3 messages for the Movie Club. Message 1: Share your favourite director. Message 2: Recommend an underrated film. Message 3: Organise a movie marathon.",
-      messages:[
-        { label:"Message 1 — Director", text:"Hello Movie Club! My favourite director is Christopher Nolan because of his unique ability to tell complex stories in a visually stunning way. Films like Inception and Interstellar completely changed the way I think about cinema.", vocab:"unique ability · complex stories · visually stunning · completely changed" },
-        { label:"Message 2 — Underrated film", text:"I'd like to recommend 'About Time' — it's a beautifully made British film about time travel and family that deserves far more attention than it gets. It's funny, emotional, and genuinely thought-provoking. A real hidden gem!", vocab:"beautifully made · deserves more attention · thought-provoking · hidden gem" },
-        { label:"Message 3 — Movie marathon", text:"I'm planning a movie marathon at my place this Saturday evening — 3 films starting at 5pm. I'll provide snacks and drinks. We could take a vote on which films to watch beforehand. Who would like to come?", vocab:"movie marathon · take a vote · beforehand · provide snacks" }
-      ]
+    { icon:"🎥", name:"Movie Club",
+      p3tip:"You are a member of a Movie Club. You are talking to three other members in the movie club chat room. Write sentences (30–40 words each).",
+      p3qs:["A: Can you tell us about a film you have watched recently that you would recommend and explain why?","B: What do you think makes a film truly memorable and worth watching more than once?","C: Some people say that Hollywood films are too similar to each other and lack originality. Do you agree?"],
+      p4:`Dear member,\nThe club will be repaired and redesigned to appeal to both young and old people. Please suggest an alternative meeting or activity for members while the renovation takes place.\n\n📝 Write an email to your friend (50–75 words) and an email to the club manager (120–150 words).`
     }
   ];
 
@@ -1960,20 +2056,21 @@
   ];
 
   /* ---- RENDER WRITING ---- */
+  function clubCardHTML(club) {
+    const qs = club.p3qs.map((q,i) => `<div class="msg-block"><div class="msg-label">${String.fromCharCode(65+i)}</div><div class="msg-text">${q}</div></div>`).join('');
+    return `
+      <div class="rq-part">${club.icon} ${club.name}</div>
+      <div style="font-size:0.82rem; color:var(--muted); margin-bottom:10px; background:var(--surface2); border-radius:8px; padding:10px 12px; line-height:1.6;">💬 <b>Part 3 — Chat Room</b><br>${club.p3tip}</div>
+      ${qs}
+      <div style="margin-top:14px; font-size:0.82rem; color:var(--muted); background:var(--surface2); border-radius:8px; padding:10px 12px; line-height:1.7;">📧 <b>Part 4 — Email Received</b><br>${club.p4.replace(/\n/g,'<br>')}</div>`;
+  }
+
   function randomClub() {
     const club = clubData[Math.floor(Math.random() * clubData.length)];
     const card = document.getElementById('wrt-random-card');
     card.style.display = 'block';
     document.getElementById('wrt-all-clubs').style.display = 'none';
-    card.innerHTML = `
-      <div class="rq-part">${club.icon} ${club.name}</div>
-      <div style="font-size:0.82rem; color:var(--muted); margin-bottom:14px; line-height:1.6; background:var(--surface2); border-radius:8px; padding:10px 12px;">📋 ${club.task}</div>
-      ${club.messages.map(m => `
-        <div class="msg-block">
-          <div class="msg-label">${m.label}</div>
-          <div class="msg-text">${m.text}</div>
-          <div class="msg-vocab">💡 Key vocab: <b>${m.vocab}</b></div>
-        </div>`).join('')}`;
+    card.innerHTML = clubCardHTML(club);
   }
 
   function showAllClubs() {
@@ -1991,17 +2088,7 @@
           <span class="club-title">${club.icon} ${club.name}</span>
           <span class="topic-chevron" id="ch-${i}">▼</span>
         </div>
-        <div class="club-body">
-          <div class="club-task">📋 ${club.task}</div>
-          <div class="club-messages">
-            ${club.messages.map(m => `
-              <div class="msg-block">
-                <div class="msg-label">${m.label}</div>
-                <div class="msg-text">${m.text}</div>
-                <div class="msg-vocab">💡 <b>${m.vocab}</b></div>
-              </div>`).join('')}
-          </div>
-        </div>`;
+        <div class="club-body">${clubCardHTML(club)}</div>`;
       grid.appendChild(card);
     });
   }
