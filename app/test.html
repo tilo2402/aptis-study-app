@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VSTEP Test</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── Full-screen shell ── */
+    html, body { height: 100%; overflow: hidden; }
+    body { display: flex; flex-direction: column; }
+    .app-header { flex-shrink: 0; }
+    .footer-nav { flex-shrink: 0; }
+
+    /* #main-content fills remaining space; sections are stacked absolutely inside */
+    #main-content {
+      flex: 1;
+      min-height: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* All sections share the same slot; only .active is shown */
+    .section {
+      display: none;
+      position: absolute;
+      inset: 0;              /* top:0 right:0 bottom:0 left:0 */
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .section.active { display: flex; }
+
+    /* ── Listening ── */
+    #section-listening .listening-questions { flex: 1; overflow-y: auto; min-height: 0; }
+
+    /* ── Reading: stacked full-width layout ── */
+    #section-reading { overflow-y: auto; }
+    .read-q-nav-sticky {
+      position: sticky; top: 0; z-index: 20;
+      background: var(--card); border-bottom: 1px solid var(--border);
+    }
+    .read-passage-block {
+      background: var(--card); border-bottom: 2px solid var(--border);
+      padding: 1.5rem 2rem; font-size: .95rem; line-height: 1.9;
+    }
+    .read-passage-block h3 { color: var(--primary); margin-bottom: .85rem; font-size: 1.05rem; }
+    /* Full-width question+options area — override global max-width */
+    .read-q-block { padding: 1.5rem 2rem; }
+    .read-q-block .question-area { max-width: none; padding: 0; }
+    .read-q-block .options { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+    @media (max-width: 640px) {
+      .read-q-block .options { grid-template-columns: 1fr; }
+      .read-passage-block, .read-q-block { padding: 1rem; }
+    }
+
+    /* ── Writing / Speaking: scrollable ── */
+    #section-writing  { overflow-y: auto; }
+    #section-speaking { overflow-y: auto; }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="app-header">
+  <a href="index.html" style="color:rgba(255,255,255,.7);font-size:.85rem">← Tests</a>
+  <h1 id="test-title">Test 1</h1>
+  <div class="section-tabs" id="section-tabs">
+    <button class="tab active" data-section="listening">🎧 Listening</button>
+    <button class="tab" data-section="reading">📖 Reading</button>
+    <button class="tab" data-section="writing">✍️ Writing</button>
+    <button class="tab" data-section="speaking">🗣️ Speaking</button>
+  </div>
+  <div class="spacer"></div>
+  <div class="timer" id="timer">--:--</div>
+</header>
+
+<div id="main-content">
+
+  <!-- ── LISTENING ── -->
+  <div id="section-listening" class="section active listening-layout">
+    <div class="part-tabs" id="part-tabs"></div>
+    <div class="audio-bar" id="audio-bar">
+      <audio id="audio-player" controls preload="none"></audio>
+      <button class="btn btn-accent btn-sm" id="transcript-toggle">📄 Transcript</button>
+    </div>
+    <div class="transcript-panel" id="transcript-panel"></div>
+    <div class="q-nav" id="listen-q-nav"></div>
+    <div class="listening-questions">
+      <div class="question-area" id="listen-q-area"></div>
+    </div>
+  </div>
+
+  <!-- ── READING ── -->
+  <div id="section-reading" class="section">
+    <!-- Sticky question navigator -->
+    <div class="read-q-nav-sticky">
+      <div class="q-nav" id="read-q-nav"></div>
+    </div>
+    <!-- Full-width passage -->
+    <div class="read-passage-block" id="passage-panel"></div>
+    <!-- Question + answer choices below passage -->
+    <div class="read-q-block">
+      <div class="question-area" id="read-q-area"></div>
+    </div>
+  </div>
+
+  <!-- ── WRITING ── -->
+  <div id="section-writing" class="section">
+    <div class="writing-section" id="writing-content"></div>
+  </div>
+
+  <!-- ── SPEAKING ── -->
+  <div id="section-speaking" class="section">
+    <div class="speaking-section" id="speaking-content"></div>
+  </div>
+
+</div>
+
+<!-- Footer -->
+<div class="footer-nav">
+  <button class="btn btn-outline" id="btn-prev">← Prev</button>
+  <span id="q-position" class="text-muted" style="font-size:.82rem"></span>
+  <div class="spacer"></div>
+  <button class="btn btn-outline" id="btn-next">Next →</button>
+  <button class="btn btn-success" id="btn-submit">Submit Test</button>
+</div>
+
+<script src="data/tests.js"></script>
+<script src="data/answers.js"></script>
+<script src="data/tapescripts.js"></script>
+<script src="app.js"></script>
+<script>
+// ── State ──────────────────────────────────────────────────────────────────
+const testNum   = APP.getTestNum();
+const test      = TESTS[testNum];
+let userAnswers = APP.getAnswers(testNum);
+
+let currentSection = 'listening';
+let listenIndex    = 0;   // index into flatListening
+let readIndex      = 0;   // index into flatReading
+let currentPart    = 0;   // 0-based part index for listening display
+
+const flatL = APP.flatListening(test);
+const flatR = APP.flatReading(test);
+
+// ── Timer ──────────────────────────────────────────────────────────────────
+const SECTION_TIMES = { listening: 40*60, reading: 60*60, writing: 60*60, speaking: 0 };
+let timerSeconds = 0;
+let timerInterval = null;
+
+function startTimer(section) {
+  clearInterval(timerInterval);
+  timerSeconds = SECTION_TIMES[section] || 0;
+  updateTimerDisplay();
+  if (!timerSeconds) { document.getElementById('timer').textContent = '—'; return; }
+  timerInterval = setInterval(() => {
+    timerSeconds--;
+    updateTimerDisplay();
+    if (timerSeconds <= 0) clearInterval(timerInterval);
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  const el = document.getElementById('timer');
+  el.textContent = APP.formatTime(timerSeconds);
+  el.className = 'timer' + (timerSeconds < 120 ? ' danger' : timerSeconds < 300 ? ' warning' : '');
+}
+
+// ── Section Switching ──────────────────────────────────────────────────────
+document.getElementById('section-tabs').addEventListener('click', e => {
+  const tab = e.target.closest('.tab');
+  if (!tab) return;
+  switchSection(tab.dataset.section);
+});
+
+function switchSection(name) {
+  currentSection = name;
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(`section-${name}`).classList.add('active');
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.section === name));
+  startTimer(name);
+  if (name === 'listening') renderListening();
+  if (name === 'reading')   renderReading();
+  if (name === 'writing')   renderWriting();
+  if (name === 'speaking')  renderSpeaking();
+  updateFooter();
+}
+
+// ── LISTENING ─────────────────────────────────────────────────────────────
+function renderListening() {
+  if (!flatL.length) {
+    document.getElementById('listen-q-area').innerHTML = '<p class="text-muted p-1">No listening section for this test.</p>';
+    return;
+  }
+
+  // Part tabs
+  const parts = test.listening.parts;
+  document.getElementById('part-tabs').innerHTML = parts.map((p, i) =>
+    `<button class="part-tab ${i===currentPart?'active':''}" data-pi="${i}">Part ${p.part}</button>`
+  ).join('');
+
+  // Audio
+  const partNum = parts[currentPart]?.part;
+  const audio   = document.getElementById('audio-player');
+  if (test.hasAudio) {
+    audio.src = APP.audioSrc(testNum, partNum);
+    document.getElementById('audio-bar').style.display = 'flex';
+  } else {
+    document.getElementById('audio-bar').style.display = 'none';
+  }
+
+  // Transcript
+  const ts = TAPESCRIPTS[testNum]?.[`part${partNum}`] || '';
+  const tp = document.getElementById('transcript-panel');
+  tp.innerHTML = ts
+    ? ts.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>')
+    : '<em>No transcript available.</em>';
+
+  // Q navigator for current part
+  const partQs = flatL.filter(item => item.partIndex === currentPart);
+  document.getElementById('listen-q-nav').innerHTML = partQs.map(item => {
+    const answered = userAnswers.listening[item.q.id] ? 'answered' : '';
+    const active   = item.q.id === flatL[listenIndex]?.q.id ? 'active' : '';
+    return `<button class="q-btn ${answered} ${active}" data-qid="${item.q.id}" onclick="jumpListenQ(${item.q.id})">${item.q.id}</button>`;
+  }).join('');
+
+  renderListenQuestion();
+}
+
+function renderListenQuestion() {
+  const item = flatL[listenIndex];
+  if (!item) return;
+  const saved = userAnswers.listening[item.q.id];
+  document.getElementById('listen-q-area').innerHTML = `
+    <div class="q-label">Question ${item.q.id} of ${flatL.length} · Part ${item.partNum}</div>
+    <p class="q-text">${item.q.text}</p>
+    <div class="options" id="listen-opts">${APP.renderOptions(item.q, saved)}</div>`;
+
+  document.querySelectorAll('#listen-opts .option-label').forEach(lbl => {
+    lbl.addEventListener('click', () => {
+      const val = lbl.dataset.key;
+      userAnswers.listening = userAnswers.listening || {};
+      userAnswers.listening[item.q.id] = val;
+      APP.saveAnswers(testNum, userAnswers);
+      renderListenQuestion();
+      updateListenQNav();
+    });
+  });
+  updateFooter();
+}
+
+function updateListenQNav() {
+  document.querySelectorAll('#listen-q-nav .q-btn').forEach(btn => {
+    const qid = parseInt(btn.dataset.qid);
+    btn.className = 'q-btn' +
+      (userAnswers.listening[qid] ? ' answered' : '') +
+      (flatL[listenIndex]?.q.id === qid ? ' active' : '');
+  });
+}
+
+function jumpListenQ(qid) {
+  const idx = flatL.findIndex(item => item.q.id === qid);
+  if (idx === -1) return;
+  listenIndex  = idx;
+  const newPart = flatL[idx].partIndex;
+  if (newPart !== currentPart) { currentPart = newPart; renderListening(); }
+  else { renderListenQuestion(); updateListenQNav(); }
+}
+
+document.getElementById('part-tabs').addEventListener('click', e => {
+  const btn = e.target.closest('.part-tab');
+  if (!btn) return;
+  currentPart = parseInt(btn.dataset.pi);
+  // jump to first q in that part
+  const first = flatL.findIndex(item => item.partIndex === currentPart);
+  if (first !== -1) listenIndex = first;
+  renderListening();
+});
+
+document.getElementById('transcript-toggle').addEventListener('click', () => {
+  document.getElementById('transcript-panel').classList.toggle('open');
+});
+
+// ── READING ───────────────────────────────────────────────────────────────
+function renderReading() {
+  if (!flatR.length) {
+    document.getElementById('read-q-area').innerHTML = '<p class="text-muted p-1">No reading section.</p>';
+    return;
+  }
+  renderPassage();
+  renderReadQNav();
+  renderReadQuestion();
+}
+
+function renderPassage() {
+  const item = flatR[readIndex];
+  if (!item) return;
+  document.getElementById('passage-panel').innerHTML =
+    `<h3>Passage ${item.passageIndex + 1}</h3><p>${item.passage.text.replace(/\n/g, '</p><p>')}</p>`;
+  // Scroll reading section back to top so user reads passage from start
+  document.getElementById('section-reading').scrollTop = 0;
+}
+
+function renderReadQNav() {
+  document.getElementById('read-q-nav').innerHTML = flatR.map((item, i) => {
+    const answered = userAnswers.reading[item.q.id] ? 'answered' : '';
+    const active   = i === readIndex ? 'active' : '';
+    return `<button class="q-btn ${answered} ${active}" onclick="jumpReadQ(${i})">${item.q.id}</button>`;
+  }).join('');
+}
+
+function renderReadQuestion() {
+  const item = flatR[readIndex];
+  if (!item) return;
+  const saved = userAnswers.reading[item.q.id];
+  document.getElementById('read-q-area').innerHTML = `
+    <div class="q-label">Question ${item.q.id} of ${flatR.length} · Passage ${item.passageIndex + 1}</div>
+    <p class="q-text">${item.q.text}</p>
+    <div class="options" id="read-opts">${APP.renderOptions(item.q, saved)}</div>`;
+
+  document.querySelectorAll('#read-opts .option-label').forEach(lbl => {
+    lbl.addEventListener('click', () => {
+      const val = lbl.dataset.key;
+      userAnswers.reading = userAnswers.reading || {};
+      userAnswers.reading[item.q.id] = val;
+      APP.saveAnswers(testNum, userAnswers);
+      renderReadQuestion();
+      renderReadQNav();
+    });
+  });
+  updateFooter();
+}
+
+function jumpReadQ(idx) {
+  const oldPassage = flatR[readIndex]?.passageIndex;
+  readIndex = idx;
+  if (flatR[idx]?.passageIndex !== oldPassage) renderPassage();
+  renderReadQuestion();
+  renderReadQNav();
+}
+
+// ── WRITING ───────────────────────────────────────────────────────────────
+function renderWriting() {
+  const w = test.writing;
+  if (!w) { document.getElementById('writing-content').innerHTML = '<p class="text-muted">No writing section.</p>'; return; }
+
+  let html = '';
+  for (const [key, task] of Object.entries(w)) {
+    const taskNum = key.replace('task', '');
+    const saved   = userAnswers.writing?.[key] || '';
+    const bullets = task.bullets?.map(b => `<li>${b}</li>`).join('') || '';
+    html += `
+      <div style="margin-bottom:2rem">
+        <div class="task-prompt">
+          <h3>Task ${taskNum} ${taskNum==='1'?'(~20 min, 120+ words)':'(~40 min, 250+ words)'}</h3>
+          <p style="font-size:.9rem;line-height:1.65;margin-top:.4rem">${task.prompt}</p>
+          ${bullets ? `<ul style="margin-top:.5rem">${bullets}</ul>` : ''}
+        </div>
+        <textarea id="writing-${key}" placeholder="Write your answer here..."
+          oninput="saveWriting('${key}',this.value)">${saved}</textarea>
+        <div class="word-count" id="wc-${key}">Words: ${APP.countWords(saved)}</div>
+      </div>`;
+  }
+  document.getElementById('writing-content').innerHTML = html;
+}
+
+function saveWriting(key, val) {
+  userAnswers.writing = userAnswers.writing || {};
+  userAnswers.writing[key] = val;
+  APP.saveAnswers(testNum, userAnswers);
+  const wc = document.getElementById(`wc-${key}`);
+  if (wc) wc.textContent = `Words: ${APP.countWords(val)}`;
+}
+
+// ── SPEAKING ──────────────────────────────────────────────────────────────
+function renderSpeaking() {
+  const sp = test.speaking;
+  if (!sp) { document.getElementById('speaking-content').innerHTML = '<p class="text-muted">No speaking section.</p>'; return; }
+
+  const partNames = { part1: 'Social Interaction', part2: 'Solution Discussion', part3: 'Topic' };
+  let html = '';
+
+  for (const [key, part] of Object.entries(sp)) {
+    const qs = part.questions?.map(q => `<li>${q}</li>`).join('') || '';
+    html += `
+      <div class="speaking-card">
+        <h3>Part ${key.replace('part','')}: ${partNames[key] || part.title}</h3>
+        <div style="font-size:.85rem;color:var(--muted);margin:.3rem 0">Topic: <strong>${part.topic}</strong></div>
+        ${qs ? `<ol style="margin:.75rem 0 0 1.2rem;line-height:1.8;font-size:.9rem">${qs}</ol>` : ''}
+      </div>`;
+  }
+
+  document.getElementById('speaking-content').innerHTML = html;
+}
+
+// ── Navigation ────────────────────────────────────────────────────────────
+function updateFooter() {
+  const pos  = document.getElementById('q-position');
+  const prev = document.getElementById('btn-prev');
+  const next = document.getElementById('btn-next');
+
+  if (currentSection === 'listening') {
+    pos.textContent = `Q ${flatL[listenIndex]?.q.id || '—'} / ${flatL.length}`;
+    prev.disabled   = listenIndex === 0;
+    next.disabled   = listenIndex >= flatL.length - 1;
+  } else if (currentSection === 'reading') {
+    pos.textContent = `Q ${flatR[readIndex]?.q.id || '—'} / ${flatR.length}`;
+    prev.disabled   = readIndex === 0;
+    next.disabled   = readIndex >= flatR.length - 1;
+  } else {
+    pos.textContent = '';
+    prev.disabled   = true;
+    next.disabled   = true;
+  }
+}
+
+document.getElementById('btn-prev').addEventListener('click', () => {
+  if (currentSection === 'listening' && listenIndex > 0) {
+    listenIndex--;
+    const newPart = flatL[listenIndex].partIndex;
+    if (newPart !== currentPart) { currentPart = newPart; renderListening(); }
+    else { renderListenQuestion(); updateListenQNav(); }
+  } else if (currentSection === 'reading' && readIndex > 0) {
+    jumpReadQ(readIndex - 1);
+  }
+  updateFooter();
+});
+
+document.getElementById('btn-next').addEventListener('click', () => {
+  if (currentSection === 'listening' && listenIndex < flatL.length - 1) {
+    listenIndex++;
+    const newPart = flatL[listenIndex].partIndex;
+    if (newPart !== currentPart) { currentPart = newPart; renderListening(); }
+    else { renderListenQuestion(); updateListenQNav(); }
+  } else if (currentSection === 'reading' && readIndex < flatR.length - 1) {
+    jumpReadQ(readIndex + 1);
+  }
+  updateFooter();
+});
+
+// ── Submit ─────────────────────────────────────────────────────────────────
+document.getElementById('btn-submit').addEventListener('click', () => {
+  const answered = Object.keys(userAnswers.listening||{}).length + Object.keys(userAnswers.reading||{}).length;
+  const total    = flatL.length + flatR.length;
+  if (answered < total) {
+    if (!confirm(`You have answered ${answered}/${total} questions. Submit anyway?`)) return;
+  }
+  APP.saveAnswers(testNum, userAnswers);
+  location.href = `review.html?test=${testNum}`;
+});
+
+// ── Init ──────────────────────────────────────────────────────────────────
+document.getElementById('test-title').textContent = `Test ${testNum}`;
+if (!test.listening) {
+  document.querySelector('[data-section="listening"]').classList.add('hidden');
+  switchSection('reading');
+} else {
+  renderListening();
+  startTimer('listening');
+}
+updateFooter();
+</script>
+</body>
+</html>

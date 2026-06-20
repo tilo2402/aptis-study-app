@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VSTEP Study Materials</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .study-wrap { max-width: 900px; margin: 0 auto; }
+    .filter-bar { display:flex; gap:.5rem; flex-wrap:wrap; align-items:center; margin-bottom:1rem; }
+    .filter-bar select { padding:.35rem .7rem; border-radius:6px; border:1.5px solid var(--border); font-size:.875rem; }
+    .vocab-table { width:100%; border-collapse:collapse; font-size:.9rem; }
+    .vocab-table th { background:var(--primary); color:#fff; padding:.5rem .75rem; text-align:left; }
+    .vocab-table td { padding:.45rem .75rem; border-bottom:1px solid var(--border); }
+    .vocab-table tr:nth-child(even) td { background:#f8fafc; }
+    #vocab-search { padding:.4rem .8rem; border:1.5px solid var(--border); border-radius:6px; font-size:.875rem; flex:1; max-width:340px; }
+    .vocab-pos { display:inline-block; font-size:.72rem; font-weight:700; color:#fff; background:var(--accent); border-radius:3px; padding:.05rem .3rem; margin-left:.3rem; vertical-align:middle; }
+    .vocab-example { font-size:.8rem; color:var(--muted); font-style:italic; margin-top:.2rem; }
+    .vocab-cat-label { background:var(--primary); color:#fff; padding:.35rem .75rem; font-size:.75rem; font-weight:700; text-transform:uppercase; letter-spacing:.06em; }
+    .tmpl-tabs { display:flex; gap:.25rem; margin-bottom:1.25rem; flex-wrap:wrap; }
+    .tmpl-tab { padding:.35rem .9rem; border-radius:6px; border:1.5px solid var(--border); cursor:pointer; font-size:.82rem; font-weight:600; background:var(--card); transition:all .12s; }
+    .tmpl-tab.active { background:var(--primary); color:#fff; border-color:var(--primary); }
+    .tmpl-panel { display:none; } .tmpl-panel.active { display:block; }
+    .tpl-block { background:#f0f9ff; border-left:4px solid var(--accent); padding:1rem 1.1rem; border-radius:0 var(--radius) var(--radius) 0; margin-bottom:1.1rem; font-size:.875rem; line-height:1.75; }
+    .tpl-block h3 { color:var(--primary); margin-bottom:.55rem; font-size:.95rem; }
+    .tpl-block h4 { color:var(--text); font-size:.85rem; margin:.65rem 0 .2rem; }
+    .tpl-block .tpl-sample { background:#fff; border:1px solid #bae6fd; border-radius:6px; padding:.6rem .8rem; margin-top:.4rem; font-style:italic; color:#0c4a6e; }
+    .phrase-block { background:var(--card); border-radius:var(--radius); padding:.8rem 1rem; margin-bottom:.6rem; box-shadow:var(--shadow); font-size:.875rem; line-height:1.75; }
+    .phrase-block .phrase-title { font-weight:700; color:var(--primary); margin-bottom:.3rem; font-size:.85rem; }
+    .phrase-block ul { margin:.2rem 0 0 1.1rem; }
+    .phrase-block li { margin-bottom:.15rem; }
+    .speaking-list { display:flex; flex-direction:column; gap:1.25rem; }
+    .sp-card { background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
+    .sp-card-header { background:var(--primary); color:#fff; padding:.6rem 1rem; font-size:.85rem; font-weight:600; display:flex; gap:.6rem; align-items:center; }
+    .sp-topic-group { padding:.75rem 1rem; border-bottom:1px solid var(--border); }
+    .sp-topic-label { font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--accent); margin-bottom:.5rem; }
+    .sp-qa { margin-bottom:.65rem; }
+    .sp-qa:last-child { margin-bottom:0; }
+    .sp-q { font-size:.9rem; font-weight:600; color:var(--text); margin-bottom:.2rem; }
+    .sp-a { font-size:.875rem; color:var(--success); background:#f0fdf4; border-left:3px solid var(--success); padding:.3rem .6rem; border-radius:0 4px 4px 0; line-height:1.6; }
+    .sp-prompt { font-size:.9rem; font-weight:600; color:var(--text); padding:.75rem 1rem .3rem; }
+    .sp-answer { font-size:.875rem; color:#166534; background:#f0fdf4; padding:.6rem 1rem; line-height:1.7; border-top:1px solid #bbf7d0; }
+    .sp-bullets { margin:.4rem 0 0 1.2rem; font-size:.875rem; line-height:1.7; color:var(--muted); }
+    .writing-template { background:#f0f9ff; border-left:4px solid var(--accent); padding:1rem 1.1rem; border-radius:0 var(--radius) var(--radius) 0; margin-bottom:1rem; font-size:.9rem; line-height:1.7; }
+    .writing-template h3 { color:var(--primary); margin-bottom:.4rem; }
+    .phrase-block { background:var(--card); border-radius:var(--radius); padding:.8rem 1rem; margin-bottom:.5rem; box-shadow:var(--shadow); font-size:.875rem; line-height:1.7; }
+    .phrase-block .phrase-title { font-weight:700; color:var(--primary); margin-bottom:.25rem; }
+    .sample-level-tabs { display:flex; gap:.35rem; margin-bottom:.75rem; flex-wrap:wrap; }
+    .level-tab { padding:.3rem .8rem; border-radius:6px; border:1.5px solid var(--border); cursor:pointer; font-size:.82rem; font-weight:600; background:var(--card); transition:all .12s; }
+    .level-tab.active { background:var(--primary); color:#fff; border-color:var(--primary); }
+    .level-content { display:none; }
+    .level-content.active { display:block; }
+  </style>
+</head>
+<body>
+
+<header class="app-header">
+  <a href="index.html" style="color:rgba(255,255,255,.7);font-size:.85rem">← Home</a>
+  <h1>📚 Study Materials</h1>
+</header>
+
+<!-- Tab nav -->
+<div style="background:var(--card); border-bottom:1px solid var(--border); padding:.5rem 1.25rem; position:sticky; top:0; z-index:50;">
+  <div class="study-tabs" id="study-tabs">
+    <button class="study-tab active" data-panel="writing">✍️ Writing</button>
+    <button class="study-tab" data-panel="speaking">🗣️ Speaking</button>
+    <button class="study-tab" data-panel="sp-tests">🎯 Speaking Tests</button>
+    <button class="study-tab" data-panel="essays">✏️ Essay Bank</button>
+    <button class="study-tab" data-panel="vocab">📖 Vocabulary</button>
+    <button class="study-tab" data-panel="templates">📝 Templates</button>
+  </div>
+</div>
+
+<div class="study-wrap">
+<div class="study-content">
+
+  <!-- ── WRITING ── -->
+  <div id="panel-writing" class="section-panel active">
+    <div class="filter-bar">
+      <select id="writing-test-sel" onchange="renderWritingSamples()">
+        <option value="">All Tests</option>
+        <option value="1">Test 1</option><option value="2">Test 2</option>
+        <option value="3">Test 3</option><option value="4">Test 4</option>
+        <option value="5">Test 5</option><option value="6">Test 6</option>
+        <option value="7">Test 7</option>
+      </select>
+      <select id="writing-task-sel" onchange="renderWritingSamples()">
+        <option value="">Both Tasks</option>
+        <option value="task1">Task 1 (Letter/Email)</option>
+        <option value="task2">Task 2 (Essay)</option>
+      </select>
+      <select id="writing-level-sel" onchange="renderWritingSamples()">
+        <option value="">All Levels</option>
+        <option value="C1">C1</option>
+        <option value="B2">B2</option>
+        <option value="B1">B1</option>
+      </select>
+    </div>
+    <div id="writing-samples-container"></div>
+  </div>
+
+  <!-- ── SPEAKING ── -->
+  <div id="panel-speaking" class="section-panel">
+    <h2 class="mb-2">Speaking Practice — Model Answers</h2>
+    <div class="filter-bar">
+      <select id="sp-test-sel" onchange="buildSpeaking()">
+        <option value="">All Tests</option>
+        <option value="1">Test 1</option><option value="2">Test 2</option>
+        <option value="3">Test 3</option><option value="4">Test 4</option>
+        <option value="5">Test 5</option><option value="6">Test 6</option>
+        <option value="7">Test 7</option>
+      </select>
+    </div>
+    <div class="speaking-list" id="speaking-cards"></div>
+  </div>
+
+  <!-- ── VOCABULARY ── -->
+  <div id="panel-vocab" class="section-panel">
+    <h2 class="mb-2">Vocabulary — VSTEP Topics</h2>
+    <div class="filter-bar">
+      <input id="vocab-search" type="search" placeholder="Search word or meaning..." oninput="filterVocab(this.value)">
+      <select id="vocab-cat" onchange="filterVocab(document.getElementById('vocab-search').value)">
+        <option value="">All Topics</option>
+        <option value="General Academic">General Academic</option>
+        <option value="Environment">Environment</option>
+        <option value="Education">Education</option>
+        <option value="Health">Health</option>
+        <option value="Technology">Technology</option>
+        <option value="Society">Society &amp; Economy</option>
+        <option value="Transport">Transport &amp; Travel</option>
+      </select>
+    </div>
+    <div id="vocab-content"></div>
+  </div>
+
+  <!-- ── TEMPLATES ── -->
+  <div id="panel-templates" class="section-panel">
+    <h2 class="mb-2">Writing Templates &amp; Useful Phrases</h2>
+
+    <div class="tmpl-tabs" id="tmpl-tabs">
+      <button class="tmpl-tab active" data-tmpl="task1">📧 Task 1 — Letters</button>
+      <button class="tmpl-tab" data-tmpl="task2">📄 Task 2 — Essays</button>
+      <button class="tmpl-tab" data-tmpl="phrases">💬 Useful Phrases</button>
+    </div>
+
+    <!-- ── TASK 1 ── -->
+    <div id="tmpl-task1" class="tmpl-panel active">
+
+      <div class="tpl-block">
+        <h3>📧 Informal Letter / Email (to a friend)</h3>
+        <h4>Opening</h4>
+        <p>Dear [Name], &nbsp;/&nbsp; Hi [Name],<br>
+        How are you? I hope you and your family are doing well. It was such a pleasure to receive your last letter — thank you for keeping in touch! I'm really sorry for not writing sooner, but I've been quite busy.</p>
+        <h4>Purpose sentence</h4>
+        <div class="tpl-sample">I'm writing this letter to tell you about... / I wanted to let you know that... / I'm writing to invite you to...</div>
+        <h4>Body connectors</h4>
+        <p>By the way, ... &nbsp;·&nbsp; Anyway, ... &nbsp;·&nbsp; I almost forgot to mention... &nbsp;·&nbsp; On another note, ...</p>
+        <h4>Closing</h4>
+        <p>I'd better get going now. Please send my warmest regards to your family. Looking forward to hearing from you soon!<br>
+        <strong>Best wishes,</strong> / <strong>Love,</strong> / <strong>Yours,</strong></p>
+      </div>
+
+      <div class="tpl-block">
+        <h3>📬 Formal Letter — General Structure</h3>
+        <h4>Opening</h4>
+        <p>Dear Sir/Madam, &nbsp;/&nbsp; Dear Mr./Ms. [Last Name],<br>
+        I hope this letter finds you well. I am writing to [state purpose].</p>
+        <h4>Purpose phrases by type</h4>
+        <ul style="margin:.3rem 0 0 1.2rem;line-height:1.9;font-size:.875rem">
+          <li><strong>Inquiry:</strong> <em>I would appreciate it if you could provide me with further details regarding...</em></li>
+          <li><strong>Request:</strong> <em>I would be grateful if you could assist me with... / I would like to request permission to...</em></li>
+          <li><strong>Inform:</strong> <em>I am writing to inform you that... / I wish to bring to your attention...</em></li>
+          <li><strong>Complaint:</strong> <em>I am writing to express my dissatisfaction with... / I would like to draw your attention to a problem I experienced...</em></li>
+          <li><strong>Apologise:</strong> <em>I sincerely apologise for [issue] and would like to offer a solution...</em></li>
+          <li><strong>Application:</strong> <em>I am writing to apply for the position of... / I am interested in attending the training course on...</em></li>
+        </ul>
+        <h4>Closing</h4>
+        <p>Thank you for your time and consideration. I look forward to your response at your earliest convenience. Please feel free to contact me should you need any further information.<br>
+        <strong>Yours faithfully,</strong> (if opened with Dear Sir/Madam) &nbsp;/&nbsp; <strong>Yours sincerely,</strong> (if opened with a name)</p>
+      </div>
+
+      <div class="tpl-block">
+        <h3>✉️ Formal Letter — Complaint (expanded)</h3>
+        <div class="tpl-sample">Dear Sir/Madam,<br><br>
+        I am writing to express my dissatisfaction with [product/service] that I [purchased/experienced] on [date].<br><br>
+        Firstly, [describe the main problem clearly]. To make matters worse, [second issue]. As a result, [impact on you].<br><br>
+        I would be grateful if you could [suggested solution — refund / replacement / apology]. I expect this matter to be resolved within [timeframe].<br><br>
+        I look forward to your prompt response.<br><br>
+        Yours faithfully,<br>[Your name]</div>
+      </div>
+
+      <div class="tpl-block">
+        <h3>📩 Formal Letter — Request / Application</h3>
+        <div class="tpl-sample">Dear Mr./Ms. [Name],<br><br>
+        I hope this letter finds you well. I am writing to request [permission / information / assistance] regarding [topic].<br><br>
+        The reason I am making this request is that [explain context and need]. This would be extremely beneficial because [reason 1]. Furthermore, [reason 2].<br><br>
+        I would therefore be grateful if you could [specific action]. I am happy to provide any additional information you may require.<br><br>
+        Thank you for your time and consideration. I look forward to hearing from you.<br><br>
+        Yours sincerely,<br>[Your name]</div>
+      </div>
+
+    </div><!-- end tmpl-task1 -->
+
+    <!-- ── TASK 2 ── -->
+    <div id="tmpl-task2" class="tmpl-panel">
+
+      <div class="tpl-block">
+        <h3>🔵 Type 1 — Discussion / Opinion / Advantages &amp; Disadvantages</h3>
+        <h4>Introduction</h4>
+        <div class="tpl-sample">In recent years, [Topic] has become a widely debated issue, not only on a global scale but also in Vietnam. While some view it as a positive development, others argue that it presents significant challenges. This essay will shed light on both perspectives before reaching a conclusion. / Personally, I strongly [agree/disagree] with this viewpoint, and the following paragraphs will explain my reasons.</div>
+        <h4>Body 1 — Advantages / For</h4>
+        <div class="tpl-sample">On the one hand, [Topic] is beneficial in several ways. The most obvious merit is that [point 1]. For example, [example]. In the second place, [point 2]. To illustrate, [detail]. Last but not least, [point 3].</div>
+        <h4>Body 2 — Disadvantages / Against</h4>
+        <div class="tpl-sample">On the other hand, the disadvantages of [Topic] are undeniable. First and foremost, [problem 1]. For example, [example]. The second drawback is that [problem 2]. The final disadvantage is that [problem 3].</div>
+        <h4>Conclusion</h4>
+        <div class="tpl-sample">All in all, [Topic] has both benefits and drawbacks, but its impact depends on how it is managed. By adopting a balanced approach, we can maximise benefits and minimise risks, ensuring that [Topic] contributes positively to society. / From my perspective, I firmly believe that [personal view] because [reason].</div>
+      </div>
+
+      <div class="tpl-block">
+        <h3>🟠 Type 2 — Cause &amp; Effect</h3>
+        <h4>Introduction</h4>
+        <div class="tpl-sample">In recent years, [Topic] has become an increasingly urgent issue, drawing widespread public concern. This essay will explore the primary causes behind this phenomenon and assess its potential consequences.</div>
+        <h4>Body 1 — Causes</h4>
+        <div class="tpl-sample">There are several factors leading to [Topic]. The first and foremost cause is that [cause 1]. To be more specific, [explanation]. Another contributing factor is that [cause 2]. To illustrate, [example]. Last but not least, [cause 3]. For example, [detail].</div>
+        <h4>Body 2 — Effects</h4>
+        <div class="tpl-sample">As a consequence, [Topic] has resulted in several notable impacts. First and foremost, [effect 1]. To illustrate, [detail]. Furthermore, [effect 2]. As a result, [further consequence]. Finally, [effect 3].</div>
+        <h4>Conclusion</h4>
+        <div class="tpl-sample">All in all, [Topic] is mainly caused by [cause 1] and [cause 2], leading to [effect 1] and [effect 2]. If no action is taken, this issue will continue to worsen in the future. Therefore, raising awareness and implementing preventive measures are essential to mitigating its negative effects.</div>
+      </div>
+
+      <div class="tpl-block">
+        <h3>🟢 Type 3 — Cause &amp; Solution</h3>
+        <h4>Introduction</h4>
+        <div class="tpl-sample">In recent years, [Topic] has emerged as a growing concern, sparking widespread discussions on effective ways to tackle it. This essay will delve into the underlying causes of this problem and suggest practical solutions.</div>
+        <h4>Body 1 — Causes</h4>
+        <div class="tpl-sample">There are several factors leading to [Topic]. The first and foremost cause is that [cause 1]. To be more specific, [detail]. Another factor is that [cause 2]. To illustrate, [example]. Last but not least, [cause 3].</div>
+        <h4>Body 2 — Solutions</h4>
+        <div class="tpl-sample">There are various methods which could be taken to tackle the problem of [Topic]. The first measure is that [solution 1]. As a result, [expected outcome]. Another approach is [solution 2]. As a consequence, [benefit]. Finally, [solution 3] would also prove effective.</div>
+        <h4>Conclusion</h4>
+        <div class="tpl-sample">All in all, [Topic] is mainly caused by [cause 1] and [cause 2], but this issue can be effectively addressed by implementing [solution 1] and [solution 2]. If appropriate measures are put in place, this situation will improve significantly in the near future.</div>
+      </div>
+
+      <div class="tpl-block">
+        <h3>🔴 Type 4 — Problem &amp; Solution</h3>
+        <h4>Introduction</h4>
+        <div class="tpl-sample">One of the most pressing issues facing society today is [Topic]. This essay will examine the main problems associated with [Topic] and propose realistic solutions to address them.</div>
+        <h4>Body 1 — Problems</h4>
+        <div class="tpl-sample">The most significant problem is [problem 1]. This is because [reason/evidence]. A further issue is [problem 2], which leads to [negative consequence]. Moreover, [problem 3] is a serious concern that cannot be overlooked.</div>
+        <h4>Body 2 — Solutions</h4>
+        <div class="tpl-sample">Fortunately, several steps can be taken to address these issues. To begin with, [solution 1] would help by [explanation]. In addition, [solution 2] is another effective measure because [reason]. Finally, [solution 3] could be implemented by [authority/individual], which would lead to [positive outcome].</div>
+        <h4>Conclusion</h4>
+        <div class="tpl-sample">In conclusion, while [Topic] presents several serious challenges, these can be overcome through [summary of solutions]. It is hoped that by taking these steps, we will create a better and more [adjective] society for future generations.</div>
+      </div>
+
+    </div><!-- end tmpl-task2 -->
+
+    <!-- ── PHRASES ── -->
+    <div id="tmpl-phrases" class="tmpl-panel">
+
+      <div class="phrase-block">
+        <div class="phrase-title">➕ Adding Points</div>
+        <ul>
+          <li><strong>Furthermore / Moreover / In addition / What is more</strong> — used to add a similar or stronger point</li>
+          <li><strong>Not only … but also</strong> — e.g. <em>Not only does it save time, but it also reduces costs.</em></li>
+          <li><strong>Besides / On top of that / Apart from this</strong> — informal-to-neutral additions</li>
+          <li><strong>Last but not least</strong> — final point that is equally important</li>
+        </ul>
+      </div>
+
+      <div class="phrase-block">
+        <div class="phrase-title">↔️ Contrasting</div>
+        <ul>
+          <li><strong>However / Nevertheless / Nonetheless</strong> — introduce an opposite idea</li>
+          <li><strong>On the other hand / On the contrary</strong> — present the opposing side</li>
+          <li><strong>Despite / In spite of</strong> — e.g. <em>Despite the benefits, there are serious risks.</em></li>
+          <li><strong>Although / Even though / While / Whereas</strong> — within one sentence</li>
+          <li><strong>In contrast / By contrast</strong> — compare two different things</li>
+        </ul>
+      </div>
+
+      <div class="phrase-block">
+        <div class="phrase-title">📌 Giving Examples</div>
+        <ul>
+          <li><strong>For example / For instance</strong> — most common</li>
+          <li><strong>Such as / Including</strong> — used within a list</li>
+          <li><strong>To illustrate / To be more specific</strong> — more formal</li>
+          <li><strong>A clear illustration of this is… / This can be seen in…</strong> — evidence-based</li>
+          <li><strong>In Vietnam, for example, …</strong> — localised example (great for VSTEP)</li>
+        </ul>
+      </div>
+
+      <div class="phrase-block">
+        <div class="phrase-title">⚡ Cause &amp; Effect</div>
+        <ul>
+          <li><strong>As a result / As a consequence / Therefore / Consequently</strong> — show outcome</li>
+          <li><strong>This leads to / This results in / This causes</strong> — direct causation</li>
+          <li><strong>Due to / Owing to / Because of</strong> — introduce cause</li>
+          <li><strong>Since / Because / As</strong> — within a sentence</li>
+          <li><strong>If … then … / Unless …</strong> — conditional cause-effect</li>
+        </ul>
+      </div>
+
+      <div class="phrase-block">
+        <div class="phrase-title">🔚 Concluding</div>
+        <ul>
+          <li><strong>In conclusion / To conclude / To sum up / In summary</strong> — open the conclusion</li>
+          <li><strong>All in all / All things considered / Taking everything into account</strong> — balanced summary</li>
+          <li><strong>It is hoped that… / It is clear that…</strong> — optimistic/factual close</li>
+          <li><strong>Therefore, I strongly believe that…</strong> — opinion restatement</li>
+        </ul>
+      </div>
+
+      <div class="phrase-block">
+        <div class="phrase-title">💭 Giving Opinion</div>
+        <ul>
+          <li><strong>In my opinion / From my perspective / Personally, I think</strong> — direct opinion</li>
+          <li><strong>I strongly believe that / I am firmly convinced that</strong> — strong opinion</li>
+          <li><strong>It seems to me that / I would argue that</strong> — softer / academic</li>
+          <li><strong>From my point of view / As far as I am concerned</strong> — formal alternatives</li>
+        </ul>
+      </div>
+
+      <div class="phrase-block">
+        <div class="phrase-title">📈 Degree / Emphasis</div>
+        <ul>
+          <li><strong>Undeniably / Evidently / Obviously / Clearly</strong> — state the obvious strongly</li>
+          <li><strong>To a great extent / To some extent</strong> — partial agreement</li>
+          <li><strong>Above all / Most importantly / In particular</strong> — highlight key point</li>
+          <li><strong>It is worth noting that… / It should be pointed out that…</strong> — draw attention</li>
+        </ul>
+      </div>
+
+      <div class="phrase-block">
+        <div class="phrase-title">🗣️ Speaking — Useful Expressions</div>
+        <ul>
+          <li><strong>Well, that's a good question. Let me think about it…</strong> — buying time</li>
+          <li><strong>From my experience, … / In my daily life, …</strong> — personal connection</li>
+          <li><strong>I feel strongly that… / I'm inclined to think that…</strong> — expressing views</li>
+          <li><strong>What I mean is… / In other words, …</strong> — clarifying</li>
+          <li><strong>As I mentioned earlier, … / Getting back to…</strong> — referring back</li>
+          <li><strong>On balance, I would say that…</strong> — balanced conclusion</li>
+        </ul>
+      </div>
+
+    </div><!-- end tmpl-phrases -->
+
+  </div>
+
+  <!-- ── SPEAKING PRACTICE TESTS ── -->
+  <div id="panel-sp-tests" class="section-panel">
+    <h2 class="mb-2">Speaking Practice Tests — 28 Tests</h2>
+    <div class="filter-bar">
+      <select id="spt-num-sel" onchange="buildSpTests()">
+        <option value="">All Tests</option>
+        <option value="1">Test 1</option><option value="2">Test 2</option>
+        <option value="3">Test 3</option><option value="4">Test 4</option>
+        <option value="5">Test 5</option>
+        <option value="8">Test 8</option><option value="9">Test 9</option>
+        <option value="10">Test 10</option><option value="11">Test 11</option>
+        <option value="12">Test 12</option><option value="13">Test 13</option>
+        <option value="14">Test 14</option><option value="15">Test 15</option>
+        <option value="16">Test 16</option><option value="17">Test 17</option>
+        <option value="18">Test 18</option><option value="19">Test 19</option>
+        <option value="20">Test 20</option><option value="21">Test 21</option>
+        <option value="22">Test 22</option><option value="23">Test 23</option>
+        <option value="24">Test 24</option><option value="25">Test 25</option>
+        <option value="26">Test 26</option><option value="27">Test 27</option>
+        <option value="28">Test 28</option><option value="29">Test 29</option>
+        <option value="30">Test 30</option>
+      </select>
+      <select id="spt-part-sel" onchange="buildSpTests()">
+        <option value="">All Parts</option>
+        <option value="part1">Part 1 — Social Interaction</option>
+        <option value="part2">Part 2 — Solution Discussion</option>
+        <option value="part3">Part 3 — Topic Development</option>
+      </select>
+    </div>
+    <div class="speaking-list" id="spt-container"></div>
+  </div>
+
+  <!-- ── ESSAY BANK ── -->
+  <div id="panel-essays" class="section-panel">
+    <h2 class="mb-2">Writing Essay Bank — 30 Topics</h2>
+    <div class="filter-bar">
+      <input id="essay-search" type="search" placeholder="Search topic..." oninput="renderEssays()" style="padding:.4rem .8rem;border:1.5px solid var(--border);border-radius:6px;font-size:.875rem;flex:1;max-width:260px">
+      <select id="essay-type-sel" onchange="renderEssays()">
+        <option value="">All Types</option>
+        <option value="Advantage-Disadvantage">Advantage-Disadvantage</option>
+        <option value="Opinion">Opinion</option>
+        <option value="Discussion">Discussion</option>
+        <option value="Problem-Solution">Problem-Solution</option>
+      </select>
+      <select id="essay-level-sel" onchange="renderEssays()">
+        <option value="">B1 &amp; B2</option>
+        <option value="B1">B1 only</option>
+        <option value="B2">B2 only</option>
+      </select>
+    </div>
+    <div id="essays-container"></div>
+  </div>
+
+</div>
+</div>
+
+<script src="data/tests.js"></script>
+<script src="data/writing_samples.js"></script>
+<script src="data/speaking_samples.js"></script>
+<script src="data/speaking_tests.js"></script>
+<script src="data/speaking_topic_answers.js"></script>
+<script src="data/extra_essays.js"></script>
+<script src="app.js"></script>
+<script>
+// ── Tab Nav ──────────────────────────────────────────────────────────────
+document.getElementById('study-tabs').addEventListener('click', e => {
+  const tab = e.target.closest('.study-tab');
+  if (!tab) return;
+  const panel = tab.dataset.panel;
+  document.querySelectorAll('.study-tab').forEach(t => t.classList.toggle('active', t === tab));
+  document.querySelectorAll('.section-panel').forEach(p =>
+    p.classList.toggle('active', p.id === `panel-${panel}`)
+  );
+  if (panel === 'speaking'  && !speakingBuilt)  buildSpeaking();
+  if (panel === 'sp-tests'  && !spTestsBuilt)  buildSpTests();
+  if (panel === 'essays'    && !essaysBuilt)   { essaysBuilt = true; renderEssays(); }
+  if (panel === 'vocab'     && !vocabBuilt)    buildVocab();
+});
+
+// Activate tab from URL param
+const urlTab = new URLSearchParams(location.search).get('tab');
+if (urlTab) {
+  const btn = document.querySelector(`[data-panel="${urlTab}"]`);
+  if (btn) btn.click();
+}
+
+// ── Helpers ───────────────────────────────────────────────────────────────
+function cleanPrompt(raw) {
+  if (!raw) return '';
+  return raw
+    // strip leading time advice
+    .replace(/You should spend about \d+ minutes on this task\.?\s*/gi, '')
+    // strip trailing word-count / evaluation note
+    .replace(/You should write at least \d+ words\..*$/gis, '')
+    .replace(/Your response will be evaluated.*$/gis, '')
+    // strip trailing page numbers (e.g. "17 \n")
+    .replace(/\s*\d{1,2}\s*$/, '')
+    .trim();
+}
+
+const TASK_META = {
+  task1: { label: 'Task 1 — Letter / Email', time: '~20 min', words: '120+' },
+  task2: { label: 'Task 2 — Essay',          time: '~40 min', words: '250+' },
+};
+
+// ── WRITING SAMPLES ───────────────────────────────────────────────────────
+function renderWritingSamples() {
+  const testFilter  = document.getElementById('writing-test-sel').value;
+  const taskFilter  = document.getElementById('writing-task-sel').value;
+  const levelFilter = document.getElementById('writing-level-sel').value;
+  const container   = document.getElementById('writing-samples-container');
+  let html = '';
+
+  const testsToShow = testFilter
+    ? [parseInt(testFilter)]
+    : Object.keys(WRITING_SAMPLES).map(Number);
+
+  for (const t of testsToShow) {
+    const testData = TESTS[t];
+    const samples  = WRITING_SAMPLES[t] || {};
+
+    const tasksToShow = taskFilter
+      ? [taskFilter]
+      : Object.keys(samples);
+
+    for (const taskKey of tasksToShow) {
+      const taskSamples = samples[taskKey] || {};
+      const taskData    = testData?.writing?.[taskKey];
+      const taskNum     = taskKey.replace('task', '');
+      const meta        = TASK_META[taskKey] || { label: `Task ${taskNum}`, time: '', words: '' };
+
+      const levelsToShow = levelFilter
+        ? [levelFilter]
+        : Object.keys(taskSamples);
+
+      if (levelsToShow.filter(lv => taskSamples[lv]).length === 0) continue;
+
+      // ── Clean question text ──
+      const cleanedPrompt = cleanPrompt(taskData?.prompt || '');
+      const bullets = taskData?.bullets || [];
+
+      // ── Level tabs HTML ──
+      const levelTabsHTML = levelsToShow
+        .filter(lv => taskSamples[lv])
+        .map((lv, i) =>
+          `<button class="level-tab ${i===0?'active':''}"
+             onclick="switchLevel(this,'samples-${t}-${taskKey}','sample-${t}-${taskKey}-${lv}')">${lv}</button>`
+        ).join('');
+
+      const levelContentsHTML = levelsToShow
+        .filter(lv => taskSamples[lv])
+        .map((lv, i) => {
+          const text = taskSamples[lv];
+          return `
+            <div id="sample-${t}-${taskKey}-${lv}" class="level-content ${i===0?'active':''}">
+              <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem">
+                <span class="badge badge-primary">${lv}</span>
+                <span style="font-size:.8rem;color:var(--muted)">${APP.countWords(text)} words</span>
+              </div>
+              <div class="sample-essay">${text}</div>
+            </div>`;
+        }).join('');
+
+      html += `
+        <div style="margin-bottom:2rem; border:1.5px solid var(--border); border-radius:var(--radius); overflow:hidden; background:var(--card); box-shadow:var(--shadow);">
+
+          <!-- Task header -->
+          <div style="background:var(--primary); color:#fff; padding:.65rem 1rem; display:flex; align-items:center; gap:.75rem; flex-wrap:wrap;">
+            <strong>Test ${t}</strong>
+            <span style="opacity:.7">·</span>
+            <span>${meta.label}</span>
+            <span style="opacity:.5">·</span>
+            <span style="font-size:.8rem; opacity:.8">${meta.time} &nbsp;·&nbsp; ${meta.words} words</span>
+          </div>
+
+          <!-- Question card -->
+          <div style="padding:1rem; border-bottom:1.5px solid var(--border); background:#f0f9ff;">
+            <div style="font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--accent); margin-bottom:.5rem;">
+              📋 Question
+            </div>
+            <p style="font-size:.925rem; line-height:1.7; color:var(--text); margin:0;">
+              ${cleanedPrompt || '<em style="color:var(--muted)">Prompt not available</em>'}
+            </p>
+            ${bullets.length ? `
+            <ul style="margin:.65rem 0 0 1.2rem; font-size:.9rem; line-height:1.75; color:var(--text);">
+              ${bullets.map(b => `<li>${b}</li>`).join('')}
+            </ul>` : ''}
+          </div>
+
+          <!-- Sample answers -->
+          <div style="padding:1rem;" id="samples-${t}-${taskKey}">
+            <div style="font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); margin-bottom:.6rem;">
+              📚 Sample Answers
+            </div>
+            <div class="sample-level-tabs">${levelTabsHTML}</div>
+            ${levelContentsHTML}
+          </div>
+
+        </div>`;
+    }
+  }
+
+  container.innerHTML = html || '<p class="text-muted">No samples match the selected filters.</p>';
+}
+
+function switchLevel(btn, groupId, activeId) {
+  const group = document.getElementById(groupId);
+  group.querySelectorAll('.level-tab').forEach(t => t.classList.toggle('active', t === btn));
+  group.querySelectorAll('.level-content').forEach(c => c.classList.toggle('active', c.id === activeId));
+}
+
+renderWritingSamples();
+
+// ── SPEAKING ─────────────────────────────────────────────────────────────
+let speakingBuilt = false;
+
+function buildSpeaking() {
+  speakingBuilt = true;
+  const container  = document.getElementById('speaking-cards');
+  const testFilter = document.getElementById('sp-test-sel').value;
+  let html = '';
+
+  const testsToShow = testFilter ? [testFilter] : Object.keys(TESTS);
+
+  for (const num of testsToShow) {
+    const samples = SPEAKING_SAMPLES?.[num];
+    const testSp  = TESTS[num]?.speaking;
+    if (!testSp && !samples) continue;
+
+    // ── Part 1: Social Interaction Q&A ───────────────────────────────────
+    const p1data = samples?.part1;
+    if (p1data?.length) {
+      // Group Q&As by topic
+      const groups = [];
+      let cur = null;
+      for (const qa of p1data) {
+        if (!cur || cur.topic !== qa.topic) { cur = { topic: qa.topic, qas: [] }; groups.push(cur); }
+        cur.qas.push(qa);
+      }
+      const groupsHTML = groups.map(g => `
+        <div class="sp-topic-group">
+          ${g.topic ? `<div class="sp-topic-label">${g.topic}</div>` : ''}
+          ${g.qas.map(qa => `
+            <div class="sp-qa">
+              <div class="sp-q">${qa.q}</div>
+              ${qa.a ? `<div class="sp-a">${qa.a}</div>` : ''}
+            </div>`).join('')}
+        </div>`).join('');
+
+      html += `
+        <div class="sp-card">
+          <div class="sp-card-header">
+            <span style="opacity:.7">Test ${num}</span>
+            <span>·</span>
+            <span>🗣️ Part 1 — Social Interaction</span>
+          </div>
+          ${groupsHTML}
+        </div>`;
+    } else if (testSp?.part1) {
+      // Fallback: just show topic + questions (no model answers for this test)
+      const part = testSp.part1;
+      const qs = part.questions?.map(q => `<div class="sp-qa"><div class="sp-q">${q}</div></div>`).join('') || '';
+      html += `
+        <div class="sp-card">
+          <div class="sp-card-header"><span style="opacity:.7">Test ${num}</span><span>·</span><span>🗣️ Part 1 — Social Interaction</span></div>
+          <div class="sp-topic-group">
+            <div class="sp-topic-label">${part.topic}</div>
+            ${qs}
+          </div>
+        </div>`;
+    }
+
+    // ── Part 2: Solution Discussion ──────────────────────────────────────
+    const p2data = samples?.part2;
+    if (p2data) {
+      html += `
+        <div class="sp-card">
+          <div class="sp-card-header">
+            <span style="opacity:.7">Test ${num}</span><span>·</span><span>💡 Part 2 — Solution Discussion</span>
+          </div>
+          <div class="sp-prompt">${p2data.prompt}</div>
+          ${p2data.answer ? `<div class="sp-answer">${p2data.answer}</div>` : ''}
+        </div>`;
+    } else if (testSp?.part2) {
+      const part = testSp.part2;
+      html += `
+        <div class="sp-card">
+          <div class="sp-card-header"><span style="opacity:.7">Test ${num}</span><span>·</span><span>💡 Part 2 — Solution Discussion</span></div>
+          <div class="sp-prompt">${part.topic}</div>
+        </div>`;
+    }
+
+    // ── Part 3: Topic Presentation ───────────────────────────────────────
+    const p3data = samples?.part3;
+    if (p3data) {
+      const bulletsHTML = p3data.bullets?.length
+        ? `<ul class="sp-bullets">${p3data.bullets.map(b => `<li>${b}</li>`).join('')}</ul>`
+        : '';
+      html += `
+        <div class="sp-card">
+          <div class="sp-card-header">
+            <span style="opacity:.7">Test ${num}</span><span>·</span><span>📋 Part 3 — Topic Presentation</span>
+          </div>
+          <div class="sp-prompt">${p3data.topic}</div>
+          ${bulletsHTML}
+          ${p3data.answer ? `<div class="sp-answer">${p3data.answer}</div>` : ''}
+        </div>`;
+    } else if (testSp?.part3) {
+      const part = testSp.part3;
+      html += `
+        <div class="sp-card">
+          <div class="sp-card-header"><span style="opacity:.7">Test ${num}</span><span>·</span><span>📋 Part 3 — Topic Presentation</span></div>
+          <div class="sp-prompt">${part.topic}</div>
+        </div>`;
+    }
+  }
+
+  container.innerHTML = html || '<p class="text-muted">No speaking data available.</p>';
+}
+
+// ── SPEAKING PRACTICE TESTS ──────────────────────────────────────────────
+let spTestsBuilt = false;
+
+function buildSpTests() {
+  spTestsBuilt = true;
+  const numFilter  = document.getElementById('spt-num-sel').value;
+  const partFilter = document.getElementById('spt-part-sel').value;
+  const container  = document.getElementById('spt-container');
+  let html = '';
+
+  const tests = numFilter
+    ? (SPEAKING_TESTS || []).filter(t => String(t.num) === numFilter)
+    : (SPEAKING_TESTS || []);
+
+  for (const test of tests) {
+    const num = test.num;
+
+    if (!partFilter || partFilter === 'part1') {
+      if (test.part1?.length) {
+        const groupsHTML = test.part1.map(g => `
+          <div class="sp-topic-group">
+            ${g.topic ? `<div class="sp-topic-label">${g.topic}</div>` : ''}
+            ${(g.questions || []).map(q => `<div class="sp-qa"><div class="sp-q">${q}</div></div>`).join('')}
+          </div>`).join('');
+        html += `
+          <div class="sp-card">
+            <div class="sp-card-header">
+              <span style="opacity:.7">Test ${num}</span><span>·</span>
+              <span>🗣️ Part 1 — Social Interaction</span>
+            </div>
+            ${groupsHTML}
+          </div>`;
+      }
+    }
+
+    if (!partFilter || partFilter === 'part2') {
+      if (test.part2) {
+        html += `
+          <div class="sp-card">
+            <div class="sp-card-header">
+              <span style="opacity:.7">Test ${num}</span><span>·</span>
+              <span>💡 Part 2 — Solution Discussion</span>
+            </div>
+            <div class="sp-prompt">${test.part2}</div>
+          </div>`;
+      }
+    }
+
+    if (!partFilter || partFilter === 'part3') {
+      const p3 = test.part3;
+      if (p3?.topic) {
+        const fuHTML = p3.followups?.length
+          ? `<ul class="sp-bullets">${p3.followups.map(q => `<li>${q}</li>`).join('')}</ul>` : '';
+        html += `
+          <div class="sp-card">
+            <div class="sp-card-header">
+              <span style="opacity:.7">Test ${num}</span><span>·</span>
+              <span>📋 Part 3 — Topic Development</span>
+            </div>
+            <div class="sp-prompt">${p3.topic}</div>
+            ${fuHTML}
+          </div>`;
+      }
+    }
+  }
+
+  container.innerHTML = html || '<p class="text-muted">No data for the selected filters.</p>';
+}
+
+// ── ESSAY BANK ────────────────────────────────────────────────────────────
+let essaysBuilt = false;
+
+function renderEssays() {
+  const typeFilter  = document.getElementById('essay-type-sel').value;
+  const levelFilter = document.getElementById('essay-level-sel').value;
+  const searchQ     = (document.getElementById('essay-search').value || '').toLowerCase();
+  const container   = document.getElementById('essays-container');
+
+  let essays = EXTRA_ESSAYS || [];
+  if (typeFilter) essays = essays.filter(e => e.type === typeFilter);
+  if (searchQ)    essays = essays.filter(e => e.topic.toLowerCase().includes(searchQ));
+
+  const levels = levelFilter ? [levelFilter] : ['B1', 'B2'];
+
+  let html = '';
+  for (const e of essays) {
+    const visLevels = levels.filter(lv => e[lv]);
+    if (!visLevels.length) continue;
+
+    const levelTabsHTML = visLevels.map((lv, i) =>
+      `<button class="level-tab ${i===0?'active':''}"
+         onclick="switchLevel(this,'essay-samples-${e.num}','essay-${e.num}-${lv}')">${lv}</button>`
+    ).join('');
+
+    const levelContentsHTML = visLevels.map((lv, i) => {
+      const wc = (e[lv] || '').split(/\s+/).filter(Boolean).length;
+      const paras = (e[lv] || '').split(/\n\n+/).map(p => `<p>${p.trim()}</p>`).join('');
+      return `
+        <div id="essay-${e.num}-${lv}" class="level-content ${i===0?'active':''}">
+          <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem">
+            <span class="badge badge-primary">${lv}</span>
+            <span style="font-size:.8rem;color:var(--muted)">${wc} words</span>
+          </div>
+          <div class="sample-essay">${paras}</div>
+        </div>`;
+    }).join('');
+
+    html += `
+      <div style="margin-bottom:2rem;border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--card);box-shadow:var(--shadow);">
+        <div style="background:var(--primary);color:#fff;padding:.65rem 1rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;">
+          <strong>${e.num}. ${e.topic}</strong>
+          <span style="opacity:.5">·</span>
+          <span style="font-size:.8rem;background:rgba(255,255,255,.2);padding:.1rem .5rem;border-radius:4px">${e.type}</span>
+        </div>
+        ${e.prompt ? `
+        <div style="padding:1rem;border-bottom:1.5px solid var(--border);background:#f0f9ff;">
+          <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:.4rem;">📋 Task Prompt</div>
+          <p style="font-size:.9rem;line-height:1.7;margin:0">${cleanPrompt(e.prompt)}</p>
+        </div>` : ''}
+        <div style="padding:1rem;" id="essay-samples-${e.num}">
+          <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:.6rem;">📚 Sample Essays</div>
+          <div class="sample-level-tabs">${levelTabsHTML}</div>
+          ${levelContentsHTML}
+        </div>
+      </div>`;
+  }
+
+  container.innerHTML = html || '<p class="text-muted">No essays match the selected filters.</p>';
+}
+
+// ── VOCABULARY ───────────────────────────────────────────────────────────
+let vocabBuilt = false;
+
+function buildVocab() {
+  vocabBuilt = true;
+  filterVocab('');
+}
+
+function renderVocab(items) {
+  const container = document.getElementById('vocab-content');
+  if (!items.length) {
+    container.innerHTML = '<p class="text-muted">No words match your search.</p>';
+    return;
+  }
+
+  // Group by category
+  const groups = {};
+  for (const v of items) {
+    if (!groups[v.cat]) groups[v.cat] = [];
+    groups[v.cat].push(v);
+  }
+
+  let html = '';
+  for (const [cat, words] of Object.entries(groups)) {
+    const rows = words.map(v => `
+      <tr>
+        <td style="font-weight:600;white-space:nowrap">
+          ${v.word}<span class="vocab-pos">${v.pos}</span>
+        </td>
+        <td>${v.meaning}</td>
+        <td><div class="vocab-example">"${v.example}"</div></td>
+      </tr>`).join('');
+    html += `
+      <tr><td colspan="3" class="vocab-cat-label">${cat}</td></tr>
+      ${rows}`;
+  }
+  container.innerHTML = `
+    <table class="vocab-table">
+      <thead><tr><th style="width:180px">Word</th><th>Meaning</th><th>Usage Example</th></tr></thead>
+      <tbody>${html}</tbody>
+    </table>`;
+}
+
+function filterVocab(query) {
+  const q   = (query || '').toLowerCase();
+  const cat = document.getElementById('vocab-cat')?.value || '';
+  let items = VOCAB_DATA;
+  if (cat)  items = items.filter(v => v.cat === cat);
+  if (q)    items = items.filter(v =>
+    v.word.toLowerCase().includes(q) ||
+    v.meaning.toLowerCase().includes(q) ||
+    v.example.toLowerCase().includes(q)
+  );
+  renderVocab(items);
+}
+
+// ── TEMPLATES ────────────────────────────────────────────────────────────
+document.getElementById('tmpl-tabs').addEventListener('click', e => {
+  const tab = e.target.closest('.tmpl-tab');
+  if (!tab) return;
+  const key = tab.dataset.tmpl;
+  document.querySelectorAll('.tmpl-tab').forEach(t => t.classList.toggle('active', t === tab));
+  document.querySelectorAll('.tmpl-panel').forEach(p => p.classList.toggle('active', p.id === `tmpl-${key}`));
+});
+
+// ── Init ─────────────────────────────────────────────────────────────────
+if (urlTab === 'speaking')  buildSpeaking();
+if (urlTab === 'sp-tests')  buildSpTests();
+if (urlTab === 'essays')  { essaysBuilt = true; renderEssays(); }
+if (urlTab === 'vocab')     buildVocab();
+</script>
+
+<!-- Vocabulary data: word, pos, meaning, example, category -->
+<script>
+const VOCAB_DATA = [
+  // ── General Academic ───────────────────────────────────────────────────
+  { cat:"General Academic", word:"analyse",     pos:"v",    meaning:"to examine something carefully", example:"We need to analyse the data before drawing any conclusions." },
+  { cat:"General Academic", word:"argument",    pos:"n",    meaning:"a reason or set of reasons to support an idea", example:"The essay presents a strong argument in favour of renewable energy." },
+  { cat:"General Academic", word:"assess",      pos:"v",    meaning:"to evaluate or judge the quality/value of something", example:"Students are assessed on their ability to write clearly." },
+  { cat:"General Academic", word:"concept",     pos:"n",    meaning:"an abstract idea or general notion", example:"The concept of sustainability is central to modern urban planning." },
+  { cat:"General Academic", word:"conclude",    pos:"v",    meaning:"to reach a decision or form an opinion after consideration", example:"The study concludes that regular exercise reduces stress." },
+  { cat:"General Academic", word:"contribute",  pos:"v",    meaning:"to give something, especially to help achieve something", example:"Volunteers contribute significantly to community development." },
+  { cat:"General Academic", word:"debate",      pos:"n/v",  meaning:"a formal discussion on a topic; to argue about a topic", example:"There is ongoing debate about the benefits of online learning." },
+  { cat:"General Academic", word:"define",      pos:"v",    meaning:"to state the exact meaning of a word or phrase", example:"It is important to define key terms at the start of an essay." },
+  { cat:"General Academic", word:"demonstrate", pos:"v",    meaning:"to show or prove clearly", example:"Research demonstrates a clear link between diet and health." },
+  { cat:"General Academic", word:"evaluate",    pos:"v",    meaning:"to form an idea of the amount or value of something", example:"We must evaluate the advantages and disadvantages of each approach." },
+  { cat:"General Academic", word:"evidence",    pos:"n",    meaning:"facts or information indicating whether something is true", example:"There is strong evidence that air pollution causes respiratory problems." },
+  { cat:"General Academic", word:"factor",      pos:"n",    meaning:"one of the elements that contributes to a result", example:"Economic factors play a major role in educational achievement." },
+  { cat:"General Academic", word:"impact",      pos:"n/v",  meaning:"a strong effect or influence; to have a strong effect on", example:"Social media has a huge impact on how young people communicate." },
+  { cat:"General Academic", word:"indicate",    pos:"v",    meaning:"to show, point out, or suggest something", example:"Rising temperatures indicate the effects of global warming." },
+  { cat:"General Academic", word:"issue",       pos:"n",    meaning:"an important topic or problem for debate", example:"Unemployment is a critical issue facing many developing countries." },
+  { cat:"General Academic", word:"perspective", pos:"n",    meaning:"a particular way of thinking about something", example:"From an economic perspective, the policy has been very successful." },
+  { cat:"General Academic", word:"significant", pos:"adj",  meaning:"important or large enough to have an effect", example:"There has been a significant increase in the use of electric vehicles." },
+  { cat:"General Academic", word:"solution",    pos:"n",    meaning:"a way of solving a problem or dealing with a difficult situation", example:"Finding a practical solution to pollution requires global cooperation." },
+  { cat:"General Academic", word:"suggest",     pos:"v",    meaning:"to put forward an idea or plan for others to consider", example:"Experts suggest that early education has long-lasting benefits." },
+
+  // ── Environment ────────────────────────────────────────────────────────
+  { cat:"Environment", word:"biodiversity",    pos:"n",    meaning:"the variety of plant and animal life in a habitat", example:"Deforestation threatens the rich biodiversity of tropical rainforests." },
+  { cat:"Environment", word:"carbon emission", pos:"n",    meaning:"the release of carbon dioxide into the atmosphere", example:"Reducing carbon emissions is essential to slowing climate change." },
+  { cat:"Environment", word:"climate change",  pos:"n",    meaning:"long-term shifts in global temperatures and weather patterns", example:"Climate change is causing more frequent and severe natural disasters." },
+  { cat:"Environment", word:"contaminate",     pos:"v",    meaning:"to make something impure by introducing harmful substances", example:"Industrial waste has contaminated the river water near the factory." },
+  { cat:"Environment", word:"deforestation",   pos:"n",    meaning:"the clearing of forests on a large scale", example:"Deforestation in the Amazon contributes to global warming." },
+  { cat:"Environment", word:"ecosystem",       pos:"n",    meaning:"a biological community of organisms and their environment", example:"Plastic pollution is destroying the ocean ecosystem." },
+  { cat:"Environment", word:"renewable",       pos:"adj",  meaning:"able to be replaced naturally; not depleted when used", example:"Solar and wind power are clean, renewable energy sources." },
+  { cat:"Environment", word:"sustainability",  pos:"n",    meaning:"the ability to maintain something at a certain level without harming the environment", example:"Sustainability should be the core principle of modern development." },
+  { cat:"Environment", word:"toxic",           pos:"adj",  meaning:"poisonous; harmful to living things", example:"Toxic chemicals from factories are discharged into local waterways." },
+  { cat:"Environment", word:"waste management",pos:"n",    meaning:"the process of collecting and disposing of waste safely", example:"Effective waste management reduces landfill and encourages recycling." },
+
+  // ── Education ──────────────────────────────────────────────────────────
+  { cat:"Education", word:"curriculum",        pos:"n",    meaning:"the subjects studied in a school or college", example:"The national curriculum should include more practical life skills." },
+  { cat:"Education", word:"discipline",        pos:"n",    meaning:"a field of study; also self-control and orderly behaviour", example:"Mathematics is an important academic discipline for logical thinking." },
+  { cat:"Education", word:"enrol",             pos:"v",    meaning:"to officially join or be admitted to a course or institution", example:"Thousands of students enrol in online courses every year." },
+  { cat:"Education", word:"facilitate",        pos:"v",    meaning:"to make a process or action easier", example:"Technology facilitates collaborative learning among students worldwide." },
+  { cat:"Education", word:"graduate",          pos:"n/v",  meaning:"a person who has completed a degree; to receive a degree", example:"University graduates often have better career prospects than school leavers." },
+  { cat:"Education", word:"illiteracy",        pos:"n",    meaning:"the inability to read or write", example:"Fighting illiteracy is a top priority in many developing nations." },
+  { cat:"Education", word:"scholarship",       pos:"n",    meaning:"a financial award given to a student based on achievement or need", example:"She received a scholarship to study medicine at a top university." },
+  { cat:"Education", word:"vocational",        pos:"adj",  meaning:"relating to skills needed for a specific job or profession", example:"Vocational training programmes help young people enter the workforce quickly." },
+
+  // ── Health ─────────────────────────────────────────────────────────────
+  { cat:"Health", word:"addiction",            pos:"n",    meaning:"a compulsive dependence on a substance or behaviour", example:"Smartphone addiction is increasingly common among teenagers." },
+  { cat:"Health", word:"chronic",              pos:"adj",  meaning:"persisting for a long time; (of a disease) long-term", example:"Chronic stress can lead to serious physical and mental health problems." },
+  { cat:"Health", word:"epidemic",             pos:"n",    meaning:"a widespread occurrence of a disease in a community", example:"Obesity has become a global epidemic in the twenty-first century." },
+  { cat:"Health", word:"immune system",        pos:"n",    meaning:"the body's defence mechanism against infection and disease", example:"Regular exercise and good nutrition strengthen the immune system." },
+  { cat:"Health", word:"mortality rate",       pos:"n",    meaning:"the number of deaths in a given time or place", example:"Better healthcare has significantly reduced the infant mortality rate." },
+  { cat:"Health", word:"nutrition",            pos:"n",    meaning:"the process of taking in and using food for growth and health", example:"Poor nutrition in childhood can have lasting effects on development." },
+  { cat:"Health", word:"obesity",              pos:"n",    meaning:"the condition of being very overweight to the point of health risk", example:"Obesity is linked to a higher risk of heart disease and diabetes." },
+  { cat:"Health", word:"prevention",           pos:"n",    meaning:"the action of stopping something from happening", example:"Prevention is better than cure, especially for lifestyle diseases." },
+  { cat:"Health", word:"sedentary",            pos:"adj",  meaning:"tending to spend much time seated; not physically active", example:"A sedentary lifestyle increases the risk of cardiovascular disease." },
+  { cat:"Health", word:"vaccination",          pos:"n",    meaning:"the act of giving a vaccine to protect against disease", example:"Mass vaccination campaigns have eradicated diseases like smallpox." },
+
+  // ── Technology ─────────────────────────────────────────────────────────
+  { cat:"Technology", word:"artificial intelligence", pos:"n", meaning:"computer systems able to perform tasks that normally require human intelligence", example:"Artificial intelligence is transforming industries from medicine to finance." },
+  { cat:"Technology", word:"automation",       pos:"n",    meaning:"the use of machines or technology to perform tasks without human input", example:"Factory automation has increased production speed but reduced jobs." },
+  { cat:"Technology", word:"digital literacy", pos:"n",    meaning:"the ability to use digital tools and technology effectively", example:"Digital literacy is now as important as reading and writing." },
+  { cat:"Technology", word:"innovation",       pos:"n",    meaning:"the introduction of new ideas, methods, or products", example:"Technological innovation has revolutionised the way we communicate." },
+  { cat:"Technology", word:"privacy",          pos:"n",    meaning:"the right to keep personal information secret", example:"Social media platforms raise serious concerns about user privacy." },
+  { cat:"Technology", word:"social media",     pos:"n",    meaning:"websites and apps that allow users to share content and interact", example:"Social media has both connected people and increased cyberbullying." },
+  { cat:"Technology", word:"virtual reality",  pos:"n",    meaning:"a computer-generated simulation of a three-dimensional environment", example:"Virtual reality is being used in medical training and education." },
+
+  // ── Society & Economy ──────────────────────────────────────────────────
+  { cat:"Society", word:"corruption",          pos:"n",    meaning:"dishonest or fraudulent conduct, especially by those in power", example:"Corruption undermines public trust in government institutions." },
+  { cat:"Society", word:"discrimination",      pos:"n",    meaning:"unjust treatment based on race, gender, age, or other characteristics", example:"Workplace discrimination based on gender is illegal in many countries." },
+  { cat:"Society", word:"equality",            pos:"n",    meaning:"the state of being equal in status, rights, and opportunities", example:"Achieving gender equality in the workplace remains a global challenge." },
+  { cat:"Society", word:"globalisation",       pos:"n",    meaning:"the process of international integration in trade, culture, and society", example:"Globalisation has opened new markets but also increased inequality." },
+  { cat:"Society", word:"inequality",          pos:"n",    meaning:"the difference in how resources and opportunities are distributed", example:"Income inequality between rich and poor is widening in many nations." },
+  { cat:"Society", word:"inflation",           pos:"n",    meaning:"a general increase in prices and fall in purchasing value of money", example:"High inflation makes it harder for families to afford basic necessities." },
+  { cat:"Society", word:"poverty",             pos:"n",    meaning:"the state of being extremely poor", example:"Education is one of the most effective tools for breaking the cycle of poverty." },
+  { cat:"Society", word:"unemployment",        pos:"n",    meaning:"the state of not having a paid job", example:"Youth unemployment remains a serious challenge in many developing countries." },
+  { cat:"Society", word:"welfare",             pos:"n",    meaning:"the health, happiness, and fortune of a person or group", example:"The government has cut spending on social welfare programmes." },
+
+  // ── Transport & Travel ─────────────────────────────────────────────────
+  { cat:"Transport", word:"commute",           pos:"v/n",  meaning:"to travel regularly between home and work/school", example:"Many people spend hours each day commuting on public transport." },
+  { cat:"Transport", word:"congestion",        pos:"n",    meaning:"a situation where traffic or people are crowded in one place", example:"Traffic congestion in major cities causes air pollution and lost productivity." },
+  { cat:"Transport", word:"infrastructure",    pos:"n",    meaning:"the basic physical systems of a country, such as roads and bridges", example:"The government is investing in transport infrastructure to boost the economy." },
+  { cat:"Transport", word:"pedestrian",        pos:"n",    meaning:"a person who is walking in a city or on a road", example:"More pedestrian zones in cities encourage walking and reduce pollution." },
+  { cat:"Transport", word:"public transport",  pos:"n",    meaning:"buses, trains, and other vehicles that the public can use", example:"Expanding public transport reduces the number of private cars on the road." },
+  { cat:"Transport", word:"sustainable travel",pos:"n",    meaning:"forms of travel that have a low environmental impact", example:"Cycling and walking are examples of sustainable travel that benefit health and the planet." },
+];
+</script>
+</body>
+</html>

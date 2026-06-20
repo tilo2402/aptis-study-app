@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VSTEP Review</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .review-wrap { max-width: 860px; margin: 0 auto; padding: 1.25rem; }
+    .section-panel { display:none; } .section-panel.active { display:block; }
+    .q-review {
+      border: 1.5px solid var(--border); border-radius: var(--radius);
+      padding: .9rem 1rem; margin-bottom: .75rem; background: var(--card);
+    }
+    .q-review.correct { border-color: var(--success); }
+    .q-review.wrong   { border-color: var(--danger);  }
+    .q-review.skipped { border-color: var(--warning);  }
+    .q-header { display:flex; align-items:center; gap:.5rem; margin-bottom:.5rem; flex-wrap:wrap; }
+    .q-result-icon { font-size:1.1rem; }
+    .sample-level-tabs { display:flex; gap:.35rem; margin-bottom:.75rem; flex-wrap:wrap; }
+    .level-tab { padding:.3rem .8rem; border-radius:6px; border:1.5px solid var(--border); cursor:pointer; font-size:.82rem; font-weight:600; background:var(--card); }
+    .level-tab.active { background:var(--primary); color:#fff; border-color:var(--primary); }
+    .level-content { display:none; } .level-content.active { display:block; }
+    .ts-panel { background:#f8fafc; border:1px solid var(--border); border-radius:var(--radius); padding:1rem; margin-top:.75rem; font-size:.875rem; line-height:1.7; }
+    .speaking-part { background: var(--card); border-radius: var(--radius); padding: 1rem; margin-bottom: 1rem; box-shadow: var(--shadow); }
+  </style>
+</head>
+<body>
+
+<header class="app-header">
+  <a href="index.html" style="color:rgba(255,255,255,.7);font-size:.85rem">← Home</a>
+  <h1 id="review-title">Test Review</h1>
+  <div class="spacer"></div>
+  <a id="retake-btn" href="#" class="btn btn-accent btn-sm">🔄 Retake</a>
+</header>
+
+<!-- Study Tab nav -->
+<div style="background:var(--card); border-bottom:1px solid var(--border); padding:.5rem 1.25rem;">
+  <div class="study-tabs" id="review-tabs">
+    <button class="study-tab active" data-panel="listening">🎧 Listening</button>
+    <button class="study-tab" data-panel="reading">📖 Reading</button>
+    <button class="study-tab" data-panel="writing">✍️ Writing</button>
+    <button class="study-tab" data-panel="speaking">🗣️ Speaking</button>
+  </div>
+</div>
+
+<div class="review-wrap">
+
+  <!-- Score summary -->
+  <div class="score-grid" id="score-grid"></div>
+
+  <!-- LISTENING -->
+  <div id="panel-listening" class="section-panel active">
+    <h2 class="mb-2">Listening Results</h2>
+    <div id="listen-parts"></div>
+  </div>
+
+  <!-- READING -->
+  <div id="panel-reading" class="section-panel">
+    <h2 class="mb-2">Reading Results</h2>
+    <div id="read-passages"></div>
+  </div>
+
+  <!-- WRITING -->
+  <div id="panel-writing" class="section-panel">
+    <h2 class="mb-2">Writing Review</h2>
+    <div id="writing-review"></div>
+  </div>
+
+  <!-- SPEAKING -->
+  <div id="panel-speaking" class="section-panel">
+    <h2 class="mb-2">Speaking Model Answers</h2>
+    <div id="speaking-review"></div>
+  </div>
+
+</div>
+
+<script src="data/tests.js"></script>
+<script src="data/answers.js"></script>
+<script src="data/tapescripts.js"></script>
+<script src="data/writing_samples.js"></script>
+<script src="app.js"></script>
+<script>
+const testNum   = APP.getTestNum();
+const test      = TESTS[testNum];
+const userAns   = APP.getAnswers(testNum);
+const keyAns    = ANSWERS[testNum] || {};
+const score     = APP.calcScore(testNum, userAns);
+
+document.getElementById('review-title').textContent = `Test ${testNum} — Review`;
+document.getElementById('retake-btn').href = `test.html?test=${testNum}`;
+
+// ── Tabs ──────────────────────────────────────────────────────────────────
+document.getElementById('review-tabs').addEventListener('click', e => {
+  const tab = e.target.closest('.study-tab');
+  if (!tab) return;
+  const panel = tab.dataset.panel;
+  document.querySelectorAll('.study-tab').forEach(t => t.classList.toggle('active', t === tab));
+  document.querySelectorAll('.section-panel').forEach(p =>
+    p.classList.toggle('active', p.id === `panel-${panel}`)
+  );
+});
+
+// ── Score Grid ────────────────────────────────────────────────────────────
+function buildScoreGrid() {
+  let html = '';
+  const sections = { listening: '🎧 Listening', reading: '📖 Reading' };
+  for (const [sec, label] of Object.entries(sections)) {
+    if (!score[sec]) { html += `<div class="score-card"><div class="score-num text-muted">—</div><div class="score-label">${label}</div></div>`; continue; }
+    const { correct, total } = score[sec];
+    const cls = APP.scoreClass(correct, total);
+    html += `
+      <div class="score-card ${cls}">
+        <div class="score-num">${correct}/${total}</div>
+        <div class="score-label">${label}</div>
+        <div style="font-size:.75rem;color:var(--muted)">${Math.round(correct/total*100)}%</div>
+      </div>`;
+  }
+  // Overall approximate
+  const totalC = (score.listening?.correct||0) + (score.reading?.correct||0);
+  const totalT = (score.listening?.total||0)   + (score.reading?.total||0);
+  if (totalT > 0) {
+    const cls = APP.scoreClass(totalC, totalT);
+    html = `<div class="score-card ${cls}"><div class="score-num">${Math.round(totalC/totalT*100)}%</div><div class="score-label">Overall (L+R)</div></div>` + html;
+  }
+  document.getElementById('score-grid').innerHTML = html;
+}
+
+// ── Listening Review ──────────────────────────────────────────────────────
+function buildListeningReview() {
+  if (!test.listening) {
+    document.getElementById('listen-parts').innerHTML = '<p class="text-muted">No listening section.</p>';
+    return;
+  }
+  let html = '';
+  test.listening.parts.forEach(part => {
+    const partNum = part.part;
+    const ts = TAPESCRIPTS[testNum]?.[`part${partNum}`] || '';
+    html += `<div style="margin-bottom:1.5rem">
+      <h3 style="margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem">
+        Part ${partNum}
+        ${test.hasAudio ? `<audio controls style="height:32px;flex:1;min-width:0" src="${APP.audioSrc(testNum, partNum)}"></audio>` : ''}
+      </h3>`;
+
+    part.questions.forEach(q => {
+      const userA   = userAns.listening?.[q.id];
+      const correctA = String(keyAns.listening?.[q.id] || '');
+      const status  = !userA ? 'skipped' : userA === correctA ? 'correct' : 'wrong';
+      const icon    = status === 'correct' ? '✅' : status === 'wrong' ? '❌' : '⭕';
+      html += `
+        <div class="q-review ${status}">
+          <div class="q-header">
+            <span class="q-result-icon">${icon}</span>
+            <strong>Q${q.id}</strong>
+            <span style="font-size:.85rem;flex:1">${q.text}</span>
+          </div>
+          <div class="options">${APP.renderOptions(q, userA, true, correctA)}</div>
+        </div>`;
+    });
+
+    if (ts) {
+      html += `<details style="margin-top:.5rem">
+        <summary style="cursor:pointer;font-size:.85rem;color:var(--primary);font-weight:600">📄 Show Tapescript — Part ${partNum}</summary>
+        <div class="ts-panel">${ts.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>')}</div>
+      </details>`;
+    }
+    html += '</div>';
+  });
+  document.getElementById('listen-parts').innerHTML = html;
+}
+
+// ── Reading Review ────────────────────────────────────────────────────────
+function buildReadingReview() {
+  if (!test.reading) {
+    document.getElementById('read-passages').innerHTML = '<p class="text-muted">No reading section.</p>';
+    return;
+  }
+  let html = '';
+  test.reading.passages.forEach(passage => {
+    html += `<details open style="margin-bottom:1rem">
+      <summary style="cursor:pointer;font-weight:600;padding:.5rem 0">Passage ${passage.id} — Questions</summary>
+      <div class="ts-panel mb-2" style="max-height:250px;overflow-y:auto">${passage.text.replace(/\n/g,'<br>')}</div>`;
+
+    passage.questions.forEach(q => {
+      const userA    = userAns.reading?.[q.id];
+      const correctA = String(keyAns.reading?.[q.id] || '');
+      const status   = !userA ? 'skipped' : userA === correctA ? 'correct' : 'wrong';
+      const icon     = status === 'correct' ? '✅' : status === 'wrong' ? '❌' : '⭕';
+      html += `
+        <div class="q-review ${status}">
+          <div class="q-header">
+            <span class="q-result-icon">${icon}</span>
+            <strong>Q${q.id}</strong>
+            <span style="font-size:.85rem;flex:1">${q.text}</span>
+          </div>
+          <div class="options">${APP.renderOptions(q, userA, true, correctA)}</div>
+        </div>`;
+    });
+    html += '</details>';
+  });
+  document.getElementById('read-passages').innerHTML = html;
+}
+
+// ── Writing Review ────────────────────────────────────────────────────────
+function buildWritingReview() {
+  const w = test.writing;
+  const samples = WRITING_SAMPLES[testNum] || {};
+  let html = '';
+
+  if (!w) { document.getElementById('writing-review').innerHTML = '<p class="text-muted">No writing section.</p>'; return; }
+
+  for (const [key, task] of Object.entries(w)) {
+    const taskNum  = key.replace('task', '');
+    const userText = userAns.writing?.[key] || '';
+    const taskSamples = samples[key] || {};
+    const bullets  = task.bullets?.map(b => `<li>${b}</li>`).join('') || '';
+
+    html += `<div style="margin-bottom:2rem">
+      <h3 style="margin-bottom:.75rem">Task ${taskNum}</h3>
+      <div class="task-prompt">
+        <p style="font-size:.9rem;line-height:1.65">${task.prompt}</p>
+        ${bullets ? `<ul>${bullets}</ul>` : ''}
+      </div>
+
+      ${userText ? `
+      <div style="margin:1rem 0">
+        <h3 style="margin-bottom:.4rem">📝 Your Answer <span style="font-weight:400;font-size:.8rem;color:var(--muted)">(${APP.countWords(userText)} words)</span></h3>
+        <div class="sample-essay">${userText.replace(/\n/g,'<br>')}</div>
+      </div>` : '<p class="text-muted mt-1 mb-1">No answer submitted.</p>'}
+
+      ${Object.keys(taskSamples).length ? `
+      <h3 style="margin-bottom:.5rem">📚 Sample Answers</h3>
+      <div class="sample-level-tabs">
+        ${Object.keys(taskSamples).map((lv,i) =>
+          `<button class="level-tab ${i===0?'active':''}" onclick="showLevel(this,'lv-${key}','lv-${key}-${lv}')">${lv}</button>`
+        ).join('')}
+      </div>
+      ${Object.entries(taskSamples).map(([lv, text], i) =>
+        `<div id="lv-${key}-${lv}" class="level-content ${i===0?'active':''}">
+          <div class="sample-essay">${text}</div>
+        </div>`
+      ).join('')}` : ''}
+    </div>`;
+  }
+
+  document.getElementById('writing-review').innerHTML = html;
+}
+
+function showLevel(btn, groupPrefix, activeId) {
+  const parent = btn.closest('[style]') || btn.parentElement.parentElement;
+  parent.querySelectorAll('.level-tab').forEach(t => t.classList.toggle('active', t === btn));
+  parent.querySelectorAll('.level-content').forEach(c =>
+    c.classList.toggle('active', c.id === activeId)
+  );
+}
+
+// ── Speaking Review ───────────────────────────────────────────────────────
+function buildSpeakingReview() {
+  const sp = test.speaking;
+  if (!sp) { document.getElementById('speaking-review').innerHTML = '<p class="text-muted">No speaking section.</p>'; return; }
+
+  const partNames = { part1: 'Social Interaction', part2: 'Solution Discussion', part3: 'Topic' };
+  let html = '';
+
+  for (const [key, part] of Object.entries(sp)) {
+    const qs = part.questions?.map(q => `<li>${q}</li>`).join('') || '';
+    html += `
+      <div class="speaking-part">
+        <h3>Part ${key.replace('part','')}: ${partNames[key] || part.title}</h3>
+        <p style="color:var(--muted);font-size:.85rem;margin:.3rem 0">Topic: <strong>${part.topic}</strong></p>
+        ${qs ? `<ol style="margin:.75rem 0 0 1.2rem;line-height:1.8;font-size:.9rem">${qs}</ol>` : ''}
+      </div>`;
+  }
+  document.getElementById('speaking-review').innerHTML = html;
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────
+buildScoreGrid();
+buildListeningReview();
+buildReadingReview();
+buildWritingReview();
+buildSpeakingReview();
+</script>
+</body>
+</html>

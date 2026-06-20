@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VSTEP Study App</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .progress-bar-wrap { background:#e2e8f0; border-radius:99px; height:6px; margin-top:.5rem; }
+    .progress-bar      { height:6px; border-radius:99px; background:var(--success); transition:width .3s; }
+    .nav-links { display:flex; gap:.75rem; align-items:center; flex-wrap:wrap; padding:.6rem 1.5rem; background:var(--card); border-bottom:1px solid var(--border); }
+    .nav-links a { font-size:.875rem; font-weight:500; }
+    .stat-row { display:flex; gap:.5rem; margin-top:.4rem; flex-wrap:wrap; }
+    .section-title { padding: 1rem 1.5rem .4rem; font-size:.75rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); }
+  </style>
+</head>
+<body>
+
+<div class="app-header">
+  <div>
+    <h1>🎓 VSTEP Study App</h1>
+  </div>
+  <div class="spacer"></div>
+  <span style="font-size:.82rem;opacity:.8">Vietnam's 6-level English Proficiency</span>
+</div>
+
+<nav class="nav-links">
+  <a href="index.html" class="btn btn-primary btn-sm">🏠 Home</a>
+  <a href="study.html" class="btn btn-outline btn-sm">📚 Study Materials</a>
+</nav>
+
+<!-- Hero -->
+<div class="home-hero">
+  <h1>Practice. Learn. Succeed.</h1>
+  <p>7 full VSTEP mock exams with audio, answer keys, and sample essays</p>
+</div>
+
+<!-- Quick Stats -->
+<div style="padding:1rem 1.5rem; display:flex; gap:1rem; flex-wrap:wrap; border-bottom:1px solid var(--border); background:var(--card);">
+  <div><strong>7</strong> <span class="text-muted">Mock Tests</span></div>
+  <div><strong>5</strong> <span class="text-muted">With Audio (Tests 1–5)</span></div>
+  <div><strong>245</strong> <span class="text-muted">Listening Questions</span></div>
+  <div><strong>280</strong> <span class="text-muted">Reading Questions</span></div>
+</div>
+
+<!-- Test Selection -->
+<p class="section-title">Select a Mock Test</p>
+<div class="test-grid" id="test-grid"></div>
+
+<!-- Study Materials -->
+<p class="section-title">Study Materials</p>
+<div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:1rem; padding:0 1.5rem 2rem;">
+
+  <div class="card" style="cursor:pointer" onclick="location.href='study.html?tab=writing'">
+    <div class="card-title">✍️ Writing Samples</div>
+    <p style="font-size:.85rem;color:var(--muted)">Task 1 (letter/email) and Task 2 (essay) samples at B1, B2, C1 levels with all 7 tests</p>
+    <div class="mt-2"><a href="study.html?tab=writing" class="btn btn-outline btn-sm">Open →</a></div>
+  </div>
+
+  <div class="card" style="cursor:pointer" onclick="location.href='study.html?tab=speaking'">
+    <div class="card-title">🗣️ Speaking Practice</div>
+    <p style="font-size:.85rem;color:var(--muted)">Part 1 social topics, Part 2 solution discussion, Part 3 topic presentation with model answers</p>
+    <div class="mt-2"><a href="study.html?tab=speaking" class="btn btn-outline btn-sm">Open →</a></div>
+  </div>
+
+  <div class="card" style="cursor:pointer" onclick="location.href='study.html?tab=vocab'">
+    <div class="card-title">📖 Vocabulary</div>
+    <p style="font-size:.85rem;color:var(--muted)">VSTEP vocabulary list and word study resources</p>
+    <div class="mt-2"><a href="study.html?tab=vocab" class="btn btn-outline btn-sm">Open →</a></div>
+  </div>
+
+</div>
+
+<script src="data/tests.js"></script>
+<script src="data/answers.js"></script>
+<script src="app.js"></script>
+<script>
+  const grid = document.getElementById('test-grid');
+
+  Object.entries(TESTS).forEach(([num, test]) => {
+    const n = parseInt(num);
+    const answers = APP.getAnswers(n);
+    const score   = APP.calcScore(n, answers);
+    const hasL    = score.listening;
+    const hasR    = score.reading;
+    const done    = hasL || hasR;
+
+    let progressHTML = '';
+    let statHTML = '';
+
+    if (done) {
+      const lPct = hasL ? Math.round(hasL.correct / hasL.total * 100) : 0;
+      const rPct = hasR ? Math.round(hasR.correct / hasR.total * 100) : 0;
+      statHTML = `
+        <div class="stat-row">
+          ${hasL ? `<span class="badge badge-${APP.scoreClass(hasL.correct,hasL.total)==='good'?'success':APP.scoreClass(hasL.correct,hasL.total)==='ok'?'primary':'danger'}">L: ${hasL.correct}/${hasL.total}</span>` : ''}
+          ${hasR ? `<span class="badge badge-${APP.scoreClass(hasR.correct,hasR.total)==='good'?'success':APP.scoreClass(hasR.correct,hasR.total)==='ok'?'primary':'danger'}">R: ${hasR.correct}/${hasR.total}</span>` : ''}
+        </div>`;
+    }
+
+    grid.innerHTML += `
+      <div class="test-card ${done ? 'completed' : ''}" onclick="location.href='test.html?test=${n}'">
+        <div class="test-num">Test ${n}</div>
+        <div class="test-meta">
+          ${test.hasAudio ? '🔊 Audio included' : '📄 Text only'}
+          · ${test.listening?.parts ? '35 Listening' : 'No listening'}
+          · 40 Reading
+        </div>
+        ${statHTML}
+        ${done ? '<div class="mt-1"><span class="badge badge-success">✓ Attempted</span> <a href="review.html?test='+n+'" onclick="event.stopPropagation()" style="font-size:.8rem">Review</a></div>' : ''}
+      </div>`;
+  });
+</script>
+</body>
+</html>
