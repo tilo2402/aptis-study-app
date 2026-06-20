@@ -307,7 +307,11 @@ function renderPassage() {
   const item = flatR[readIndex];
   if (!item) return;
   document.getElementById('passage-panel').innerHTML =
-    `<h3>Passage ${item.passageIndex + 1}</h3><p>${item.passage.text.replace(/\n/g, '</p><p>')}</p>`;
+    `<h3>Passage ${item.passageIndex + 1}</h3><p>${
+      item.passage.text
+        .replace(/\n\n+/g, '</p><p>')   // real paragraph breaks
+        .replace(/\n/g, ' ')             // join PDF word-wrap lines
+    }</p>`;
   // Scroll reading section back to top so user reads passage from start
   document.getElementById('section-reading').scrollTop = 0;
 }
