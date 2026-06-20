@@ -35,22 +35,33 @@
 
     /* ── Reading: stacked full-width layout ── */
     #section-reading { overflow-y: auto; }
+
     .read-q-nav-sticky {
       position: sticky; top: 0; z-index: 20;
       background: var(--card); border-bottom: 1px solid var(--border);
+      width: 100%;
     }
+
+    /* Passage — no width cap, fills entire screen */
     .read-passage-block {
+      width: 100%; box-sizing: border-box;
       background: var(--card); border-bottom: 2px solid var(--border);
-      padding: 1.5rem 2rem; font-size: .95rem; line-height: 1.9;
+      padding: 1.5rem 2.5rem; font-size: .95rem; line-height: 1.9;
     }
     .read-passage-block h3 { color: var(--primary); margin-bottom: .85rem; font-size: 1.05rem; }
-    /* Full-width question+options area — override global max-width */
-    .read-q-block { padding: 1.5rem 2rem; }
+    .read-passage-block p  { margin-bottom: .65rem; }
+
+    /* Question block — also full width, override global 800px cap */
+    .read-q-block {
+      width: 100%; box-sizing: border-box;
+      padding: 1.5rem 2.5rem;
+    }
     .read-q-block .question-area { max-width: none; padding: 0; }
-    .read-q-block .options { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
-    @media (max-width: 640px) {
+    .read-q-block .options { display: grid; grid-template-columns: 1fr 1fr; gap: .65rem; }
+
+    @media (max-width: 700px) {
       .read-q-block .options { grid-template-columns: 1fr; }
-      .read-passage-block, .read-q-block { padding: 1rem; }
+      .read-passage-block, .read-q-block { padding: 1rem 1.1rem; }
     }
 
     /* ── Writing / Speaking: scrollable ── */
