@@ -327,22 +327,50 @@ function renderReadQNav() {
 function renderReadQuestion() {
   const item = flatR[readIndex];
   if (!item) return;
-  const saved = userAnswers.reading[item.q.id];
+  const saved = userAnswers.reading[item.q.id] || '';
+  const hasOpts = Object.values(item.q.options || {}).some(v => v.trim());
+
+  let answerHtml;
+  if (hasOpts) {
+    answerHtml = `<div class="options" id="read-opts">${APP.renderOptions(item.q, saved)}</div>`;
+  } else {
+    // Short-answer or diagram question — render a text input
+    answerHtml = `<div id="read-opts" style="margin-top:.75rem">
+      <input type="text" id="read-short-input" value="${saved.replace(/"/g,'&quot;')}"
+        placeholder="Type your answer here…"
+        style="width:100%;padding:.55rem .75rem;font-size:.95rem;border:2px solid var(--border);
+               border-radius:8px;background:var(--card);color:var(--text);box-sizing:border-box">
+    </div>`;
+  }
+
   document.getElementById('read-q-area').innerHTML = `
     <div class="q-label">Question ${item.q.id} of ${flatR.length} · Passage ${item.passageIndex + 1}</div>
     <p class="q-text">${item.q.text}</p>
-    <div class="options" id="read-opts">${APP.renderOptions(item.q, saved)}</div>`;
+    ${answerHtml}`;
 
-  document.querySelectorAll('#read-opts .option-label').forEach(lbl => {
-    lbl.addEventListener('click', () => {
-      const val = lbl.dataset.key;
-      userAnswers.reading = userAnswers.reading || {};
-      userAnswers.reading[item.q.id] = val;
-      APP.saveAnswers(testNum, userAnswers);
-      renderReadQuestion();
-      renderReadQNav();
+  if (hasOpts) {
+    document.querySelectorAll('#read-opts .option-label').forEach(lbl => {
+      lbl.addEventListener('click', () => {
+        const val = lbl.dataset.key;
+        userAnswers.reading = userAnswers.reading || {};
+        userAnswers.reading[item.q.id] = val;
+        APP.saveAnswers(testNum, userAnswers);
+        renderReadQuestion();
+        renderReadQNav();
+      });
     });
-  });
+  } else {
+    const inp = document.getElementById('read-short-input');
+    if (inp) {
+      inp.addEventListener('input', () => {
+        userAnswers.reading = userAnswers.reading || {};
+        userAnswers.reading[item.q.id] = inp.value;
+        APP.saveAnswers(testNum, userAnswers);
+        renderReadQNav();
+      });
+      inp.focus();
+    }
+  }
   updateFooter();
 }
 

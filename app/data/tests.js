@@ -9,6 +9,7 @@ const TESTS = {
           "questions": [
             {
               "id": 1,
+              "type": "mc",
               "text": "When is the man’s appointment?",
               "options": {
                 "A": "Wednesday",
@@ -19,6 +20,7 @@ const TESTS = {
             },
             {
               "id": 2,
+              "type": "mc",
               "text": "Which is the aunt’s postcard?",
               "options": {
                 "A": "a pretty village right by the sea",
@@ -29,6 +31,7 @@ const TESTS = {
             },
             {
               "id": 3,
+              "type": "mc",
               "text": "What time will the plane to Milan leave?",
               "options": {
                 "A": "01:00",
@@ -39,6 +42,7 @@ const TESTS = {
             },
             {
               "id": 4,
+              "type": "mc",
               "text": "Which present has the girl bought her mother?",
               "options": {
                 "A": "earrings",
@@ -49,6 +53,7 @@ const TESTS = {
             },
             {
               "id": 5,
+              "type": "mc",
               "text": "What time will the pie be ready?",
               "options": {
                 "A": "four fifteen",
@@ -59,6 +64,7 @@ const TESTS = {
             },
             {
               "id": 6,
+              "type": "mc",
               "text": "What time is the swimming lesson today?",
               "options": {
                 "A": "half past four",
@@ -69,6 +75,7 @@ const TESTS = {
             },
             {
               "id": 7,
+              "type": "mc",
               "text": "Which subject does the boy like best?",
               "options": {
                 "A": "information technology",
@@ -79,6 +86,7 @@ const TESTS = {
             },
             {
               "id": 8,
+              "type": "mc",
               "text": "Which T-shirt does the boy decide to buy?",
               "options": {
                 "A": "a short-sleeved T-shirt with round neck",
@@ -94,6 +102,7 @@ const TESTS = {
           "questions": [
             {
               "id": 9,
+              "type": "mc",
               "text": "What is Kate’s health problem? 2",
               "options": {
                 "A": "She has coughs",
@@ -104,6 +113,7 @@ const TESTS = {
             },
             {
               "id": 10,
+              "type": "mc",
               "text": "What does Kate’s problem affect her classmates?",
               "options": {
                 "A": "It makes them funny.",
@@ -114,6 +124,7 @@ const TESTS = {
             },
             {
               "id": 11,
+              "type": "mc",
               "text": "What did Kate have last year?",
               "options": {
                 "A": "She had coughs",
@@ -124,6 +135,7 @@ const TESTS = {
             },
             {
               "id": 12,
+              "type": "mc",
               "text": "What does Kate have now, too?",
               "options": {
                 "A": "She has backache",
@@ -134,6 +146,7 @@ const TESTS = {
             },
             {
               "id": 13,
+              "type": "mc",
               "text": "Why does the man want to go out?",
               "options": {
                 "A": "Because he feels bored staying at home.",
@@ -144,6 +157,7 @@ const TESTS = {
             },
             {
               "id": 14,
+              "type": "mc",
               "text": "Why does the woman want to stay at home?",
               "options": {
                 "A": "Because she has coughs. | |",
@@ -154,6 +168,7 @@ const TESTS = {
             },
             {
               "id": 15,
+              "type": "mc",
               "text": "Why doesn’t the woman want to watch an Italian film?",
               "options": {
                 "A": "Because she is short of money. | | | | | ---------------------------------- | --- | --- | --- |",
@@ -164,6 +179,7 @@ const TESTS = {
             },
             {
               "id": 16,
+              "type": "mc",
               "text": "Why doesn’t the woman want to watch a Robert de Niro?",
               "options": {
                 "A": "Because she feels too busy to watch it. | | | | | ------------------------------------------- | --- | --- | --- |",
@@ -174,6 +190,7 @@ const TESTS = {
             },
             {
               "id": 17,
+              "type": "mc",
               "text": "What does the girl think about a good holiday?",
               "options": {
                 "A": "It may be cheap.",
@@ -184,6 +201,7 @@ const TESTS = {
             },
             {
               "id": 18,
+              "type": "mc",
               "text": "Why doesn’t the boy want to walk?",
               "options": {
                 "A": "Because he feels too hot to do it.",
@@ -194,6 +212,7 @@ const TESTS = {
             },
             {
               "id": 19,
+              "type": "mc",
               "text": "What does the girl think about the food in Youth Hostels?",
               "options": {
                 "A": "It is comfortable.",
@@ -204,6 +223,7 @@ const TESTS = {
             },
             {
               "id": 20,
+              "type": "mc",
               "text": "What does the boy decide to do in the end?",
               "options": {
                 "A": "go home",
@@ -219,6 +239,7 @@ const TESTS = {
           "questions": [
             {
               "id": 21,
+              "type": "mc",
               "text": "Why did the speaker have to help her mother with the shopping?",
               "options": {
                 "A": "There were no Vietnamese people living near her.",
@@ -229,6 +250,7 @@ const TESTS = {
             },
             {
               "id": 22,
+              "type": "mc",
               "text": "Why did her father find working in a factory difficult?",
               "options": {
                 "A": "He couldn't speak any English.",
@@ -239,6 +261,7 @@ const TESTS = {
             },
             {
               "id": 23,
+              "type": "mc",
               "text": "Why are the speaker and her brother more fortunate than their sisters?",
               "options": {
                 "A": "They did not need extra English lessons.",
@@ -249,6 +272,7 @@ const TESTS = {
             },
             {
               "id": 24,
+              "type": "mc",
               "text": "What has the speaker forgotten about life in Vietnam?",
               "options": {
                 "A": "Living close to other people",
@@ -259,6 +283,7 @@ const TESTS = {
             },
             {
               "id": 25,
+              "type": "mc",
               "text": "Why does she find it difficult to invite friends to her home?",
               "options": {
                 "A": "Her parents do not have much money.",
@@ -269,6 +294,7 @@ const TESTS = {
             },
             {
               "id": 26,
+              "type": "mc",
               "text": "What happened in American schools before 1972? 5",
               "options": {
                 "A": "Girls didn’t go to school.",
@@ -279,6 +305,7 @@ const TESTS = {
             },
             {
               "id": 27,
+              "type": "mc",
               "text": "What is the reason that most American schools have mixed classes?",
               "options": {
                 "A": "Scientists said that it was the best thing.",
@@ -289,6 +316,7 @@ const TESTS = {
             },
             {
               "id": 28,
+              "type": "mc",
               "text": "Why might girls not get a chance to talk much in a class with boys?",
               "options": {
                 "A": "Because the teacher doesn’t ask them questions",
@@ -299,6 +327,7 @@ const TESTS = {
             },
             {
               "id": 29,
+              "type": "mc",
               "text": "What is NOT the reason that some schools are reconsidering separating classes?",
               "options": {
                 "A": "They prefer the old teaching styles.",
@@ -309,6 +338,7 @@ const TESTS = {
             },
             {
               "id": 30,
+              "type": "mc",
               "text": "Which is one class that is not mentioned as being separated?",
               "options": {
                 "A": "Math",
@@ -319,6 +349,7 @@ const TESTS = {
             },
             {
               "id": 31,
+              "type": "mc",
               "text": "Who is listening to the orientation talk?",
               "options": {
                 "A": "the director of international students",
@@ -329,6 +360,7 @@ const TESTS = {
             },
             {
               "id": 32,
+              "type": "mc",
               "text": "What is the purpose of this talk?",
               "options": {
                 "A": "to introduce the director for international student affairs",
@@ -339,6 +371,7 @@ const TESTS = {
             },
             {
               "id": 33,
+              "type": "mc",
               "text": "According to the speaker, what is body language?",
               "options": {
                 "A": "It’s the use of verb tenses and modals.",
@@ -349,6 +382,7 @@ const TESTS = {
             },
             {
               "id": 34,
+              "type": "mc",
               "text": "In American culture,…",
               "options": {
                 "A": "Eye contact is the same as most cultures.",
@@ -359,6 +393,7 @@ const TESTS = {
             },
             {
               "id": 35,
+              "type": "mc",
               "text": "According to the speaker, what is TRUE about handshakes in American Culture?",
               "options": {
                 "A": "A handshake shouldn’t be too strong.",
@@ -379,16 +414,18 @@ const TESTS = {
           "questions": [
             {
               "id": 1,
+              "type": "mc",
               "text": "How many Chinese men start to smoke before the age of 20?",
               "options": {
-                "A": "",
-                "B": "",
-                "C": "",
-                "D": ""
+                "A": "one-third",
+                "B": "two-thirds",
+                "C": "half",
+                "D": "all of them"
               }
             },
             {
               "id": 2,
+              "type": "mc",
               "text": "What does the word “those men” in paragraph 2 refer to?",
               "options": {
                 "A": "Men who smoke under the age of 20",
@@ -399,6 +436,7 @@ const TESTS = {
             },
             {
               "id": 3,
+              "type": "mc",
               "text": "By 2030, how many men in China may die from smoking every year?",
               "options": {
                 "A": "one million",
@@ -409,6 +447,7 @@ const TESTS = {
             },
             {
               "id": 4,
+              "type": "mc",
               "text": "In many areas of China, when do men usually smoke?",
               "options": {
                 "A": "Before a meal",
@@ -419,6 +458,7 @@ const TESTS = {
             },
             {
               "id": 5,
+              "type": "mc",
               "text": "According to WHO, only_______ of Chinese adults can list bad effects of smoking.",
               "options": {
                 "A": "one-third",
@@ -429,6 +469,7 @@ const TESTS = {
             },
             {
               "id": 6,
+              "type": "mc",
               "text": "“Beijing” refers to ……….",
               "options": {
                 "A": "China",
@@ -439,6 +480,7 @@ const TESTS = {
             },
             {
               "id": 7,
+              "type": "mc",
               "text": "What is Richard Peto’s attitude toward smoking in China?",
               "options": {
                 "A": "He doesn’t believe that people will give up smoking",
@@ -449,6 +491,7 @@ const TESTS = {
             },
             {
               "id": 8,
+              "type": "mc",
               "text": "Which of the following words does the word “hamper” have closest meaning to?",
               "options": {
                 "A": "basket",
@@ -459,6 +502,7 @@ const TESTS = {
             },
             {
               "id": 9,
+              "type": "mc",
               "text": "What is the writer’s purpose?",
               "options": {
                 "A": "To argue over smoking policy in China",
@@ -469,6 +513,7 @@ const TESTS = {
             },
             {
               "id": 10,
+              "type": "mc",
               "text": "What does the writer imply about Chinese government? 9",
               "options": {
                 "A": "They do not want to stop people from smoking.",
@@ -485,6 +530,7 @@ const TESTS = {
           "questions": [
             {
               "id": 11,
+              "type": "mc",
               "text": "The word “we” in paragraph 2refers to ………..",
               "options": {
                 "A": "humans",
@@ -495,6 +541,7 @@ const TESTS = {
             },
             {
               "id": 12,
+              "type": "mc",
               "text": "According to paragraph 2, how many degrees could the Earth warm up?",
               "options": {
                 "A": "2.5",
@@ -505,6 +552,7 @@ const TESTS = {
             },
             {
               "id": 13,
+              "type": "mc",
               "text": "According to paragraph 3, why should we stabilize GHG concentrations around 450-550 parts per million?",
               "options": {
                 "A": "to avoid the most serious effects of climate change",
@@ -515,6 +563,7 @@ const TESTS = {
             },
             {
               "id": 14,
+              "type": "mc",
               "text": "What does “which” in paragraph 3 refer to?",
               "options": {
                 "A": "current concentrations",
@@ -525,6 +574,7 @@ const TESTS = {
             },
             {
               "id": 15,
+              "type": "mc",
               "text": "Why does the author mention Stephen Pacala and Robert Socolow?",
               "options": {
                 "A": "To introduce two researchers in the field",
@@ -535,6 +585,7 @@ const TESTS = {
             },
             {
               "id": 16,
+              "type": "mc",
               "text": "What stabilization wedges are NOT mentioned in the passage?",
               "options": {
                 "A": "create environment-friendly materials",
@@ -545,6 +596,7 @@ const TESTS = {
             },
             {
               "id": 17,
+              "type": "mc",
               "text": "What does “them” refer to?",
               "options": {
                 "A": "researchers",
@@ -555,6 +607,7 @@ const TESTS = {
             },
             {
               "id": 18,
+              "type": "mc",
               "text": "What is the best title for this passage?",
               "options": {
                 "A": "Arguments over Global Warming",
@@ -565,6 +618,7 @@ const TESTS = {
             },
             {
               "id": 19,
+              "type": "mc",
               "text": "“Sequestering” has closest meaning to ……….",
               "options": {
                 "A": "absorb",
@@ -575,6 +629,7 @@ const TESTS = {
             },
             {
               "id": 20,
+              "type": "mc",
               "text": "Why does the writer mention “drawbacks” in the last paragraph? 11",
               "options": {
                 "A": "To introduce the disadvantages of solutions in the following paragraph",
@@ -591,26 +646,29 @@ const TESTS = {
           "questions": [
             {
               "id": 21,
-              "text": "According to paragraph 2, the process of visual perception ……….. A.is not the same for all people B. begins with patterns of light C. is not very scientific D. requires other senses to function",
+              "type": "mc",
+              "text": "According to paragraph 2, the process of visual perception ………..",
               "options": {
-                "A": "",
-                "B": "",
-                "C": "",
-                "D": ""
+                "A": "is not the same for all people",
+                "B": "begins with patterns of light",
+                "C": "is not very scientific",
+                "D": "requires other senses to function"
               }
             },
             {
               "id": 22,
+              "type": "mc",
               "text": "What did Matisse reinterpret?",
               "options": {
-                "A": "",
-                "B": "",
-                "C": "",
-                "D": ""
+                "A": "A goddess from mythology",
+                "B": "A painting by another artist",
+                "C": "An ancient sculpture",
+                "D": "A man in history"
               }
             },
             {
               "id": 23,
+              "type": "mc",
               "text": "The word “them” in the last paragraph refers to ……….",
               "options": {
                 "A": "each attentive observer",
@@ -621,6 +679,7 @@ const TESTS = {
             },
             {
               "id": 24,
+              "type": "mc",
               "text": "The word “bequeath” in the passage is closest in meaning to ……………",
               "options": {
                 "A": "make out",
@@ -631,6 +690,7 @@ const TESTS = {
             },
             {
               "id": 25,
+              "type": "mc",
               "text": "The author mentions all of the following ways to enhance the appreciation of art EXCEPT ……",
               "options": {
                 "A": "understanding the artistic process",
@@ -641,6 +701,7 @@ const TESTS = {
             },
             {
               "id": 26,
+              "type": "mc",
               "text": "What is the main topic of this passage?",
               "options": {
                 "A": "Visual perception of sensory material",
@@ -651,6 +712,7 @@ const TESTS = {
             },
             {
               "id": 27,
+              "type": "mc",
               "text": "Which of the sentences below best expresses the information in the highlighted statement in the passage?",
               "options": {
                 "A": "We see images differently because of the mode of perception.",
@@ -661,6 +723,7 @@ const TESTS = {
             },
             {
               "id": 28,
+              "type": "mc",
               "text": "Why might Van Gogh have painted The Starry Night?",
               "options": {
                 "A": "To symbolize the journey of life after death",
@@ -671,6 +734,7 @@ const TESTS = {
             },
             {
               "id": 29,
+              "type": "mc",
               "text": "The word “intrigued” in the passage is closest in meaning to ………..",
               "options": {
                 "A": "very pleased",
@@ -681,6 +745,7 @@ const TESTS = {
             },
             {
               "id": 30,
+              "type": "mc",
               "text": "What can be inferred from the last paragraph? 13",
               "options": {
                 "A": "Greatest artworks are impossible to understand.",
@@ -697,6 +762,7 @@ const TESTS = {
           "questions": [
             {
               "id": 31,
+              "type": "mc",
               "text": "How do antibiotics treat infections?",
               "options": {
                 "A": "They interfere with the reproductive cycle of bacteria.",
@@ -707,6 +773,7 @@ const TESTS = {
             },
             {
               "id": 32,
+              "type": "mc",
               "text": "The word “them” in paragraph 4 refers to ……….",
               "options": {
                 "A": "whatever properties",
@@ -717,6 +784,7 @@ const TESTS = {
             },
             {
               "id": 33,
+              "type": "mc",
               "text": "The word “anticipated” in the passage is closest in meaning to …….",
               "options": {
                 "A": "predicted",
@@ -727,6 +795,7 @@ const TESTS = {
             },
             {
               "id": 34,
+              "type": "mc",
               "text": "Which of the following best expresses the main idea of this passage?",
               "options": {
                 "A": "The \"miracle drug\" penicillin",
@@ -737,6 +806,7 @@ const TESTS = {
             },
             {
               "id": 35,
+              "type": "mc",
               "text": "According to paragraph 4, why do some bacteria benefit from antibiotics?",
               "options": {
                 "A": "The antibiotic eliminates competing bacteria, allowing resistant bacteria to reproduce.",
@@ -747,6 +817,7 @@ const TESTS = {
             },
             {
               "id": 36,
+              "type": "mc",
               "text": "The word “complacency” in the passage is closest in meaning to ……",
               "options": {
                 "A": "consensus of agreement",
@@ -757,6 +828,7 @@ const TESTS = {
             },
             {
               "id": 37,
+              "type": "mc",
               "text": "Which of the sentences below best expresses the information in the highlighted statement in the passage?",
               "options": {
                 "A": "Some antibiotics affect a population of bacteria more efficiently than others.",
@@ -767,6 +839,7 @@ const TESTS = {
             },
             {
               "id": 38,
+              "type": "mc",
               "text": "The author mentions all of the following reasons for drug resistant bacteria to appear EXCEPT…….",
               "options": {
                 "A": "there was not enough profit incentive for companies to continue developing new antibiotics",
@@ -777,6 +850,7 @@ const TESTS = {
             },
             {
               "id": 39,
+              "type": "mc",
               "text": "It can be inferred from the passage that …….",
               "options": {
                 "A": "research to develop new antibiotics will not be necessary in the future",
@@ -787,6 +861,7 @@ const TESTS = {
             },
             {
               "id": 40,
+              "type": "mc",
               "text": "Which of the following statements is NOT a main idea of the passage?",
               "options": {
                 "A": "Many strains of bacteria have become resistant to the antibiotics currently available.",
@@ -848,6 +923,7 @@ const TESTS = {
           "questions": [
             {
               "id": 1,
+              "type": "mc",
               "text": "What colour is Mary’s coat?",
               "options": {
                 "A": "yellow",
@@ -858,6 +934,7 @@ const TESTS = {
             },
             {
               "id": 2,
+              "type": "mc",
               "text": "What did the woman repair?",
               "options": {
                 "A": "chair",
@@ -868,6 +945,7 @@ const TESTS = {
             },
             {
               "id": 3,
+              "type": "mc",
               "text": "What are they going to buy for Pam?",
               "options": {
                 "A": "a book",
@@ -878,6 +956,7 @@ const TESTS = {
             },
             {
               "id": 4,
+              "type": "mc",
               "text": "What has the girl lost?",
               "options": {
                 "A": "mobile phone",
@@ -888,6 +967,7 @@ const TESTS = {
             },
             {
               "id": 5,
+              "type": "mc",
               "text": "Which sport will the boy do soon at the centre?",
               "options": {
                 "A": "waterskiing",
@@ -898,6 +978,7 @@ const TESTS = {
             },
             {
               "id": 6,
+              "type": "mc",
               "text": "Who lives with Josh in his house?",
               "options": {
                 "A": "his grandmother",
@@ -908,6 +989,7 @@ const TESTS = {
             },
             {
               "id": 7,
+              "type": "mc",
               "text": "What will the girl take with her on holiday?",
               "options": {
                 "A": "suitcase",
@@ -918,6 +1000,7 @@ const TESTS = {
             },
             {
               "id": 8,
+              "type": "mc",
               "text": "Where do the boys decide to go?",
               "options": {
                 "A": "cinema",
@@ -933,6 +1016,7 @@ const TESTS = {
           "questions": [
             {
               "id": 9,
+              "type": "mc",
               "text": "Where was Geoff Thompson born?",
               "options": {
                 "A": "In London.",
@@ -943,6 +1027,7 @@ const TESTS = {
             },
             {
               "id": 10,
+              "type": "mc",
               "text": "How did he know about karate?",
               "options": {
                 "A": "He discovered karate by himself.",
@@ -953,6 +1038,7 @@ const TESTS = {
             },
             {
               "id": 11,
+              "type": "mc",
               "text": "When did he take part in the World Championships in Taiwan?",
               "options": {
                 "A": "In 1972. |",
@@ -963,6 +1049,7 @@ const TESTS = {
             },
             {
               "id": 12,
+              "type": "mc",
               "text": "How many times has he got the World Champion?",
               "options": {
                 "A": "Two times.",
@@ -973,6 +1060,7 @@ const TESTS = {
             },
             {
               "id": 13,
+              "type": "mc",
               "text": "Which position does this hotel need?",
               "options": {
                 "A": "A temporary staff.",
@@ -983,6 +1071,7 @@ const TESTS = {
             },
             {
               "id": 14,
+              "type": "mc",
               "text": "What about the hour of work?",
               "options": {
                 "A": "There are two shifts and two days off.",
@@ -993,6 +1082,7 @@ const TESTS = {
             },
             {
               "id": 15,
+              "type": "mc",
               "text": "What does the woman mention about the uniform?",
               "options": {
                 "A": "It’s prepared by the hotel.",
@@ -1003,6 +1093,7 @@ const TESTS = {
             },
             {
               "id": 16,
+              "type": "mc",
               "text": "When does he start his job?",
               "options": {
                 "A": "At the end of May.",
@@ -1013,6 +1104,7 @@ const TESTS = {
             },
             {
               "id": 17,
+              "type": "mc",
               "text": "What does the man plan to write his paper on?",
               "options": {
                 "A": "The preservation of old books.",
@@ -1023,6 +1115,7 @@ const TESTS = {
             },
             {
               "id": 18,
+              "type": "mc",
               "text": "What security procedures does the librarian tell the man he must follow?",
               "options": {
                 "A": "Show her his note cards before leaving.",
@@ -1033,6 +1126,7 @@ const TESTS = {
             },
             {
               "id": 19,
+              "type": "mc",
               "text": "Why did the librarian mention the age of the books?",
               "options": {
                 "A": "They need to be handled with gloves.",
@@ -1043,6 +1137,7 @@ const TESTS = {
             },
             {
               "id": 20,
+              "type": "mc",
               "text": "How did the man collect his needed information about his paper?",
               "options": {
                 "A": "He took a picture.",
@@ -1058,6 +1153,7 @@ const TESTS = {
           "questions": [
             {
               "id": 21,
+              "type": "mc",
               "text": "The presenter doesn’t wear a suit because …",
               "options": {
                 "A": "He is not an important person.",
@@ -1068,6 +1164,7 @@ const TESTS = {
             },
             {
               "id": 22,
+              "type": "mc",
               "text": "According to the speaker, which statement is TRUE?",
               "options": {
                 "A": "It’s important to look casually-dressed in public. 21",
@@ -1078,6 +1175,7 @@ const TESTS = {
             },
             {
               "id": 23,
+              "type": "mc",
               "text": "What does the phrase “Dress-down Fridays” mean?",
               "options": {
                 "A": "Employees must wear fashionable clothes on Fridays.",
@@ -1088,6 +1186,7 @@ const TESTS = {
             },
             {
               "id": 24,
+              "type": "mc",
               "text": "According to the speaker, who may be the most informal dressers?",
               "options": {
                 "A": "People working in IT",
@@ -1098,6 +1197,7 @@ const TESTS = {
             },
             {
               "id": 25,
+              "type": "mc",
               "text": "What does a customer feel about a man in uniform?",
               "options": {
                 "A": "reliable",
@@ -1108,6 +1208,7 @@ const TESTS = {
             },
             {
               "id": 26,
+              "type": "mc",
               "text": "How many hours of sleep do experts suggest for kids?",
               "options": {
                 "A": "Ten",
@@ -1118,6 +1219,7 @@ const TESTS = {
             },
             {
               "id": 27,
+              "type": "mc",
               "text": "According to the speaker, why is sleep important for the brain?",
               "options": {
                 "A": "Sleep generates dreams so brain can relax.",
@@ -1128,6 +1230,7 @@ const TESTS = {
             },
             {
               "id": 28,
+              "type": "mc",
               "text": "Why don’t the students learn well when they are tired?",
               "options": {
                 "A": "They can’t finish their homework.",
@@ -1138,6 +1241,7 @@ const TESTS = {
             },
             {
               "id": 29,
+              "type": "mc",
               "text": "Which is NOT a reason for poor sleep?",
               "options": {
                 "A": "drinking soda",
@@ -1148,6 +1252,7 @@ const TESTS = {
             },
             {
               "id": 30,
+              "type": "mc",
               "text": "What should students try to do each night?",
               "options": {
                 "A": "Watch a scary movie",
@@ -1158,6 +1263,7 @@ const TESTS = {
             },
             {
               "id": 31,
+              "type": "mc",
               "text": "Which is NOT the shape of the northern lights?",
               "options": {
                 "A": "a straight line",
@@ -1168,6 +1274,7 @@ const TESTS = {
             },
             {
               "id": 32,
+              "type": "mc",
               "text": "What does “aurora borealis” exactly mean?",
               "options": {
                 "A": "northern lights",
@@ -1178,6 +1285,7 @@ const TESTS = {
             },
             {
               "id": 33,
+              "type": "mc",
               "text": "Where is the best place to see the northern lights?",
               "options": {
                 "A": "The northernmost point of Earth",
@@ -1188,6 +1296,7 @@ const TESTS = {
             },
             {
               "id": 34,
+              "type": "mc",
               "text": "What is one of the stories developed by people before modern science?",
               "options": {
                 "A": "The lights were caused by foxes.",
@@ -1198,6 +1307,7 @@ const TESTS = {
             },
             {
               "id": 35,
+              "type": "mc",
               "text": "Which of the following is NOT mentioned in this talk?",
               "options": {
                 "A": "A description of the lights",
@@ -1218,6 +1328,7 @@ const TESTS = {
           "questions": [
             {
               "id": 1,
+              "type": "mc",
               "text": "How old was Dang Thi Nhan when she first started to bake cakes or prepare tea for the two doctors?",
               "options": {
                 "A": "20",
@@ -1228,6 +1339,7 @@ const TESTS = {
             },
             {
               "id": 2,
+              "type": "mc",
               "text": "The word \"they\" in paragraph 1 refers to ……………",
               "options": {
                 "A": "two doctors",
@@ -1238,6 +1350,7 @@ const TESTS = {
             },
             {
               "id": 3,
+              "type": "mc",
               "text": "The word \"late\" in paragraph 2 is closest in meaning to ……………….",
               "options": {
                 "A": "last-minute",
@@ -1248,6 +1361,7 @@ const TESTS = {
             },
             {
               "id": 4,
+              "type": "mc",
               "text": "The word \"its\" in paragraph 3 refers to ……………..",
               "options": {
                 "A": "Red Cross Association",
@@ -1258,6 +1372,7 @@ const TESTS = {
             },
             {
               "id": 5,
+              "type": "mc",
               "text": "Who probably did not work in a hospital before retirement?",
               "options": {
                 "A": "Le Thi Soc",
@@ -1268,6 +1383,7 @@ const TESTS = {
             },
             {
               "id": 6,
+              "type": "mc",
               "text": "In which lines does the author mention about the bad health condition of the doctors at the clinic…..",
               "options": {
                 "A": "line 5",
@@ -1278,6 +1394,7 @@ const TESTS = {
             },
             {
               "id": 7,
+              "type": "mc",
               "text": "The word \"donate\" in paragraph 3 could be best replaced by …………….",
               "options": {
                 "A": "give",
@@ -1288,6 +1405,7 @@ const TESTS = {
             },
             {
               "id": 8,
+              "type": "mc",
               "text": "What has helped Mrs. Tran Thi Toan gain confidence in her life?",
               "options": {
                 "A": "her job as a servant",
@@ -1298,6 +1416,7 @@ const TESTS = {
             },
             {
               "id": 9,
+              "type": "mc",
               "text": "In which space (marked A, B, C and D in the passage) will the following sentence fit? \"They treat me as a close member of their family. There is no discrimination between the rich and the poor. Everyone is treated equally.\" She added.",
               "options": {
                 "A": "A",
@@ -1308,6 +1427,7 @@ const TESTS = {
             },
             {
               "id": 10,
+              "type": "mc",
               "text": "The last paragraph indicates Mrs. Soc's opinion that a doctor is successful if ….",
               "options": {
                 "A": "he/ she earns a lot of money",
@@ -1324,6 +1444,7 @@ const TESTS = {
           "questions": [
             {
               "id": 11,
+              "type": "mc",
               "text": "The word \"gloom-and-doom\" in the first paragraph could be best replaced by …………….",
               "options": {
                 "A": "hopeless",
@@ -1334,6 +1455,7 @@ const TESTS = {
             },
             {
               "id": 12,
+              "type": "mc",
               "text": "According to the study, which age group has the least unemployed time?",
               "options": {
                 "A": "less than 20",
@@ -1344,6 +1466,7 @@ const TESTS = {
             },
             {
               "id": 13,
+              "type": "mc",
               "text": "In the third paragraph, what best paraphrases the sentence “It’s not very unusual for everybody to think that the reason for the difficulty in finding jobs at 50s is discrimination\"?",
               "options": {
                 "A": "People do not usually think about the cause of discrimination in finding jobs at 50s.",
@@ -1354,6 +1477,7 @@ const TESTS = {
             },
             {
               "id": 14,
+              "type": "mc",
               "text": "The word \"their\" in paragraph 4 refers to …………….",
               "options": {
                 "A": "the researchers",
@@ -1364,6 +1488,7 @@ const TESTS = {
             },
             {
               "id": 15,
+              "type": "mc",
               "text": "The word \"critical\" in paragraph 4 could be best replaced by …………..",
               "options": {
                 "A": "huge",
@@ -1374,6 +1499,7 @@ const TESTS = {
             },
             {
               "id": 16,
+              "type": "mc",
               "text": "What advice does Professor Wanberg give to over 50 year-old job seekers when they are still at early 40s?",
               "options": {
                 "A": "maintaining small but strong social networks",
@@ -1384,6 +1510,7 @@ const TESTS = {
             },
             {
               "id": 17,
+              "type": "mc",
               "text": "The word \"these drawbacks\" in paragraph 6 refers to ………….",
               "options": {
                 "A": "outdated skills and job search strategies",
@@ -1394,6 +1521,7 @@ const TESTS = {
             },
             {
               "id": 18,
+              "type": "mc",
               "text": "What of the following statements is not true according to the passage?",
               "options": {
                 "A": "Finding a job after 50 is not at all hopeless",
@@ -1404,6 +1532,7 @@ const TESTS = {
             },
             {
               "id": 19,
+              "type": "mc",
               "text": "Which of the following would best describe Professor Wanberg's attitude towards finding a job after 50?",
               "options": {
                 "A": "hopeless",
@@ -1414,6 +1543,7 @@ const TESTS = {
             },
             {
               "id": 20,
+              "type": "mc",
               "text": "What is the purpose of this passage?",
               "options": {
                 "A": "To report the difficulties of finding jobs at 50s.",
@@ -1430,6 +1560,7 @@ const TESTS = {
           "questions": [
             {
               "id": 21,
+              "type": "mc",
               "text": "The word \"it\" in line 2 refers to ……………..",
               "options": {
                 "A": "an old hostel",
@@ -1440,6 +1571,7 @@ const TESTS = {
             },
             {
               "id": 22,
+              "type": "mc",
               "text": "What did the people working at the hotel have in common?",
               "options": {
                 "A": "They knew what the guests expected.",
@@ -1450,6 +1582,7 @@ const TESTS = {
             },
             {
               "id": 23,
+              "type": "mc",
               "text": "Mary's working day was organized in order to give her …………….",
               "options": {
                 "A": "time for her school work.",
@@ -1460,6 +1593,7 @@ const TESTS = {
             },
             {
               "id": 24,
+              "type": "mc",
               "text": "In the second paragraph, what best paraphrases the sentence \"my school report predictably had not lived up to my father’s high expectations\"",
               "options": {
                 "A": "The school made a report about my expectations to my father.",
@@ -1470,6 +1604,7 @@ const TESTS = {
             },
             {
               "id": 25,
+              "type": "mc",
               "text": "What does the writer mean by \"daunting\" in line 16?",
               "options": {
                 "A": "disgusting",
@@ -1480,6 +1615,7 @@ const TESTS = {
             },
             {
               "id": 26,
+              "type": "mc",
               "text": "What did Mary do while she walked from the kitchen to the dining room?",
               "options": {
                 "A": "She smiled at Gordon in a friendly way.",
@@ -1490,6 +1626,7 @@ const TESTS = {
             },
             {
               "id": 27,
+              "type": "mc",
               "text": "Why did Mary enjoy serving breakfasts more than dinners?",
               "options": {
                 "A": "She enjoyed the view from the dining room while working.",
@@ -1500,6 +1637,7 @@ const TESTS = {
             },
             {
               "id": 28,
+              "type": "mc",
               "text": "How did Mary’s father improve her position in the hotel?",
               "options": {
                 "A": "He put her in charge of the restaurant.",
@@ -1510,6 +1648,7 @@ const TESTS = {
             },
             {
               "id": 29,
+              "type": "mc",
               "text": "What was special about the food on Mary’s Sweet Trolley?",
               "options": {
                 "A": "Mary made it following traditional recipes.",
@@ -1520,6 +1659,7 @@ const TESTS = {
             },
             {
               "id": 30,
+              "type": "mc",
               "text": "What impression does Mary give of her job throughout the passage?",
               "options": {
                 "A": "It brought her closer to her father.",
@@ -1536,6 +1676,7 @@ const TESTS = {
           "questions": [
             {
               "id": 31,
+              "type": "mc",
               "text": "What aspect of potash does the passage mainly discuss?",
               "options": {
                 "A": "How it was made",
@@ -1546,6 +1687,7 @@ const TESTS = {
             },
             {
               "id": 32,
+              "type": "mc",
               "text": "All of the following statements are true of both potash and soda EXCEPT ……………",
               "options": {
                 "A": "They are alkalis.",
@@ -1556,6 +1698,7 @@ const TESTS = {
             },
             {
               "id": 33,
+              "type": "mc",
               "text": "They phrase \"the latter\" in paragraph 1 refers to ……………….",
               "options": {
                 "A": "alkali",
@@ -1566,6 +1709,7 @@ const TESTS = {
             },
             {
               "id": 34,
+              "type": "mc",
               "text": "The word \"stressed\" in paragraph 1 could be best replaced by …………………..",
               "options": {
                 "A": "defined",
@@ -1576,6 +1720,7 @@ const TESTS = {
             },
             {
               "id": 35,
+              "type": "mc",
               "text": "The word \"interchangeable\" in paragraph 2 is closest in meaning to …..",
               "options": {
                 "A": "convenient",
@@ -1586,6 +1731,7 @@ const TESTS = {
             },
             {
               "id": 36,
+              "type": "mc",
               "text": "It can be inferred from the passage that potash was more common than soda in colonial North America because ……..",
               "options": {
                 "A": "the materials needed for making soda were not readily available",
@@ -1596,6 +1742,7 @@ const TESTS = {
             },
             {
               "id": 37,
+              "type": "mc",
               "text": "According to paragraph 4, all of the following were needed for making potash EXCEPT ……",
               "options": {
                 "A": "wood",
@@ -1606,6 +1753,7 @@ const TESTS = {
             },
             {
               "id": 38,
+              "type": "mc",
               "text": "The word \"adjunct\" in paragraph 5 is closest in meaning to ……",
               "options": {
                 "A": "addition",
@@ -1616,6 +1764,7 @@ const TESTS = {
             },
             {
               "id": 39,
+              "type": "mc",
               "text": "According to the passage, a major benefit of making potash was that …….",
               "options": {
                 "A": "it could be exported to Europe in exchange for other goods",
@@ -1626,6 +1775,7 @@ const TESTS = {
             },
             {
               "id": 40,
+              "type": "mc",
               "text": "According to paragraph 5, the softwoods in the South posed which of the following problems for southern settles?",
               "options": {
                 "A": "The softwoods were not very plentiful.",
@@ -1684,6 +1834,7 @@ const TESTS = {
           "questions": [
             {
               "id": 1,
+              "type": "mc",
               "text": "It can be inferred from the passage that the Countess of Huntingdon …",
               "options": {
                 "A": "didn't care about Phillis' poetry",
@@ -1694,6 +1845,7 @@ const TESTS = {
             },
             {
               "id": 2,
+              "type": "mc",
               "text": "What question is answered in last paragraph?",
               "options": {
                 "A": "Who did Phillis marry?",
@@ -1704,6 +1856,7 @@ const TESTS = {
             },
             {
               "id": 3,
+              "type": "mc",
               "text": "Phillis finally became free …",
               "options": {
                 "A": "when she published her poems in England",
@@ -1714,6 +1867,7 @@ const TESTS = {
             },
             {
               "id": 4,
+              "type": "mc",
               "text": "Phillis' first attempt at selling her poetry in America (the colonies) was …",
               "options": {
                 "A": "illegal",
@@ -1724,6 +1878,7 @@ const TESTS = {
             },
             {
               "id": 5,
+              "type": "mc",
               "text": "Which of the following is TRUE about Phillis Wheatley?",
               "options": {
                 "A": "She was the first African-American slave to visit England.",
@@ -1734,6 +1889,7 @@ const TESTS = {
             },
             {
               "id": 6,
+              "type": "mc",
               "text": "The Wheatley family estimated the age of the slave girl they named \"Phills\" by …",
               "options": {
                 "A": "her size",
@@ -1744,6 +1900,7 @@ const TESTS = {
             },
             {
               "id": 7,
+              "type": "mc",
               "text": "By the age of twelve, Phillis was …",
               "options": {
                 "A": "no longer a slave",
@@ -1754,6 +1911,7 @@ const TESTS = {
             },
             {
               "id": 8,
+              "type": "mc",
               "text": "The slaveowner who sold Phillis to the Wheatley family believed …",
               "options": {
                 "A": "she would soon recover from her illness",
@@ -1764,6 +1922,7 @@ const TESTS = {
             },
             {
               "id": 9,
+              "type": "mc",
               "text": "Who was George Whitefield?",
               "options": {
                 "A": "A military general",
@@ -1774,6 +1933,7 @@ const TESTS = {
             },
             {
               "id": 10,
+              "type": "mc",
               "text": "Where is Phillis Wheatley buried?",
               "options": {
                 "A": "No one knows",
@@ -1790,6 +1950,7 @@ const TESTS = {
           "questions": [
             {
               "id": 11,
+              "type": "mc",
               "text": "The phrase “attachment to” in line 2 is closest in meaning to …………",
               "options": {
                 "A": "control of",
@@ -1800,6 +1961,7 @@ const TESTS = {
             },
             {
               "id": 12,
+              "type": "mc",
               "text": "The word “protruding” in line 12 is closest in meaning to ……..",
               "options": {
                 "A": "parallel",
@@ -1810,6 +1972,7 @@ const TESTS = {
             },
             {
               "id": 13,
+              "type": "mc",
               "text": "The relationship of a mortise and a tenon is most similar to that of ……..",
               "options": {
                 "A": "a lock and a key",
@@ -1820,6 +1983,7 @@ const TESTS = {
             },
             {
               "id": 14,
+              "type": "mc",
               "text": "For what purpose did woodworkers use an auger ……….",
               "options": {
                 "A": "To whittle a peg",
@@ -1830,6 +1994,7 @@ const TESTS = {
             },
             {
               "id": 15,
+              "type": "mc",
               "text": "Which of the following were NOT used in the construction of colonial furniture?",
               "options": {
                 "A": "Mortises",
@@ -1840,6 +2005,7 @@ const TESTS = {
             },
             {
               "id": 16,
+              "type": "mc",
               "text": "The author implies that colonial metalworkers were ……",
               "options": {
                 "A": "unable to make elaborate parts",
@@ -1850,6 +2016,7 @@ const TESTS = {
             },
             {
               "id": 17,
+              "type": "mc",
               "text": "The word “shield” in line 20 is closest in meaning to ……..",
               "options": {
                 "A": "decorate",
@@ -1860,6 +2027,7 @@ const TESTS = {
             },
             {
               "id": 18,
+              "type": "mc",
               "text": "The word “they” in line 25 refers to ………….",
               "options": {
                 "A": "designs",
@@ -1870,6 +2038,7 @@ const TESTS = {
             },
             {
               "id": 19,
+              "type": "mc",
               "text": "The author implies that the colonial joiners ……..",
               "options": {
                 "A": "were highly paid",
@@ -1880,6 +2049,7 @@ const TESTS = {
             },
             {
               "id": 20,
+              "type": "mc",
               "text": "Which of the following terms does the author explain in the passage?",
               "options": {
                 "A": "“millennia”",
@@ -1896,6 +2066,7 @@ const TESTS = {
           "questions": [
             {
               "id": 21,
+              "type": "mc",
               "text": "Which of the following statements best expresses the main idea of the passage?",
               "options": {
                 "A": "By the nineteenth century, forts were no longer used by the military.",
@@ -1906,6 +2077,7 @@ const TESTS = {
             },
             {
               "id": 22,
+              "type": "mc",
               "text": "The word “daring” in line 3 is closest in meaning to ……",
               "options": {
                 "A": "lost",
@@ -1916,16 +2088,18 @@ const TESTS = {
             },
             {
               "id": 23,
+              "type": "mc",
               "text": "Which of the following would a traveler be likely be LEAST likely to obtain at Fort Laramie?",
               "options": {
-                "A": "",
-                "B": "",
-                "C": "",
-                "D": ""
+                "A": "Fresh water",
+                "B": "Food",
+                "C": "Formal clothing",
+                "D": "Lodging 44"
               }
             },
             {
               "id": 24,
+              "type": "mc",
               "text": "The word “others” in line 6 refers to ……",
               "options": {
                 "A": "posts",
@@ -1936,6 +2110,7 @@ const TESTS = {
             },
             {
               "id": 25,
+              "type": "mc",
               "text": "The word “boosted\" in line 12 is closest in meaning to …….",
               "options": {
                 "A": "influenced",
@@ -1946,6 +2121,7 @@ const TESTS = {
             },
             {
               "id": 26,
+              "type": "mc",
               "text": "Which of the following is the most likely inference about the decision to promote gardening at forts?",
               "options": {
                 "A": "It was expensive to import produce from far away.",
@@ -1956,6 +2132,7 @@ const TESTS = {
             },
             {
               "id": 27,
+              "type": "mc",
               "text": "According to the passage, which of the following posed the biggest obstacle to the development of military forts?",
               "options": {
                 "A": "Insufficient shelter",
@@ -1966,6 +2143,7 @@ const TESTS = {
             },
             {
               "id": 28,
+              "type": "mc",
               "text": "The word “inhibited” in line 22 is closest in meaning to ………..",
               "options": {
                 "A": "involved",
@@ -1976,6 +2154,7 @@ const TESTS = {
             },
             {
               "id": 29,
+              "type": "mc",
               "text": "How did the military assists in the investigation of health problems?",
               "options": {
                 "A": "By registering annual birth and death rates",
@@ -1986,6 +2165,7 @@ const TESTS = {
             },
             {
               "id": 30,
+              "type": "mc",
               "text": "The author organizes the discussion of forts by …………..",
               "options": {
                 "A": "describing their locations | | | | | | ------------------------------ | --- | --- | --- | --- |",
@@ -2002,6 +2182,7 @@ const TESTS = {
           "questions": [
             {
               "id": 31,
+              "type": "mc",
               "text": "What does the passage mainly discuss?",
               "options": {
                 "A": "The location of fossils in North America",
@@ -2012,6 +2193,7 @@ const TESTS = {
             },
             {
               "id": 32,
+              "type": "mc",
               "text": "The word “counterpart” in line 2 is closest in meaning to ……..",
               "options": {
                 "A": "species",
@@ -2022,6 +2204,7 @@ const TESTS = {
             },
             {
               "id": 33,
+              "type": "mc",
               "text": "Why is fossilized bone heavier than ordinary bone?",
               "options": {
                 "A": "Bone tissue solidifies with age.",
@@ -2032,6 +2215,7 @@ const TESTS = {
             },
             {
               "id": 34,
+              "type": "mc",
               "text": "The word “pores” in line 6 is closest in meaning to…………",
               "options": {
                 "A": "joints",
@@ -2042,6 +2226,7 @@ const TESTS = {
             },
             {
               "id": 35,
+              "type": "mc",
               "text": "What can be inferred about a fossil with a high degree of mineralization?",
               "options": {
                 "A": "It was exposed to large amounts of mineral-laden water throughout time.",
@@ -2052,6 +2237,7 @@ const TESTS = {
             },
             {
               "id": 36,
+              "type": "mc",
               "text": "Which of the following factors is most important in determining the extent of mineralization in fossil bones?",
               "options": {
                 "A": "The age of fossil",
@@ -2062,6 +2248,7 @@ const TESTS = {
             },
             {
               "id": 37,
+              "type": "mc",
               "text": "Why does the author compare fossils found in western Canada to those found in Florida?",
               "options": {
                 "A": "To prove that a fossil’s age cannot be determined by the amount of mineralization.",
@@ -2072,6 +2259,7 @@ const TESTS = {
             },
             {
               "id": 38,
+              "type": "mc",
               "text": "The word “it” in line 21 refers to ………",
               "options": {
                 "A": "hydroxyapatite",
@@ -2082,6 +2270,7 @@ const TESTS = {
             },
             {
               "id": 39,
+              "type": "mc",
               "text": "The word “detectable” in line 23 is closest in meaning to ………….",
               "options": {
                 "A": "sizable",
@@ -2092,6 +2281,7 @@ const TESTS = {
             },
             {
               "id": 40,
+              "type": "mc",
               "text": "Which of the following does NOT survive in fossils?",
               "options": {
                 "A": "Noncollagen proteins",
@@ -2130,6 +2320,7 @@ const TESTS = {
           "questions": [
             {
               "id": 1,
+              "type": "mc",
               "text": "What is John going to do tonight?",
               "options": {
                 "A": "swimming",
@@ -2140,6 +2331,7 @@ const TESTS = {
             },
             {
               "id": 2,
+              "type": "mc",
               "text": "Which bag does the woman buy?",
               "options": {
                 "A": "square bag",
@@ -2150,6 +2342,7 @@ const TESTS = {
             },
             {
               "id": 3,
+              "type": "mc",
               "text": "How much did the woman pay for the apples?",
               "options": {
                 "A": "30 pence",
@@ -2160,6 +2353,7 @@ const TESTS = {
             },
             {
               "id": 4,
+              "type": "mc",
               "text": "When must the boys get on the coach?",
               "options": {
                 "A": "12:50",
@@ -2170,6 +2364,7 @@ const TESTS = {
             },
             {
               "id": 5,
+              "type": "mc",
               "text": "What fruit do they take?",
               "options": {
                 "A": "oranges",
@@ -2180,6 +2375,7 @@ const TESTS = {
             },
             {
               "id": 6,
+              "type": "mc",
               "text": "Which present has the man bought?",
               "options": {
                 "A": "book",
@@ -2190,6 +2386,7 @@ const TESTS = {
             },
             {
               "id": 7,
+              "type": "mc",
               "text": "Where are the photographs?",
               "options": {
                 "A": "on the bookshelf",
@@ -2200,6 +2397,7 @@ const TESTS = {
             },
             {
               "id": 8,
+              "type": "mc",
               "text": "What did Ben break?",
               "options": {
                 "A": "vase",
@@ -2215,6 +2413,7 @@ const TESTS = {
           "questions": [
             {
               "id": 9,
+              "type": "mc",
               "text": "When is the picnic?",
               "options": {
                 "A": "on Thursday",
@@ -2225,6 +2424,7 @@ const TESTS = {
             },
             {
               "id": 10,
+              "type": "mc",
               "text": "Where is the picnic being held?",
               "options": {
                 "A": "at a park",
@@ -2235,6 +2435,7 @@ const TESTS = {
             },
             {
               "id": 11,
+              "type": "mc",
               "text": "How many packages of hot dogs do they decide to buy?",
               "options": {
                 "A": "6",
@@ -2245,6 +2446,7 @@ const TESTS = {
             },
             {
               "id": 12,
+              "type": "mc",
               "text": "What does Dave suggest Scott make for the picnic dessert?",
               "options": {
                 "A": "cherry pie",
@@ -2255,6 +2457,7 @@ const TESTS = {
             },
             {
               "id": 13,
+              "type": "mc",
               "text": "What does the boy want to do at the beginning of the conversation?",
               "options": {
                 "A": "go play outside",
@@ -2265,6 +2468,7 @@ const TESTS = {
             },
             {
               "id": 14,
+              "type": "mc",
               "text": "What does the boy have to do in his bedroom?",
               "options": {
                 "A": "put away his books",
@@ -2275,6 +2479,7 @@ const TESTS = {
             },
             {
               "id": 15,
+              "type": "mc",
               "text": "What is the father going to do while the boy is doing his household chores?",
               "options": {
                 "A": "wash the car",
@@ -2285,6 +2490,7 @@ const TESTS = {
             },
             {
               "id": 16,
+              "type": "mc",
               "text": "Where will the father and son go after the housework is done?",
               "options": {
                 "A": "to a movie",
@@ -2295,6 +2501,7 @@ const TESTS = {
             },
             {
               "id": 17,
+              "type": "mc",
               "text": "What time does the plane depart?",
               "options": {
                 "A": "6:00 AM",
@@ -2305,6 +2512,7 @@ const TESTS = {
             },
             {
               "id": 18,
+              "type": "mc",
               "text": "How will the group get to the hotel from the airport? 51",
               "options": {
                 "A": "They will take taxis | |",
@@ -2315,6 +2523,7 @@ const TESTS = {
             },
             {
               "id": 19,
+              "type": "mc",
               "text": "What is the group planning to do around Times Square for about an hour?",
               "options": {
                 "A": "They're going to have lunch.",
@@ -2325,6 +2534,7 @@ const TESTS = {
             },
             {
               "id": 20,
+              "type": "mc",
               "text": "What are they going to do after dinner?",
               "options": {
                 "A": "The group is going to watch a musical.",
@@ -2340,6 +2550,7 @@ const TESTS = {
           "questions": [
             {
               "id": 21,
+              "type": "mc",
               "text": "The first old ship which Frank found was ……….",
               "options": {
                 "A": "covered by rocks",
@@ -2350,6 +2561,7 @@ const TESTS = {
             },
             {
               "id": 22,
+              "type": "mc",
               "text": "Why did Frank find the ships so quickly?",
               "options": {
                 "A": "reads history books.",
@@ -2360,6 +2572,7 @@ const TESTS = {
             },
             {
               "id": 23,
+              "type": "mc",
               "text": "What does Frank say about the ship called The Seabird?",
               "options": {
                 "A": "It was so expensive.",
@@ -2370,6 +2583,7 @@ const TESTS = {
             },
             {
               "id": 24,
+              "type": "mc",
               "text": "What did Frank say about his wedding ring?",
               "options": {
                 "A": "was made from gold he found himself.",
@@ -2380,6 +2594,7 @@ const TESTS = {
             },
             {
               "id": 25,
+              "type": "mc",
               "text": "How did Frank learn to dive?",
               "options": {
                 "A": "by joining a diving club",
@@ -2390,6 +2605,7 @@ const TESTS = {
             },
             {
               "id": 26,
+              "type": "short",
               "text": "The Black Rock Caves have been home for…. | A .Two million years | | B. A million year | | | ------------------------- | --- | ------------------ | --- | | C. A half a million year | | D. centuries | |",
               "options": {
                 "A": "",
@@ -2400,6 +2616,7 @@ const TESTS = {
             },
             {
               "id": 27,
+              "type": "mc",
               "text": "When can the cave attract the tourists?",
               "options": {
                 "A": "from April to October",
@@ -2410,16 +2627,18 @@ const TESTS = {
             },
             {
               "id": 28,
-              "text": "Salter house was built in ………… | A.1765s | B. 1756s | C.1928s | D.1982s | | -------- | ----------- | -------- | ---------- |",
+              "type": "mc",
+              "text": "Salter house was built in …………",
               "options": {
-                "A": "",
-                "B": "",
-                "C": "",
-                "D": ""
+                "A": "1765s",
+                "B": "1756s",
+                "C": "1928s",
+                "D": "1982s"
               }
             },
             {
               "id": 29,
+              "type": "mc",
               "text": "The things that are worth to visit in Salter house is …………",
               "options": {
                 "A": "the furniture",
@@ -2430,6 +2649,7 @@ const TESTS = {
             },
             {
               "id": 30,
+              "type": "mc",
               "text": "What should tourists do as visiting The Old Port?",
               "options": {
                 "A": "take an old trek to visit the riverside",
@@ -2440,6 +2660,7 @@ const TESTS = {
             },
             {
               "id": 31,
+              "type": "mc",
               "text": "What does the professor say about the elements in the body?",
               "options": {
                 "A": "Ideally, these should be different amounts of each. | | | | | ------------------------------------------------------- | --- | --- | --- |",
@@ -2450,6 +2671,7 @@ const TESTS = {
             },
             {
               "id": 32,
+              "type": "mc",
               "text": "According to the professor, what are yin and yang?",
               "options": {
                 "A": "They are opposite forces.",
@@ -2460,6 +2682,7 @@ const TESTS = {
             },
             {
               "id": 33,
+              "type": "mc",
               "text": "What does the professor say about yin and yang?",
               "options": {
                 "A": "They are always in balance.",
@@ -2470,6 +2693,7 @@ const TESTS = {
             },
             {
               "id": 34,
+              "type": "mc",
               "text": "According to the Chinese, five elements of Yin and Yang are studied for the work of",
               "options": {
                 "A": "",
@@ -2480,6 +2704,7 @@ const TESTS = {
             },
             {
               "id": 35,
+              "type": "mc",
               "text": "Why does the professor says “Yin and Yang should be considered as opposite forces like, uhh, like land and ocean, for example”?",
               "options": {
                 "A": "To correct something she said earlier",
@@ -2500,6 +2725,7 @@ const TESTS = {
           "questions": [
             {
               "id": 1,
+              "type": "mc",
               "text": "The new housing form discussed in the passage refers to ………….",
               "options": {
                 "A": "single-family homes",
@@ -2510,6 +2736,7 @@ const TESTS = {
             },
             {
               "id": 2,
+              "type": "mc",
               "text": "The word “inviting” in line 6 is closest in meaning to …………..",
               "options": {
                 "A": "open",
@@ -2520,6 +2747,7 @@ const TESTS = {
             },
             {
               "id": 3,
+              "type": "mc",
               "text": "Why was the Stuyvesant a limited success?",
               "options": {
                 "A": "The arrangement of the rooms was not convenient. | | | | | | | ---------------------------------------------------- | --- | --- | --- | --- | --- |",
@@ -2530,6 +2758,7 @@ const TESTS = {
             },
             {
               "id": 4,
+              "type": "mc",
               "text": "The word “sumptuous” in line 7 is closest in meaning to ………….",
               "options": {
                 "A": "luxurious",
@@ -2540,6 +2769,7 @@ const TESTS = {
             },
             {
               "id": 5,
+              "type": "mc",
               "text": "It can be inferred that the majority of people who lived in New York’ s first apartments were ………..",
               "options": {
                 "A": "highly educated",
@@ -2550,6 +2780,7 @@ const TESTS = {
             },
             {
               "id": 6,
+              "type": "mc",
               "text": "It can be inferred that the typical New York building lot of the 1870’s and 1880’s looked MOST like which of the following?",
               "options": {
                 "A": "",
@@ -2560,6 +2791,7 @@ const TESTS = {
             },
             {
               "id": 7,
+              "type": "mc",
               "text": "It can be inferred that a New York apartment building in the 1870’s and 1880’s had all of the following characteristics EXCEPT ……….",
               "options": {
                 "A": "Its room arrangement was not logical.",
@@ -2570,6 +2802,7 @@ const TESTS = {
             },
             {
               "id": 8,
+              "type": "mc",
               "text": "The word “yield” in line 12 is closest in meaning to ………",
               "options": {
                 "A": "harvest",
@@ -2580,6 +2813,7 @@ const TESTS = {
             },
             {
               "id": 9,
+              "type": "mc",
               "text": "Why did the idea of living in an apartment become popular in the late 1800’s?",
               "options": {
                 "A": "Large families needed housing with sufficient space.",
@@ -2590,6 +2824,7 @@ const TESTS = {
             },
             {
               "id": 10,
+              "type": "mc",
               "text": "The author mentions the Dakota and the Ansonia in line 24 because …………",
               "options": {
                 "A": "they are examples of large, well designed apartment buildings",
@@ -2606,6 +2841,7 @@ const TESTS = {
           "questions": [
             {
               "id": 11,
+              "type": "mc",
               "text": "Which of the following questions does the author answer in the first paragraph?",
               "options": {
                 "A": "Why are snowflakes hexagonal? | | | | | | --------------------------------- | --- | --- | --- | --- |",
@@ -2616,6 +2852,7 @@ const TESTS = {
             },
             {
               "id": 12,
+              "type": "mc",
               "text": "The word “minute” in line 1 is closest in meaning to ………..",
               "options": {
                 "A": "tiny",
@@ -2626,6 +2863,7 @@ const TESTS = {
             },
             {
               "id": 13,
+              "type": "mc",
               "text": "What is at the center of an ice crystal?",
               "options": {
                 "A": "A small snowflake",
@@ -2636,6 +2874,7 @@ const TESTS = {
             },
             {
               "id": 14,
+              "type": "mc",
               "text": "The word “adhere” in line 8 is closest in meaning to ……………..",
               "options": {
                 "A": "belong",
@@ -2646,6 +2885,7 @@ const TESTS = {
             },
             {
               "id": 15,
+              "type": "mc",
               "text": "What is the main topic of the second paragraph?",
               "options": {
                 "A": "How ice crystals form | | | | | | ------------------------- | --- | --- | --- | --- |",
@@ -2656,6 +2896,7 @@ const TESTS = {
             },
             {
               "id": 16,
+              "type": "mc",
               "text": "The word “it” in line 13 refers to …………….",
               "options": {
                 "A": "snowfall",
@@ -2666,6 +2907,7 @@ const TESTS = {
             },
             {
               "id": 17,
+              "type": "mc",
               "text": "What is necessary for a snowfall to persist?",
               "options": {
                 "A": "A decrease in the number of snowflakes",
@@ -2676,6 +2918,7 @@ const TESTS = {
             },
             {
               "id": 18,
+              "type": "mc",
               "text": "How do lake-effect snowstorms form?",
               "options": {
                 "A": "Water temperature drop below freezing. | | | | | | ------------------------------------------- | --- | --- | --- | --- |",
@@ -2686,6 +2929,7 @@ const TESTS = {
             },
             {
               "id": 19,
+              "type": "mc",
               "text": "The word “initiate” in line 21 is closest in meaning to ……………. 58",
               "options": {
                 "A": "enhance",
@@ -2696,6 +2940,7 @@ const TESTS = {
             },
             {
               "id": 20,
+              "type": "mc",
               "text": "Which of the following could account for the lack of snowfall in a geographical location close to mountains and a major water source?",
               "options": {
                 "A": "Ground temperatures below the freezing point",
@@ -2712,6 +2957,7 @@ const TESTS = {
           "questions": [
             {
               "id": 21,
+              "type": "mc",
               "text": "Which of the following statements best represents the main idea of the passage?",
               "options": {
                 "A": "Ants belonging to the genus Formica are incapable of performing certain tasks.",
@@ -2722,6 +2968,7 @@ const TESTS = {
             },
             {
               "id": 22,
+              "type": "mc",
               "text": "The word \"raise\" in line 1 is closest in meaning to…………..",
               "options": {
                 "A": "rear",
@@ -2732,6 +2979,7 @@ const TESTS = {
             },
             {
               "id": 23,
+              "type": "mc",
               "text": "The author mentions cuckoos and cowbirds in line 2 because they",
               "options": {
                 "A": "share their nests with each other",
@@ -2742,6 +2990,7 @@ const TESTS = {
             },
             {
               "id": 24,
+              "type": "mc",
               "text": "The word \"it\" in line 3 refers to ………",
               "options": {
                 "A": "species",
@@ -2752,6 +3001,7 @@ const TESTS = {
             },
             {
               "id": 25,
+              "type": "mc",
               "text": "What does the author mean by stating that “The dulotic species of lifts... are die supreme social parasites\" (line 4)?",
               "options": {
                 "A": "The Polyergus are more highly developed than die Formica.",
@@ -2762,6 +3012,7 @@ const TESTS = {
             },
             {
               "id": 26,
+              "type": "mc",
               "text": "Which of the following is a task that an ant of the genus Polyergus might do?",
               "options": {
                 "A": "Look for food.",
@@ -2772,6 +3023,7 @@ const TESTS = {
             },
             {
               "id": 27,
+              "type": "mc",
               "text": "The word \"excavate\" in line 14 is closest in meaning to ………….",
               "options": {
                 "A": "find",
@@ -2782,6 +3034,7 @@ const TESTS = {
             },
             {
               "id": 28,
+              "type": "mc",
               "text": "The word \"recruit\" in line 18 is closest in meaning ………….",
               "options": {
                 "A": "create",
@@ -2792,6 +3045,7 @@ const TESTS = {
             },
             {
               "id": 29,
+              "type": "mc",
               "text": "What happens when a mixed colony of Polyergus and Formica ants becomes too large?",
               "options": {
                 "A": "The Polyergus workers enlarge the existing nest.",
@@ -2802,6 +3056,7 @@ const TESTS = {
             },
             {
               "id": 30,
+              "type": "mc",
               "text": "According to the information in the passage, all of the following terms refer to ants belonging to the genus Formica EXCEPT the …………",
               "options": {
                 "A": "dulotic species of ants",
@@ -2818,6 +3073,7 @@ const TESTS = {
           "questions": [
             {
               "id": 31,
+              "type": "mc",
               "text": "What does the passage mainly discuss?",
               "options": {
                 "A": "The reason that Winterthur was redesigned",
@@ -2828,6 +3084,7 @@ const TESTS = {
             },
             {
               "id": 32,
+              "type": "mc",
               "text": "The phrase \"devoted to\" in line 1 is closest in meaning to ……..",
               "options": {
                 "A": "surrounded by",
@@ -2838,6 +3095,7 @@ const TESTS = {
             },
             {
               "id": 33,
+              "type": "mc",
               "text": "What happened at Winterthur between 1929 and 1931? 61",
               "options": {
                 "A": "The owners moved out.",
@@ -2848,6 +3106,7 @@ const TESTS = {
             },
             {
               "id": 34,
+              "type": "mc",
               "text": "What does the author mean by stating \"The impression of a lived-in house is apparent to the visitor\" (line 6)?",
               "options": {
                 "A": "Winterthur is very old.",
@@ -2858,6 +3117,7 @@ const TESTS = {
             },
             {
               "id": 35,
+              "type": "mc",
               "text": "The word \"assembled\" in line 9 is closest in meaning to ………..",
               "options": {
                 "A": "summoned",
@@ -2868,6 +3128,7 @@ const TESTS = {
             },
             {
               "id": 36,
+              "type": "mc",
               "text": "The word \"it\" in line 10 refers to …………",
               "options": {
                 "A": "Winterthur",
@@ -2878,6 +3139,7 @@ const TESTS = {
             },
             {
               "id": 37,
+              "type": "mc",
               "text": "The word \"developing\" in line 11 is closest in meaning to ………….",
               "options": {
                 "A": "traditional",
@@ -2888,6 +3150,7 @@ const TESTS = {
             },
             {
               "id": 38,
+              "type": "mc",
               "text": "According to the passage, objects in a period room are related by all of the following EXCEPT ………",
               "options": {
                 "A": "date",
@@ -2898,6 +3161,7 @@ const TESTS = {
             },
             {
               "id": 39,
+              "type": "mc",
               "text": "What is die relationship between the two paragraphs in the passage?",
               "options": {
                 "A": "The second paragraph explains a term that was mentioned in the first paragraph.",
@@ -2908,6 +3172,7 @@ const TESTS = {
             },
             {
               "id": 40,
+              "type": "mc",
               "text": "Where in the passage does the author explain why displays at Winterthur have changed?",
               "options": {
                 "A": "lines 1-3",
@@ -2974,6 +3239,7 @@ const TESTS = {
           "questions": [
             {
               "id": 1,
+              "type": "mc",
               "text": "ASEAN is the main political and economic organization in",
               "options": {
                 "A": "East Asia",
@@ -2984,6 +3250,7 @@ const TESTS = {
             },
             {
               "id": 2,
+              "type": "mc",
               "text": "What does the word “It” in paragraph 2 refer to?",
               "options": {
                 "A": "ASEAN",
@@ -2994,6 +3261,7 @@ const TESTS = {
             },
             {
               "id": 3,
+              "type": "mc",
               "text": "According to Anthony Nelson, what is the important issue at the meetings?",
               "options": {
                 "A": "Security",
@@ -3004,6 +3272,7 @@ const TESTS = {
             },
             {
               "id": 4,
+              "type": "mc",
               "text": "According to the passage, what aspect tends to happen around the ASEAN economic ministers?",
               "options": {
                 "A": "Security",
@@ -3014,6 +3283,7 @@ const TESTS = {
             },
             {
               "id": 5,
+              "type": "mc",
               "text": "According to the passage, how many countries in the ASEAN will start limited trials?",
               "options": {
                 "A": "3",
@@ -3024,6 +3294,7 @@ const TESTS = {
             },
             {
               "id": 6,
+              "type": "mc",
               "text": "The word “credentials” in line 24 can be replaced by",
               "options": {
                 "A": "letters",
@@ -3034,6 +3305,7 @@ const TESTS = {
             },
             {
               "id": 7,
+              "type": "mc",
               "text": "The word “implementing” in line 25 is closest in meaning to",
               "options": {
                 "A": "carrying out",
@@ -3044,6 +3316,7 @@ const TESTS = {
             },
             {
               "id": 8,
+              "type": "mc",
               "text": "The word “integration” in line 29 can be replaced by",
               "options": {
                 "A": "utilization",
@@ -3054,6 +3327,7 @@ const TESTS = {
             },
             {
               "id": 9,
+              "type": "mc",
               "text": "According to the passage, what would delay the increase of the economy?",
               "options": {
                 "A": "the recession",
@@ -3064,6 +3338,7 @@ const TESTS = {
             },
             {
               "id": 10,
+              "type": "mc",
               "text": "According to the passage, who require more assurance?",
               "options": {
                 "A": "travellers",
@@ -3080,6 +3355,7 @@ const TESTS = {
           "questions": [
             {
               "id": 11,
+              "type": "mc",
               "text": "According to the passage, what was the main event in 1969?",
               "options": {
                 "A": "Scientists planned to travel to space.",
@@ -3090,6 +3366,7 @@ const TESTS = {
             },
             {
               "id": 12,
+              "type": "mc",
               "text": "When did Dennis Tito dream of becoming an astronaut?",
               "options": {
                 "A": "When he was at kindergarten.",
@@ -3100,6 +3377,7 @@ const TESTS = {
             },
             {
               "id": 13,
+              "type": "mc",
               "text": "Dennis Tito made the first trip as a space tourist________",
               "options": {
                 "A": "in the late ‘60s.",
@@ -3110,6 +3388,7 @@ const TESTS = {
             },
             {
               "id": 14,
+              "type": "mc",
               "text": "Which of the following is NOT true about Dennis Tito?",
               "options": {
                 "A": "He has an advanced degree in aerospace engineering.",
@@ -3120,6 +3399,7 @@ const TESTS = {
             },
             {
               "id": 15,
+              "type": "mc",
               "text": "Tito’s first trip into space was with__________ to___________.",
               "options": {
                 "A": "the Russian/ the International Space Station.",
@@ -3130,6 +3410,7 @@ const TESTS = {
             },
             {
               "id": 16,
+              "type": "mc",
               "text": "Which of the following describes NASA’s feelings about Tito’s trip into space?",
               "options": {
                 "A": "extremely proud",
@@ -3140,6 +3421,7 @@ const TESTS = {
             },
             {
               "id": 17,
+              "type": "mc",
               "text": "According to Japanese survey, which of the following is true?",
               "options": {
                 "A": "Eighty percent of all those interviewed would be interested in travelling to space.",
@@ -3150,6 +3432,7 @@ const TESTS = {
             },
             {
               "id": 18,
+              "type": "mc",
               "text": "According to a North American survey on space travel, which is true?",
               "options": {
                 "A": "Seventy – five percent of those surveyed would be interested in travelling to space.",
@@ -3160,6 +3443,7 @@ const TESTS = {
             },
             {
               "id": 19,
+              "type": "mc",
               "text": "According to the passage, who did not believe that Tito was trained well enough for the trip to space? 73",
               "options": {
                 "A": "Russian Training Center.",
@@ -3170,6 +3454,7 @@ const TESTS = {
             },
             {
               "id": 20,
+              "type": "mc",
               "text": "Which of the following would probably prevent you from becoming a space tourist in the near future?",
               "options": {
                 "A": "health",
@@ -3186,6 +3471,7 @@ const TESTS = {
           "questions": [
             {
               "id": 21,
+              "type": "mc",
               "text": "Which of the following best states the main idea of the passage?",
               "options": {
                 "A": "America’s railroads used to provide much of the country’s transportation.",
@@ -3196,6 +3482,7 @@ const TESTS = {
             },
             {
               "id": 22,
+              "type": "mc",
               "text": "A “heyday” in line 1 is most probably a ………….",
               "options": {
                 "A": "time for harvest.",
@@ -3206,6 +3493,7 @@ const TESTS = {
             },
             {
               "id": 23,
+              "type": "mc",
               "text": "It can be inferred from the passage that before the Civil War, sleeping cars …………",
               "options": {
                 "A": "were used abundantly.",
@@ -3216,6 +3504,7 @@ const TESTS = {
             },
             {
               "id": 24,
+              "type": "mc",
               "text": "What is the main idea of paragraph 2?",
               "options": {
                 "A": "Pullman had been successful in selling his sleeping cars.",
@@ -3226,6 +3515,7 @@ const TESTS = {
             },
             {
               "id": 25,
+              "type": "mc",
               "text": "What was the initial problem that made Pullman’s card unusable?",
               "options": {
                 "A": "They were too large.",
@@ -3236,6 +3526,7 @@ const TESTS = {
             },
             {
               "id": 26,
+              "type": "mc",
               "text": "What is stated in the passage about George Pullman?",
               "options": {
                 "A": "He once had a job in a store.",
@@ -3246,6 +3537,7 @@ const TESTS = {
             },
             {
               "id": 27,
+              "type": "mc",
               "text": "What is true about the sleeping cars?",
               "options": {
                 "A": "The experimental models of sleeping cars had not been successful until 1863.",
@@ -3256,6 +3548,7 @@ const TESTS = {
             },
             {
               "id": 28,
+              "type": "mc",
               "text": "Why did the state of Illinois want to use the Pullman in Lincoln’s funeral train?",
               "options": {
                 "A": "It was superior to other cars.",
@@ -3266,6 +3559,7 @@ const TESTS = {
             },
             {
               "id": 29,
+              "type": "mc",
               "text": "It can be inferred from the passage that the Michigan Central Railroad ………",
               "options": {
                 "A": "was owned by George Pullman.",
@@ -3276,6 +3570,7 @@ const TESTS = {
             },
             {
               "id": 30,
+              "type": "mc",
               "text": "This passage would most likely be assigned in which of the following courses?",
               "options": {
                 "A": "Engineering",
@@ -3292,6 +3587,7 @@ const TESTS = {
           "questions": [
             {
               "id": 31,
+              "type": "mc",
               "text": "Which best explains why the author begins the text by talking about magical garbage fairies?",
               "options": {
                 "A": "He is putting a common misconception to rest. 76",
@@ -3302,6 +3598,7 @@ const TESTS = {
             },
             {
               "id": 32,
+              "type": "mc",
               "text": "Which best expresses the meaning of the word “compacted” as it is used in the third paragraph?",
               "options": {
                 "A": "Garbage is burned before it is thrown in a hole.",
@@ -3312,6 +3609,7 @@ const TESTS = {
             },
             {
               "id": 33,
+              "type": "mc",
               "text": "Which was NOT cited in the third paragraph as an issue with land-filling?",
               "options": {
                 "A": "Landfills are smelly.",
@@ -3322,6 +3620,7 @@ const TESTS = {
             },
             {
               "id": 34,
+              "type": "mc",
               "text": "Which best expresses the main idea of the fourth paragraph?",
               "options": {
                 "A": "Landfills take up a lot of space.",
@@ -3332,6 +3631,7 @@ const TESTS = {
             },
             {
               "id": 35,
+              "type": "mc",
               "text": "Which best defines the meaning of incineration as it is used in the text?",
               "options": {
                 "A": "To bury waste materials in a large hole",
@@ -3342,6 +3642,7 @@ const TESTS = {
             },
             {
               "id": 36,
+              "type": "mc",
               "text": "Which conclusion could be supported with text from the passage?",
               "options": {
                 "A": "Each method of waste management has its drawbacks.",
@@ -3352,6 +3653,7 @@ const TESTS = {
             },
             {
               "id": 37,
+              "type": "mc",
               "text": "Which best expresses the author’s main purpose in writing this?",
               "options": {
                 "A": "To convince readers to recycle and compost",
@@ -3362,6 +3664,7 @@ const TESTS = {
             },
             {
               "id": 38,
+              "type": "mc",
               "text": "Which is NOT included in this text?",
               "options": {
                 "A": "A description of how trash is collected",
@@ -3372,6 +3675,7 @@ const TESTS = {
             },
             {
               "id": 39,
+              "type": "mc",
               "text": "Which best explains why composting is not feasible on a large scale?",
               "options": {
                 "A": "People wouldn’t want to touch all of that gross rotting food.",
@@ -3382,6 +3686,7 @@ const TESTS = {
             },
             {
               "id": 40,
+              "type": "mc",
               "text": "Which title best expresses the main idea of this text?",
               "options": {
                 "A": "The Magic of Recycling: Bringing Back What Was Once Lost",
@@ -3431,6 +3736,7 @@ const TESTS = {
           "questions": [
             {
               "id": 1,
+              "type": "mc",
               "text": "How will Mary travel to Scotland?",
               "options": {
                 "A": "bus",
@@ -3441,6 +3747,7 @@ const TESTS = {
             },
             {
               "id": 2,
+              "type": "mc",
               "text": "Where are the shoes?",
               "options": {
                 "A": "under the window",
@@ -3451,6 +3758,7 @@ const TESTS = {
             },
             {
               "id": 3,
+              "type": "mc",
               "text": "When will the football match start next week?",
               "options": {
                 "A": "11.45 a.m",
@@ -3461,6 +3769,7 @@ const TESTS = {
             },
             {
               "id": 4,
+              "type": "mc",
               "text": "What is Sarah’s mother doing?",
               "options": {
                 "A": "going out",
@@ -3471,6 +3780,7 @@ const TESTS = {
             },
             {
               "id": 5,
+              "type": "mc",
               "text": "What luggage is the man taking on holiday?",
               "options": {
                 "A": "two suitcases and a bag",
@@ -3481,6 +3791,7 @@ const TESTS = {
             },
             {
               "id": 6,
+              "type": "mc",
               "text": "Where will the woman go first after work?",
               "options": {
                 "A": "the restaurant",
@@ -3491,6 +3802,7 @@ const TESTS = {
             },
             {
               "id": 7,
+              "type": "mc",
               "text": "What can festival visitors see everyday?",
               "options": {
                 "A": "plays",
@@ -3501,6 +3813,7 @@ const TESTS = {
             },
             {
               "id": 8,
+              "type": "mc",
               "text": "What souvernir will the boy’s mother bring?",
               "options": {
                 "A": "a T-shirt",
@@ -3516,6 +3829,7 @@ const TESTS = {
           "questions": [
             {
               "id": 9,
+              "type": "mc",
               "text": "When was the center first opened?",
               "options": {
                 "A": "three years ago",
@@ -3526,6 +3840,7 @@ const TESTS = {
             },
             {
               "id": 10,
+              "type": "mc",
               "text": "How can you get to the center?",
               "options": {
                 "A": "by car and taxi",
@@ -3536,6 +3851,7 @@ const TESTS = {
             },
             {
               "id": 11,
+              "type": "mc",
               "text": "What time do the shops close on Saturday?",
               "options": {
                 "A": "9:00 am",
@@ -3546,6 +3862,7 @@ const TESTS = {
             },
             {
               "id": 12,
+              "type": "mc",
               "text": "What should people do before shopping in the center?",
               "options": {
                 "A": "collect money from the bank",
@@ -3556,6 +3873,7 @@ const TESTS = {
             },
             {
               "id": 13,
+              "type": "mc",
               "text": "Why did Serengeti lions die?",
               "options": {
                 "A": "attacked by domestic dogs",
@@ -3566,6 +3884,7 @@ const TESTS = {
             },
             {
               "id": 14,
+              "type": "mc",
               "text": "What events are NOT organized in the park?",
               "options": {
                 "A": "product introduction",
@@ -3576,6 +3895,7 @@ const TESTS = {
             },
             {
               "id": 15,
+              "type": "mc",
               "text": "You can try this when coming to the park",
               "options": {
                 "A": "introducing programs on the radio",
@@ -3586,6 +3906,7 @@ const TESTS = {
             },
             {
               "id": 16,
+              "type": "mc",
               "text": "Which one is not a programme of the park?",
               "options": {
                 "A": "Project Life Lion | |",
@@ -3596,6 +3917,7 @@ const TESTS = {
             },
             {
               "id": 17,
+              "type": "mc",
               "text": "How many main controls are there on the heater?",
               "options": {
                 "A": "two",
@@ -3606,6 +3928,7 @@ const TESTS = {
             },
             {
               "id": 18,
+              "type": "mc",
               "text": "What is the reason for the problem of the heater?",
               "options": {
                 "A": "the switch doesn’t light up",
@@ -3616,6 +3939,7 @@ const TESTS = {
             },
             {
               "id": 19,
+              "type": "mc",
               "text": "When does the woman have to restart the heater?",
               "options": {
                 "A": "When there isn’t enough water",
@@ -3626,6 +3950,7 @@ const TESTS = {
             },
             {
               "id": 20,
+              "type": "mc",
               "text": "How does the woman feel after listening to the instruction?",
               "options": {
                 "A": "confused",
@@ -3641,6 +3966,7 @@ const TESTS = {
           "questions": [
             {
               "id": 21,
+              "type": "mc",
               "text": "There are still tickets for ………",
               "options": {
                 "A": "The piano concert.",
@@ -3651,6 +3977,7 @@ const TESTS = {
             },
             {
               "id": 22,
+              "type": "mc",
               "text": "The coach will leave at 3.30 because …………..",
               "options": {
                 "A": "It’s the earliest.",
@@ -3661,6 +3988,7 @@ const TESTS = {
             },
             {
               "id": 23,
+              "type": "mc",
               "text": "You have to pay to see ………………",
               "options": {
                 "A": "The Russian ballet exhibition.",
@@ -3671,6 +3999,7 @@ const TESTS = {
             },
             {
               "id": 24,
+              "type": "mc",
               "text": "You can buy clothes ………….",
               "options": {
                 "A": "On the first floor.",
@@ -3681,6 +4010,7 @@ const TESTS = {
             },
             {
               "id": 25,
+              "type": "mc",
               "text": "If you want a snack and a hot drink, try ……………………",
               "options": {
                 "A": "The nearby café.",
@@ -3691,6 +4021,7 @@ const TESTS = {
             },
             {
               "id": 26,
+              "type": "mc",
               "text": "Rod’s shop sells bags and …………….",
               "options": {
                 "A": "Camping equipment.",
@@ -3701,6 +4032,7 @@ const TESTS = {
             },
             {
               "id": 27,
+              "type": "mc",
               "text": "A 35- litre bag is good for ………………………",
               "options": {
                 "A": "a day trip",
@@ -3711,6 +4043,7 @@ const TESTS = {
             },
             {
               "id": 28,
+              "type": "mc",
               "text": "The bag that allows you to separate your belongings ……………………",
               "options": {
                 "A": "One with a solid bottom. | | |",
@@ -3721,6 +4054,7 @@ const TESTS = {
             },
             {
               "id": 29,
+              "type": "mc",
               "text": "It’s important that shoulder straps are ……………………",
               "options": {
                 "A": "Light.",
@@ -3731,6 +4065,7 @@ const TESTS = {
             },
             {
               "id": 30,
+              "type": "mc",
               "text": "Another essential part of the bags includes …………………….",
               "options": {
                 "A": "Straps.",
@@ -3741,16 +4076,18 @@ const TESTS = {
             },
             {
               "id": 31,
-              "text": "PS Camping has been organising holidays for ………………….. | A.15 years. | | B.20 years. | C. 25 years. | D. 30 years. | | | ------------ | --- | ------------ | ------------- | ------------- | --- |",
+              "type": "mc",
+              "text": "PS Camping has been organising holidays for …………………..",
               "options": {
-                "A": "",
-                "B": "",
-                "C": "",
-                "D": ""
+                "A": "15 years.",
+                "B": "20 years.",
+                "C": "25 years.",
+                "D": "30 years."
               }
             },
             {
               "id": 32,
+              "type": "mc",
               "text": "The company has most camping sites in ……………",
               "options": {
                 "A": "France.",
@@ -3761,6 +4098,7 @@ const TESTS = {
             },
             {
               "id": 33,
+              "type": "mc",
               "text": "Which organized activity can children do every day of the week?",
               "options": {
                 "A": "Singing and dancing.",
@@ -3771,6 +4109,7 @@ const TESTS = {
             },
             {
               "id": 34,
+              "type": "mc",
               "text": "Some areas of the sites have a “no- noise” rule after ……………….",
               "options": {
                 "A": "9.30 pm",
@@ -3781,6 +4120,7 @@ const TESTS = {
             },
             {
               "id": 35,
+              "type": "mc",
               "text": "Customers who recommend PS Camping to friends will receive ………………….",
               "options": {
                 "A": "a free gift",
@@ -3801,6 +4141,7 @@ const TESTS = {
           "questions": [
             {
               "id": 1,
+              "type": "mc",
               "text": "At this time of year ………….",
               "options": {
                 "A": "the TV channels change all their programmes.",
@@ -3811,6 +4152,7 @@ const TESTS = {
             },
             {
               "id": 2,
+              "type": "mc",
               "text": "How does the writer describe the current programmes on SuperTV?",
               "options": {
                 "A": "exciting",
@@ -3821,6 +4163,7 @@ const TESTS = {
             },
             {
               "id": 3,
+              "type": "mc",
               "text": "What does 'They' in line 7 refer to?",
               "options": {
                 "A": "SuperTV",
@@ -3831,6 +4174,7 @@ const TESTS = {
             },
             {
               "id": 4,
+              "type": "mc",
               "text": "The writer says that Staff Room will probably ………………",
               "options": {
                 "A": "be successful.",
@@ -3841,6 +4185,7 @@ const TESTS = {
             },
             {
               "id": 5,
+              "type": "mc",
               "text": "Characters of the show Staff Room are ………………",
               "options": {
                 "A": "students",
@@ -3851,6 +4196,7 @@ const TESTS = {
             },
             {
               "id": 6,
+              "type": "mc",
               "text": "The word “hilarious” in line 15 can be best replaced by …………..",
               "options": {
                 "A": "amusing",
@@ -3861,6 +4207,7 @@ const TESTS = {
             },
             {
               "id": 7,
+              "type": "mc",
               "text": "The writer thinks that Joke-a-Cola is now 3 …………..",
               "options": {
                 "A": "more difficult to understand.",
@@ -3871,6 +4218,7 @@ const TESTS = {
             },
             {
               "id": 8,
+              "type": "mc",
               "text": "Because of the various choice of entertainment ……………….",
               "options": {
                 "A": "people watch more television.",
@@ -3881,6 +4229,7 @@ const TESTS = {
             },
             {
               "id": 9,
+              "type": "mc",
               "text": "The writer thinks that television ……………",
               "options": {
                 "A": "will never be as popular as the theatre is.",
@@ -3891,6 +4240,7 @@ const TESTS = {
             },
             {
               "id": 10,
+              "type": "mc",
               "text": "Which of the following channels would the author most probably recommend viewers to watch? 87",
               "options": {
                 "A": "SuperTV",
@@ -3907,6 +4257,7 @@ const TESTS = {
           "questions": [
             {
               "id": 11,
+              "type": "mc",
               "text": "According to the text, what does Aaron think about his job?",
               "options": {
                 "A": "It helps him become famous.",
@@ -3917,6 +4268,7 @@ const TESTS = {
             },
             {
               "id": 12,
+              "type": "mc",
               "text": "The word “fascinating” in line 4 can be best replaced by …………..",
               "options": {
                 "A": "modern",
@@ -3927,6 +4279,7 @@ const TESTS = {
             },
             {
               "id": 13,
+              "type": "mc",
               "text": "In the first paragraph, the writer suggests that he thinks Aaron ………..",
               "options": {
                 "A": "has a sensible attitude towards fame.",
@@ -3937,6 +4290,7 @@ const TESTS = {
             },
             {
               "id": 14,
+              "type": "mc",
               "text": "According to the text, when will Aaron’s latest film probably be released?",
               "options": {
                 "A": "at the end of this year",
@@ -3947,6 +4301,7 @@ const TESTS = {
             },
             {
               "id": 15,
+              "type": "mc",
               "text": "The phrase ‘hasn’t gone to his head’ (line 19) suggests that Aaron",
               "options": {
                 "A": "doesn’t think much about his achievements.",
@@ -3957,6 +4312,7 @@ const TESTS = {
             },
             {
               "id": 16,
+              "type": "mc",
               "text": "What does Aaron say about his last film?",
               "options": {
                 "A": "There are clear heroes in it.",
@@ -3967,6 +4323,7 @@ const TESTS = {
             },
             {
               "id": 17,
+              "type": "mc",
               "text": "What makes the writer think that Aaron is a bit of a worrier?",
               "options": {
                 "A": "He avoids watching his own films.",
@@ -3977,6 +4334,7 @@ const TESTS = {
             },
             {
               "id": 18,
+              "type": "mc",
               "text": "How did Aaron feel when playing a real-life person in his last film?",
               "options": {
                 "A": "curious",
@@ -3987,6 +4345,7 @@ const TESTS = {
             },
             {
               "id": 19,
+              "type": "mc",
               "text": "What does Aaron say about playing a real-life person on screen?",
               "options": {
                 "A": "He was disappointed that he never met that person.",
@@ -3997,6 +4356,7 @@ const TESTS = {
             },
             {
               "id": 20,
+              "type": "mc",
               "text": "According to the final paragraph, what do Aaron and the directors of his films have in common?",
               "options": {
                 "A": "the fame",
@@ -4013,6 +4373,7 @@ const TESTS = {
           "questions": [
             {
               "id": 21,
+              "type": "mc",
               "text": "What is the main point of the first paragraph?",
               "options": {
                 "A": "We see more adverts than we realise. 90",
@@ -4023,6 +4384,7 @@ const TESTS = {
             },
             {
               "id": 22,
+              "type": "mc",
               "text": "Yankelovich is …………..",
               "options": {
                 "A": "A marketing company",
@@ -4033,6 +4395,7 @@ const TESTS = {
             },
             {
               "id": 23,
+              "type": "mc",
               "text": "What do we learn about the writer's opinion of advertising in Tokyo in the second paragraph?",
               "options": {
                 "A": "It lacks a personal appeal for him.",
@@ -4043,6 +4406,7 @@ const TESTS = {
             },
             {
               "id": 24,
+              "type": "mc",
               "text": "Why do advertisers see Tokyo as important?",
               "options": {
                 "A": "It sets trends which are often copied.",
@@ -4053,6 +4417,7 @@ const TESTS = {
             },
             {
               "id": 25,
+              "type": "mc",
               "text": "What does the writer mean by 'sets it apart' in line 19?",
               "options": {
                 "A": "makes it seem individual and different",
@@ -4063,6 +4428,7 @@ const TESTS = {
             },
             {
               "id": 26,
+              "type": "mc",
               "text": "In the fourth paragraph, Roberta Calvino suggests that …………..",
               "options": {
                 "A": "the largest adverts can usually be found in rural areas.",
@@ -4073,6 +4439,7 @@ const TESTS = {
             },
             {
               "id": 27,
+              "type": "mc",
               "text": "What does Roberta tell us about urban advertising in the fifth paragraph?",
               "options": {
                 "A": "It can be rather unconvincing.",
@@ -4083,6 +4450,7 @@ const TESTS = {
             },
             {
               "id": 28,
+              "type": "mc",
               "text": "What comparison does Roberta make between urban advertising and TV advertising?",
               "options": {
                 "A": "TV advertising is more effective in the long term.",
@@ -4093,6 +4461,7 @@ const TESTS = {
             },
             {
               "id": 29,
+              "type": "mc",
               "text": "What did the mayor of São Paulo do in 2007?",
               "options": {
                 "A": "He ordered the removal of more than ten thousand adverts.",
@@ -4103,12 +4472,13 @@ const TESTS = {
             },
             {
               "id": 30,
+              "type": "mc",
               "text": "What response did the mayor get when he removed advertising from Sao Paulo?",
               "options": {
-                "A": "",
-                "B": "",
-                "C": "",
-                "D": ""
+                "A": "The majority of private individuals and commercial people supported him.",
+                "B": "Advertisers were willing to display fewer advertisements in the city.",
+                "C": "Local artists were unsure how attractive the office blocks would look.",
+                "D": "Most of the people who lived in the city welcomed his decision. 92"
               }
             }
           ]
@@ -4119,6 +4489,7 @@ const TESTS = {
           "questions": [
             {
               "id": 31,
+              "type": "mc",
               "text": "According to the text, Aborigines arrived in Australia",
               "options": {
                 "A": "400 years ago",
@@ -4129,6 +4500,7 @@ const TESTS = {
             },
             {
               "id": 32,
+              "type": "mc",
               "text": "What did the discovery of the skeleton show?",
               "options": {
                 "A": "Aborigines used to live in very remote parts of Australia.",
@@ -4139,6 +4511,7 @@ const TESTS = {
             },
             {
               "id": 33,
+              "type": "mc",
               "text": "Which of the following statements is NOT true, according to the text?",
               "options": {
                 "A": "Australia has always been an island since people existed.",
@@ -4149,6 +4522,7 @@ const TESTS = {
             },
             {
               "id": 34,
+              "type": "mc",
               "text": "Why is it so surprising that Homo sapiens got to Australia?",
               "options": {
                 "A": "It required skills that people generally developed very much later.",
@@ -4159,6 +4533,7 @@ const TESTS = {
             },
             {
               "id": 35,
+              "type": "mc",
               "text": "What usually provides the explanation for the Aborigines' arrival in Australia?",
               "options": {
                 "A": "their curiosity",
@@ -4169,6 +4544,7 @@ const TESTS = {
             },
             {
               "id": 36,
+              "type": "mc",
               "text": "This author is puzzled by how…",
               "options": {
                 "A": "the boat managed to travel across such dangerous seas",
@@ -4179,6 +4555,7 @@ const TESTS = {
             },
             {
               "id": 37,
+              "type": "mc",
               "text": "Which word could replace 'staggeringly' in line 33 without changing the meaning?",
               "options": {
                 "A": "extraordinarily",
@@ -4189,6 +4566,7 @@ const TESTS = {
             },
             {
               "id": 38,
+              "type": "mc",
               "text": "What does the writer seem most surprised by at the end of this extract?",
               "options": {
                 "A": "the way that Aborigines managed to establish themselves in Australia",
@@ -4199,6 +4577,7 @@ const TESTS = {
             },
             {
               "id": 39,
+              "type": "mc",
               "text": "In which space (marked (A), (B), (C) and (D) in the passage) will the following sentence fit? In other words, for the first 99.7 per cent of its inhabited history, the Aborigines had Australia to themselves. They have been there an unimaginably long time.",
               "options": {
                 "A": "(A)",
@@ -4209,6 +4588,7 @@ const TESTS = {
             },
             {
               "id": 40,
+              "type": "mc",
               "text": "What is the main point the writer is making in the last paragraph?",
               "options": {
                 "A": "The Europeans had no right to take over Aborigine land in Australia.",
@@ -4246,6 +4626,7 @@ const TESTS = {
           "questions": [
             {
               "id": 1,
+              "type": "mc",
               "text": "Which box of chocolates do they buy?",
               "options": {
                 "A": "the small round one",
@@ -4256,6 +4637,7 @@ const TESTS = {
             },
             {
               "id": 2,
+              "type": "mc",
               "text": "When’s Wendy’s birthday?",
               "options": {
                 "A": "16th May",
@@ -4266,6 +4648,7 @@ const TESTS = {
             },
             {
               "id": 3,
+              "type": "mc",
               "text": "How much petrol does the woman want?",
               "options": {
                 "A": "13 litres",
@@ -4276,6 +4659,7 @@ const TESTS = {
             },
             {
               "id": 4,
+              "type": "mc",
               "text": "What time is the woman’s hair appointment?",
               "options": {
                 "A": "Saturday at 9.30 am",
@@ -4286,6 +4670,7 @@ const TESTS = {
             },
             {
               "id": 5,
+              "type": "mc",
               "text": "Where’s the TV guide?",
               "options": {
                 "A": "top of the TV",
@@ -4296,6 +4681,7 @@ const TESTS = {
             },
             {
               "id": 6,
+              "type": "mc",
               "text": "What does the man decide to take Tracy?",
               "options": {
                 "A": "flowers",
@@ -4306,6 +4692,7 @@ const TESTS = {
             },
             {
               "id": 7,
+              "type": "mc",
               "text": "Which sport has the man just started?",
               "options": {
                 "A": "windsurfing",
@@ -4316,6 +4703,7 @@ const TESTS = {
             },
             {
               "id": 8,
+              "type": "mc",
               "text": "What was damaged in the storm?",
               "options": {
                 "A": "the house roof",
@@ -4331,6 +4719,7 @@ const TESTS = {
           "questions": [
             {
               "id": 9,
+              "type": "mc",
               "text": "What are they both doing here?",
               "options": {
                 "A": "to meet Mrs Thompson",
@@ -4341,6 +4730,7 @@ const TESTS = {
             },
             {
               "id": 10,
+              "type": "mc",
               "text": "What does John think of Mrs Thompson?",
               "options": {
                 "A": "she isn’t strict",
@@ -4351,6 +4741,7 @@ const TESTS = {
             },
             {
               "id": 11,
+              "type": "mc",
               "text": "What does John imply about his performance?",
               "options": {
                 "A": "He does well in a real show",
@@ -4361,6 +4752,7 @@ const TESTS = {
             },
             {
               "id": 12,
+              "type": "mc",
               "text": "What does Louise think of a musical show?",
               "options": {
                 "A": "she is not interested",
@@ -4371,6 +4763,7 @@ const TESTS = {
             },
             {
               "id": 13,
+              "type": "mc",
               "text": "How many children competed for roles in the show?",
               "options": {
                 "A": "6",
@@ -4381,6 +4774,7 @@ const TESTS = {
             },
             {
               "id": 14,
+              "type": "mc",
               "text": "What was the first success of Olivia?",
               "options": {
                 "A": "When they came to London | | |",
@@ -4391,6 +4785,7 @@ const TESTS = {
             },
             {
               "id": 15,
+              "type": "mc",
               "text": "How did Olivia practice for the role in Annie?",
               "options": {
                 "A": "Learned 200 pages | |",
@@ -4401,6 +4796,7 @@ const TESTS = {
             },
             {
               "id": 16,
+              "type": "mc",
               "text": "What did Jackie feel about her daughter’s performance?",
               "options": {
                 "A": "She was ashamed",
@@ -4411,6 +4807,7 @@ const TESTS = {
             },
             {
               "id": 17,
+              "type": "mc",
               "text": "What is true about Kira?",
               "options": {
                 "A": "She went home last year",
@@ -4421,6 +4818,7 @@ const TESTS = {
             },
             {
               "id": 18,
+              "type": "mc",
               "text": "What does she think about her course now?",
               "options": {
                 "A": "it is difficult",
@@ -4431,6 +4829,7 @@ const TESTS = {
             },
             {
               "id": 19,
+              "type": "mc",
               "text": "Why does she say her assignment is difficult?",
               "options": {
                 "A": "she is not familiar with it",
@@ -4441,6 +4840,7 @@ const TESTS = {
             },
             {
               "id": 20,
+              "type": "mc",
               "text": "What does she mean about lecturers in her country?",
               "options": {
                 "A": "They are horrible",
@@ -4456,6 +4856,7 @@ const TESTS = {
           "questions": [
             {
               "id": 21,
+              "type": "mc",
               "text": "You do not have to provide… ………..",
               "options": {
                 "A": "a letter of recommendation.",
@@ -4466,6 +4867,7 @@ const TESTS = {
             },
             {
               "id": 22,
+              "type": "mc",
               "text": "Your required English level depends on……..",
               "options": {
                 "A": "your age.",
@@ -4476,6 +4878,7 @@ const TESTS = {
             },
             {
               "id": 23,
+              "type": "mc",
               "text": "Some science courses require you to………………",
               "options": {
                 "A": "take an exam.",
@@ -4486,6 +4889,7 @@ const TESTS = {
             },
             {
               "id": 24,
+              "type": "mc",
               "text": "Application for undergraduate courses is……………….",
               "options": {
                 "A": "always via UCAS.",
@@ -4496,6 +4900,7 @@ const TESTS = {
             },
             {
               "id": 25,
+              "type": "mc",
               "text": "British universities…….",
               "options": {
                 "A": "are the best in the world. | | | | | -------------------------------- | --- | --- | --- |",
@@ -4506,6 +4911,7 @@ const TESTS = {
             },
             {
               "id": 26,
+              "type": "mc",
               "text": "In 1993 Dan Pearman went to Ecuador …………..",
               "options": {
                 "A": "as a tour guide.",
@@ -4516,6 +4922,7 @@ const TESTS = {
             },
             {
               "id": 27,
+              "type": "mc",
               "text": "Dan’s neighbour was successful in business because he ……………",
               "options": {
                 "A": "employed carpenters from the area. | | | | | ---------------------------------------- | --- | --- | --- |",
@@ -4526,6 +4933,7 @@ const TESTS = {
             },
             {
               "id": 28,
+              "type": "mc",
               "text": "Dan says the charity relies on ………………",
               "options": {
                 "A": "getting enough bicycles to send regularly. | | | | | ------------------------------------------------ | --- | --- | --- |",
@@ -4536,6 +4944,7 @@ const TESTS = {
             },
             {
               "id": 29,
+              "type": "mc",
               "text": "What does Dan say about the town of Rivas?",
               "options": {
                 "A": "It has received the greatest number of bikes. | | | | | --------------------------------------------------- | --- | --- | --- |",
@@ -4546,6 +4955,7 @@ const TESTS = {
             },
             {
               "id": 30,
+              "type": "mc",
               "text": "What problem did the charity face in August 2000?",
               "options": {
                 "A": "It couldn’t meet its overheads.",
@@ -4556,6 +4966,7 @@ const TESTS = {
             },
             {
               "id": 31,
+              "type": "mc",
               "text": "According to the speaker, the main cause of back pain in women is ………….",
               "options": {
                 "A": "pregnancy.",
@@ -4566,6 +4977,7 @@ const TESTS = {
             },
             {
               "id": 32,
+              "type": "mc",
               "text": "As treatment for back pain the Clinic mainly recommends ………………",
               "options": {
                 "A": "pain killers.",
@@ -4576,6 +4988,7 @@ const TESTS = {
             },
             {
               "id": 33,
+              "type": "mc",
               "text": "The back is different from other parts of the body because ………………",
               "options": {
                 "A": "it is usually better at self-repair.",
@@ -4586,6 +4999,7 @@ const TESTS = {
             },
             {
               "id": 34,
+              "type": "mc",
               "text": "Bed rest is advised …………………",
               "options": {
                 "A": "for a maximum of two days.",
@@ -4596,6 +5010,7 @@ const TESTS = {
             },
             {
               "id": 35,
+              "type": "mc",
               "text": "Being overweight ………………..",
               "options": {
                 "A": "is a major source of back pain.",
@@ -4616,6 +5031,7 @@ const TESTS = {
           "questions": [
             {
               "id": 1,
+              "type": "mc",
               "text": "The writer says that baseball ………..",
               "options": {
                 "A": "is played only in America.",
@@ -4626,6 +5042,7 @@ const TESTS = {
             },
             {
               "id": 2,
+              "type": "mc",
               "text": "According to the text, baseball is played in more and more countries because ………….",
               "options": {
                 "A": "it is an exciting game.",
@@ -4636,6 +5053,7 @@ const TESTS = {
             },
             {
               "id": 3,
+              "type": "mc",
               "text": "Which sentence isn't true about baseball?",
               "options": {
                 "A": "It was first played during the 1850s.",
@@ -4646,6 +5064,7 @@ const TESTS = {
             },
             {
               "id": 4,
+              "type": "mc",
               "text": "Which piece of equipment is not mentioned in the text?",
               "options": {
                 "A": "bat",
@@ -4656,6 +5075,7 @@ const TESTS = {
             },
             {
               "id": 5,
+              "type": "mc",
               "text": "In which space (marked (A), (B), (C) and (D) in the passage) will the following sentence fit? Players wear shoes with spikes to help them run, just as football players do, and a baseball cap, which is something everyone is familiar with!",
               "options": {
                 "A": "(A)",
@@ -4666,6 +5086,7 @@ const TESTS = {
             },
             {
               "id": 6,
+              "type": "mc",
               "text": "What is the baseball field like?",
               "options": {
                 "A": "It has an infield, an outfield and a middle field.",
@@ -4676,6 +5097,7 @@ const TESTS = {
             },
             {
               "id": 7,
+              "type": "mc",
               "text": "The game is divided into …………",
               "options": {
                 "A": "two halves.",
@@ -4686,6 +5108,7 @@ const TESTS = {
             },
             {
               "id": 8,
+              "type": "mc",
               "text": "The object of the game is to ……………..",
               "options": {
                 "A": "catch as many balls as you can.",
@@ -4696,6 +5119,7 @@ const TESTS = {
             },
             {
               "id": 9,
+              "type": "mc",
               "text": "What is true about a baseball match?",
               "options": {
                 "A": "It’s slow.",
@@ -4706,6 +5130,7 @@ const TESTS = {
             },
             {
               "id": 10,
+              "type": "mc",
               "text": "According to the text, most American people have ………….",
               "options": {
                 "A": "childhood memory at a ballpark.",
@@ -4722,6 +5147,7 @@ const TESTS = {
           "questions": [
             {
               "id": 11,
+              "type": "mc",
               "text": "In the first paragraph, the writer says that athletes today …………",
               "options": {
                 "A": "are more popular than in ancient times.",
@@ -4732,6 +5158,7 @@ const TESTS = {
             },
             {
               "id": 12,
+              "type": "mc",
               "text": "What does the word “ This” in line 8 refer to?",
               "options": {
                 "A": "the champion",
@@ -4742,6 +5169,7 @@ const TESTS = {
             },
             {
               "id": 13,
+              "type": "mc",
               "text": "The ancient pentathlon didn't test athletes' abilities to …………..",
               "options": {
                 "A": "throw things.",
@@ -4752,6 +5180,7 @@ const TESTS = {
             },
             {
               "id": 14,
+              "type": "mc",
               "text": "Lampis of Sparta was ……………..",
               "options": {
                 "A": "the organizer of the first ancient Olympics",
@@ -4762,6 +5191,7 @@ const TESTS = {
             },
             {
               "id": 15,
+              "type": "mc",
               "text": "According to the passage, the heptathlon for women …………",
               "options": {
                 "A": "became an Olympic event after 1912.",
@@ -4772,6 +5202,7 @@ const TESTS = {
             },
             {
               "id": 16,
+              "type": "mc",
               "text": "How many sporting events were included in the modern decathlon of Stockholm Olympics in 1912?",
               "options": {
                 "A": "only one",
@@ -4782,6 +5213,7 @@ const TESTS = {
             },
             {
               "id": 17,
+              "type": "mc",
               "text": "What did Bruce Thorpe say about decathlon?",
               "options": {
                 "A": "It is challenging and requires athletes to have various skills.",
@@ -4792,6 +5224,7 @@ const TESTS = {
             },
             {
               "id": 18,
+              "type": "mc",
               "text": "What do you have to do to win a gold medal in the decathlon?",
               "options": {
                 "A": "Score more points than all the other competitors.",
@@ -4802,6 +5235,7 @@ const TESTS = {
             },
             {
               "id": 19,
+              "type": "mc",
               "text": "What does Bruce say about the events?",
               "options": {
                 "A": "The 1500 metres should be on the first day.",
@@ -4812,6 +5246,7 @@ const TESTS = {
             },
             {
               "id": 20,
+              "type": "mc",
               "text": "What is Bruce's advice for people thinking of becoming decathletes?",
               "options": {
                 "A": "Get a trainer to guide you.",
@@ -4828,6 +5263,7 @@ const TESTS = {
           "questions": [
             {
               "id": 21,
+              "type": "mc",
               "text": "Why did David Cornthwaite decide to skateboard across Australia?",
               "options": {
                 "A": "He was an experienced skateboarder",
@@ -4838,6 +5274,7 @@ const TESTS = {
             },
             {
               "id": 22,
+              "type": "mc",
               "text": "The word “disillusioned” in line 5 can be best replaced by …………..",
               "options": {
                 "A": "disappointed",
@@ -4848,6 +5285,7 @@ const TESTS = {
             },
             {
               "id": 23,
+              "type": "mc",
               "text": "His preparation in Britain was ……………",
               "options": {
                 "A": "successful, but painful",
@@ -4858,6 +5296,7 @@ const TESTS = {
             },
             {
               "id": 24,
+              "type": "mc",
               "text": "What made David fall off his skateboard several times in Australia?",
               "options": {
                 "A": "thunderstorms in the Outback",
@@ -4868,6 +5307,7 @@ const TESTS = {
             },
             {
               "id": 25,
+              "type": "mc",
               "text": "At times, David felt as though he ……………..",
               "options": {
                 "A": "needed to stop for a while.",
@@ -4878,6 +5318,7 @@ const TESTS = {
             },
             {
               "id": 26,
+              "type": "mc",
               "text": "During the journey, where did David sleep at night?",
               "options": {
                 "A": "in a four-wheel drive vehicle",
@@ -4888,6 +5329,7 @@ const TESTS = {
             },
             {
               "id": 27,
+              "type": "mc",
               "text": "David fell off his skateboard because …………….",
               "options": {
                 "A": "he was going too fast his journey",
@@ -4898,6 +5340,7 @@ const TESTS = {
             },
             {
               "id": 28,
+              "type": "mc",
               "text": "Why does David think surfing is a good thing to do after his journey …………",
               "options": {
                 "A": "He can stay close to Brisbane.",
@@ -4908,6 +5351,7 @@ const TESTS = {
             },
             {
               "id": 29,
+              "type": "mc",
               "text": "What does David hope to do eventually?",
               "options": {
                 "A": "encourage other people to feel more positive about themselves",
@@ -4918,6 +5362,7 @@ const TESTS = {
             },
             {
               "id": 30,
+              "type": "mc",
               "text": "According to the text, in some days, David plans to skate on ……………..",
               "options": {
                 "A": "Perth",
@@ -4934,6 +5379,7 @@ const TESTS = {
           "questions": [
             {
               "id": 31,
+              "type": "mc",
               "text": "What do footballers and musicians have in common?",
               "options": {
                 "A": "Their work abroad earns a lot of praise. 109",
@@ -4944,6 +5390,7 @@ const TESTS = {
             },
             {
               "id": 32,
+              "type": "mc",
               "text": "What are we told about Rod Franks?",
               "options": {
                 "A": "He used to be the director of a football club.",
@@ -4954,6 +5401,7 @@ const TESTS = {
             },
             {
               "id": 33,
+              "type": "mc",
               "text": "Before joining London Symphony Orchestra, Rod Franks worked for ……………….",
               "options": {
                 "A": "a football club",
@@ -4964,6 +5412,7 @@ const TESTS = {
             },
             {
               "id": 34,
+              "type": "mc",
               "text": "The word “principal” in line 4 can be best replaced by ………………..",
               "options": {
                 "A": "original",
@@ -4974,6 +5423,7 @@ const TESTS = {
             },
             {
               "id": 35,
+              "type": "mc",
               "text": "The LSO began playing abroad ……………",
               "options": {
                 "A": "only fairly recently.",
@@ -4984,16 +5434,18 @@ const TESTS = {
             },
             {
               "id": 36,
+              "type": "mc",
               "text": "Orchestras have to travel abroad …………….",
               "options": {
-                "A": "",
-                "B": "",
-                "C": "",
-                "D": ""
+                "A": "to play with foreign conductors.",
+                "B": "to record with foreign companies.",
+                "C": "to make themselves better known.",
+                "D": "to record with new solo players."
               }
             },
             {
               "id": 37,
+              "type": "mc",
               "text": "What does ‘It’ in line 15 refer to?",
               "options": {
                 "A": "organising a number of recordings",
@@ -5004,6 +5456,7 @@ const TESTS = {
             },
             {
               "id": 38,
+              "type": "mc",
               "text": "Sue Mallet’s arrangements for the LSO can be ……………….",
               "options": {
                 "A": "affected by external circumstances.",
@@ -5014,6 +5467,7 @@ const TESTS = {
             },
             {
               "id": 39,
+              "type": "mc",
               "text": "What does the phrase ‘with scientific accuracy’ (line 18) suggest about Sue Mallet’s planning?",
               "options": {
                 "A": "It’s very neat and tidy.",
@@ -5024,6 +5478,7 @@ const TESTS = {
             },
             {
               "id": 40,
+              "type": "mc",
               "text": "According to the writer, what made a certain moment ‘unforgettable’ (line 23)?",
               "options": {
                 "A": "the fact that the orchestra stood up",

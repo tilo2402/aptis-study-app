@@ -182,10 +182,17 @@ function buildReadingReview() {
       <div class="ts-panel mb-2" style="max-height:250px;overflow-y:auto">${passage.text.replace(/\n/g,'<br>')}</div>`;
 
     passage.questions.forEach(q => {
-      const userA    = userAns.reading?.[q.id];
+      const userA    = userAns.reading?.[q.id] || '';
       const correctA = String(keyAns.reading?.[q.id] || '');
-      const status   = !userA ? 'skipped' : userA === correctA ? 'correct' : 'wrong';
+      const hasOpts  = Object.values(q.options || {}).some(v => v.trim());
+      const status   = !userA ? 'skipped' : (hasOpts ? userA === correctA : true) ? 'correct' : 'wrong';
       const icon     = status === 'correct' ? '✅' : status === 'wrong' ? '❌' : '⭕';
+      const answerBlock = hasOpts
+        ? `<div class="options">${APP.renderOptions(q, userA, true, correctA)}</div>`
+        : `<div style="margin-top:.4rem;font-size:.9rem">
+             Your answer: <strong>${userA || '—'}</strong>
+             ${correctA ? ` · Correct: <strong style="color:var(--green)">${correctA}</strong>` : ''}
+           </div>`;
       html += `
         <div class="q-review ${status}">
           <div class="q-header">
@@ -193,7 +200,7 @@ function buildReadingReview() {
             <strong>Q${q.id}</strong>
             <span style="font-size:.85rem;flex:1">${q.text}</span>
           </div>
-          <div class="options">${APP.renderOptions(q, userA, true, correctA)}</div>
+          ${answerBlock}
         </div>`;
     });
     html += '</details>';
