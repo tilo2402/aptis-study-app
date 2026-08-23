@@ -2605,13 +2605,13 @@ const TESTS = {
             },
             {
               "id": 26,
-              "type": "short",
-              "text": "The Black Rock Caves have been home for…. | A .Two million years | | B. A million year | | | ------------------------- | --- | ------------------ | --- | | C. A half a million year | | D. centuries | |",
+              "type": "mc",
+              "text": "The Black Rock Caves have been home for…..",
               "options": {
-                "A": "",
-                "B": "",
-                "C": "",
-                "D": ""
+                "A": "Two million years",
+                "B": "A million years",
+                "C": "A half a million year",
+                "D": "centuries"
               }
             },
             {
