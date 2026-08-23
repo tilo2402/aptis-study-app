@@ -306,12 +306,13 @@ function renderReading() {
 function renderPassage() {
   const item = flatR[readIndex];
   if (!item) return;
+  const passageHtml = item.passage.text
+    .replace(/\n\n+/g, '\x00')           // preserve paragraph breaks
+    .replace(/\n/g, ' ')                 // join PDF word-wrap lines
+    .replace(/\*\*(.+?)\*\*/g, '<strong style="background:rgba(255,230,0,.35);border-radius:2px;padding:0 2px">$1</strong>')
+    .replace(/\x00/g, '</p><p>');        // restore paragraph breaks
   document.getElementById('passage-panel').innerHTML =
-    `<h3>Passage ${item.passageIndex + 1}</h3><p>${
-      item.passage.text
-        .replace(/\n\n+/g, '</p><p>')   // real paragraph breaks
-        .replace(/\n/g, ' ')             // join PDF word-wrap lines
-    }</p>`;
+    `<h3>Passage ${item.passageIndex + 1}</h3><p>${passageHtml}</p>`;
   // Scroll reading section back to top so user reads passage from start
   document.getElementById('section-reading').scrollTop = 0;
 }
@@ -343,9 +344,10 @@ function renderReadQuestion() {
     </div>`;
   }
 
+  const qHtml = item.q.text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   document.getElementById('read-q-area').innerHTML = `
     <div class="q-label">Question ${item.q.id} of ${flatR.length} · Passage ${item.passageIndex + 1}</div>
-    <p class="q-text">${item.q.text}</p>
+    <p class="q-text">${qHtml}</p>
     ${answerHtml}`;
 
   if (hasOpts) {
